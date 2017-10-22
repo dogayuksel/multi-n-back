@@ -1,15 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'game-core',
-    templateUrl: './game-core.component.html',
-    styleUrls: ['./game-core.component.css']
+  selector: 'game-core',
+  templateUrl: './game-core.component.html',
+  styleUrls: ['./game-core.component.css']
 })
+
 export class GameCoreComponent implements OnInit {
 
   constructor() { }
 
   ngOnInit() {
+    this.startGame();
   }
 
   sequence = [];
@@ -47,7 +49,6 @@ export class GameCoreComponent implements OnInit {
       const valueNow = this.sequence[this.sequence.length - 1][i];
       if (valuePast === valueNow) {
         if (!this.userInput[i]) {
-          console.log('returns false');
           return false;
         }
       }

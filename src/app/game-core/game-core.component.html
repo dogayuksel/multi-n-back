@@ -1,6 +1,3 @@
-<div class="start-game-button" (click)=startGame()>
-  start the game
-</div>
 <div [class.disabled]="!correctSeries">
   Doing Great!!
 </div>
@@ -25,5 +22,8 @@
   </div>
   <div>
     current sq lenght: {{sequence.length}}
+  </div>
+  <div class="start-game-button" (click)=startGame()>
+    restart
   </div>
 </div>
