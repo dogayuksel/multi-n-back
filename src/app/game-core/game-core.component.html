@@ -1,4 +1,5 @@
-<div [class.disabled]="!correctSeries">
+<div [class.disabled]="!correctSeries"
+  [class.hidden]="sequence.length <= nStepsBack + 1">
   Doing Great!!
 </div>
 <div class='game-container'>

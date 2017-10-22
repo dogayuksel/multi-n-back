@@ -1,5 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Round } from './round';
+
 @Component({
   selector: 'game-core',
   templateUrl: './game-core.component.html',
@@ -39,14 +41,10 @@ export class GameCoreComponent implements OnInit {
     this.goToNext();
   }
 
-  getRandom(): number {
-    return Math.floor(Math.random() * this.modalityDepth);
-  }
-
   checkUserInput(): boolean {
     for (let i = 0; i < this.modalitiesTotal; i++) {
-      const valuePast = this.sequence[this.sequence.length - this.nStepsBack - 1][i];
-      const valueNow = this.sequence[this.sequence.length - 1][i];
+      const valuePast = this.getNthLastItem(this.nStepsBack)[i];
+      const valueNow = this.getLastItem()[i];
       if (valuePast === valueNow) {
         if (!this.userInput[i]) {
           return false;
@@ -61,15 +59,16 @@ export class GameCoreComponent implements OnInit {
       this.correctSeries = this.checkUserInput();
       this.resetUserInput();
     }
-    const currentModalityParams = [];
-    for (let i = 0; i < this.modalitiesTotal; i++) {
-      currentModalityParams.push(this.getRandom());
-    }
-    this.sequence.push(currentModalityParams);
+    const thisRound = new Round(this.modalityDepth);
+    this.sequence.push(thisRound.getParams());
   }
 
   getLastItem(): Array<number> {
     return this.sequence[this.sequence.length - 1];
+  }
+
+  getNthLastItem(n: number): Array<number> {
+    return this.sequence[this.sequence.length - n - 1];
   }
 
 }

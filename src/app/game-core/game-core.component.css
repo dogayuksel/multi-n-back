@@ -17,6 +17,10 @@
   opacity: 0.1;
 }
 
+.hidden {
+  opacity: 0;
+}
+
 .next-button {
   display: inline-block;
   max-width: 20%;
