@@ -1,0 +1,30 @@
+.start-game-button {
+  padding-top: 2em;
+}
+
+.game-container {
+  color: #333;
+  padding: 1em;
+}
+
+.mark-same-button {
+  display: inline-block;
+  padding: 1em;
+  background-color: #cec;
+}
+
+.selected {
+  background-color: #dcf;
+}
+
+.disabled {
+  opacity: 0.1;
+}
+
+.next-button {
+  display: inline-block;
+  max-width: 20%;
+  padding: 1em;
+  margin: 1em;
+  background-color: #ecc;
+}

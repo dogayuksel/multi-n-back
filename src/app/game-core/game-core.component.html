@@ -1,3 +1,29 @@
-<p>
-  game-core works!
-</p>
+<div class="start-game-button" (click)=startGame()>
+  start the game
+</div>
+<div [class.disabled]="!correctSeries">
+  Doing Great!!
+</div>
+<div class='game-container'>
+  <div class="tile">
+    <game-canvas coordinates={{getLastItem()}}>
+    </game-canvas>
+  </div>
+  <div class="mark-same-button"
+    [class.selected]="userInput[0]"
+    (click)="setUserInput(0)" >
+    Same position
+  </div>
+  <div class="mark-same-button"
+    [class.selected]="userInput[1]"
+    (click)="setUserInput(1)">
+    Same color
+  </div>
+  <div (click)="goToNext()"
+    class="next-button">
+    go next
+  </div>
+  <div>
+    current sq lenght: {{sequence.length}}
+  </div>
+</div>
