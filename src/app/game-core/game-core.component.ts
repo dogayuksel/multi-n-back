@@ -22,6 +22,8 @@ export class GameCoreComponent implements OnInit {
   modalityDepth: number = 4;
   modalitiesTotal: number = 2;
 
+  maxRounds: number = 1;
+
   userInput: Array<boolean> = [];
   correctSeries: boolean = true;
 
@@ -41,7 +43,14 @@ export class GameCoreComponent implements OnInit {
 
   goToNext(): void {
     this.correctSeries = this.sequence.goToNextRound(this.userInput);
+    const finalScore = this.sequence.getLength();
+    if (this.maxRounds < finalScore) {
+      this.maxRounds = finalScore;
+    }
     this.resetUserInput();
+    if (!this.correctSeries) {
+      this.startGame();
+    }
   }
 
   resetUserInput(): void {

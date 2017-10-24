@@ -24,7 +24,12 @@
     go next
   </div>
   <div>
-    current sq lenght: {{sequence.getLength()}}
+    <p>
+      current sequence lenght: {{sequence.getLength()}}
+    </p>
+    <p>
+      best sequence lenght: {{maxRounds}}
+    </p>
   </div>
   <div class="start-game-button" (click)=startGame()>
     restart
