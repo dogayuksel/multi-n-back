@@ -1,6 +1,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { FormsModule } from '@angular/forms';
 
 import { GameCoreComponent } from './game-core.component';
+import { GameCanvasComponent } from './game-canvas.component';
 
 describe('GameCoreComponent', () => {
   let component: GameCoreComponent;
@@ -8,9 +10,15 @@ describe('GameCoreComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ GameCoreComponent ]
+      declarations: [
+        GameCoreComponent,
+        GameCanvasComponent
+      ],
+      imports: [
+        FormsModule
+      ]
     })
-    .compileComponents();
+      .compileComponents();
   }));
 
   beforeEach(() => {
@@ -21,5 +29,9 @@ describe('GameCoreComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should create a sequence', () => {
+    expect(component.sequence).toBeTruthy();
   });
 });
