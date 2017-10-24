@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
+import { Sequence } from './sequence';
 import { Round } from './round';
 
 @Component({
@@ -16,13 +17,32 @@ export class GameCoreComponent implements OnInit {
     this.startGame();
   }
 
-  sequence = [];
-  modalitiesTotal = 2;
-  nStepsBack = 1;
-  modalityDepth = 4;
+  sequence: Sequence;
+  nStepsBack: number = 1;
+  modalityDepth: number = 4;
+  modalitiesTotal: number = 2;
 
-  userInput = [];
-  correctSeries = true;
+  userInput: Array<boolean> = [];
+  correctSeries: boolean = true;
+
+  startGame(): void {
+    this.sequence = new Sequence(
+      this.nStepsBack,
+      this.modalityDepth,
+      this.modalitiesTotal
+    );
+    this.correctSeries = this.sequence.goToNextRound(this.userInput);
+    this.resetUserInput();
+  }
+
+  getDisplayRound(): Round {
+    return this.sequence.getLastItem();
+  }
+
+  goToNext(): void {
+    this.correctSeries = this.sequence.goToNextRound(this.userInput);
+    this.resetUserInput();
+  }
 
   resetUserInput(): void {
     this.userInput = [];
@@ -33,42 +53,6 @@ export class GameCoreComponent implements OnInit {
 
   setUserInput(modalityIdx: number): void {
     this.userInput[modalityIdx] = !this.userInput[modalityIdx];
-  }
-
-  startGame(): void {
-    this.sequence = [];
-    this.resetUserInput();
-    this.goToNext();
-  }
-
-  checkUserInput(): boolean {
-    for (let i = 0; i < this.modalitiesTotal; i++) {
-      const valuePast = this.getNthLastItem(this.nStepsBack)[i];
-      const valueNow = this.getLastItem()[i];
-      if (valuePast === valueNow) {
-        if (!this.userInput[i]) {
-          return false;
-        }
-      }
-    }
-    return true;
-  }
-
-  goToNext(): void {
-    if (this.sequence.length > this.nStepsBack) {
-      this.correctSeries = this.checkUserInput();
-      this.resetUserInput();
-    }
-    const thisRound = new Round(this.modalityDepth);
-    this.sequence.push(thisRound.getParams());
-  }
-
-  getLastItem(): Array<number> {
-    return this.sequence[this.sequence.length - 1];
-  }
-
-  getNthLastItem(n: number): Array<number> {
-    return this.sequence[this.sequence.length - n - 1];
   }
 
 }

@@ -1,19 +1,21 @@
 <div [class.disabled]="!correctSeries"
-  [class.hidden]="sequence.length <= nStepsBack + 1">
+  [class.hidden]="sequence.getLength() <= nStepsBack + 1">
   Doing Great!!
 </div>
 <div class='game-container'>
   <div class="tile">
-    <game-canvas coordinates={{getLastItem()}}>
+    <game-canvas [round]="getDisplayRound()">
     </game-canvas>
   </div>
   <div class="mark-same-button"
     [class.selected]="userInput[0]"
+    [class.hidden]="sequence.getLength() <= nStepsBack"
     (click)="setUserInput(0)" >
     Same position
   </div>
   <div class="mark-same-button"
     [class.selected]="userInput[1]"
+    [class.hidden]="sequence.getLength() <= nStepsBack"
     (click)="setUserInput(1)">
     Same color
   </div>
@@ -22,7 +24,7 @@
     go next
   </div>
   <div>
-    current sq lenght: {{sequence.length}}
+    current sq lenght: {{sequence.getLength()}}
   </div>
   <div class="start-game-button" (click)=startGame()>
     restart

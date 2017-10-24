@@ -1,5 +1,7 @@
 import { Component, Input } from '@angular/core';
 
+import { Round } from './round';
+
 const Color = {
   0: "#d11",
   1: "#1d1",
@@ -47,15 +49,15 @@ background-color: #121;
 
 export class GameCanvasComponent {
 
-  @Input() coordinates: Array<number>;
+  @Input() round: Round;
 
   getPosition(): number {
-    return this.coordinates[0]
+    return this.round.getParams()[0];
   }
 
   getColor(position: number): string {
     if (position == this.getPosition()) {
-      return Color[this.coordinates[2]];
+      return Color[this.round.getParams()[1]];
     }
     return "#dde";
   }
