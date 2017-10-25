@@ -7,20 +7,20 @@
     <game-canvas [round]="getDisplayRound()">
     </game-canvas>
   </div>
-  <div class="mark-same-button"
+  <div class="mark-same-button button"
     [class.selected]="userInput[0]"
     [class.hidden]="sequence.getLength() <= nStepsBack"
     (click)="setUserInput(0)" >
     Same position
   </div>
-  <div class="mark-same-button"
+  <div class="mark-same-button button"
     [class.selected]="userInput[1]"
     [class.hidden]="sequence.getLength() <= nStepsBack"
     (click)="setUserInput(1)">
     Same color
   </div>
   <div (click)="goToNext()"
-    class="next-button">
+    class="next-button button">
     go next
   </div>
   <div>
@@ -31,7 +31,7 @@
       best sequence lenght: {{maxRounds}}
     </p>
   </div>
-  <div class="start-game-button" (click)=startGame()>
+  <div class="start-game-button button" (click)=startGame()>
     restart
   </div>
   <div>

@@ -3,10 +3,28 @@
   padding: 1em;
 }
 
-.mark-same-button {
+.button {
+  cursor: pointer;
+  user-select: none;
+  border-radius: 0.5em;
   display: inline-block;
   padding: 1em;
+}
+
+.mark-same-button {
   background-color: #cec;
+}
+
+.next-button {
+  max-width: 20%;
+  margin-left: 1em;
+  background-color: #ecc;
+}
+
+.start-game-button {
+  margin-bottom: 1em;
+  padding: 1em;
+  background-color: #ebb;
 }
 
 .selected {
@@ -21,17 +39,3 @@
   opacity: 0;
 }
 
-.next-button {
-  display: inline-block;
-  max-width: 20%;
-  padding: 1em;
-  margin: 1em;
-  background-color: #ecc;
-}
-
-.start-game-button {
-  display: inline-block;
-  margin: 1em;
-  padding: 1em;
-  background-color: #ebb;
-}
