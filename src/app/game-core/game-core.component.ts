@@ -1,5 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 
+import Modalities from './modalities';
+
+import { Modality } from './modalities/modality';
 import { Sequence } from './sequence';
 import { Round } from './round';
 
@@ -14,13 +17,13 @@ export class GameCoreComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+    this.modalities = Modalities;
     this.startGame();
   }
 
   sequence: Sequence;
   nStepsBack: number = 1;
-  modalityDepth: number = 4;
-  modalitiesTotal: number = 2;
+  modalities: Array<typeof Modality>;
 
   maxRounds: number = 1;
 
@@ -30,15 +33,14 @@ export class GameCoreComponent implements OnInit {
   startGame(): void {
     this.sequence = new Sequence(
       this.nStepsBack,
-      this.modalityDepth,
-      this.modalitiesTotal
+      this.modalities
     );
     this.correctSeries = this.sequence.goToNextRound(this.userInput);
     this.resetUserInput();
   }
 
   getDisplayRound(): Round {
-    return this.sequence.getLastItem();
+    return this.sequence.getLastRound();
   }
 
   goToNext(): void {
@@ -55,7 +57,7 @@ export class GameCoreComponent implements OnInit {
 
   resetUserInput(): void {
     this.userInput = [];
-    for (let i = 0; i < this.modalitiesTotal; i++) {
+    for (let i = 0; i < this.modalities.length; i++) {
       this.userInput.push(false);
     }
   }

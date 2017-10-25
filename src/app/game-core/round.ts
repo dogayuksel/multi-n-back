@@ -1,10 +1,13 @@
-export class Round {
-  modalities: Array<string> = ["position", "color"];
-  result: Array<number> = [];
+import { Modality } from './modalities/modality';
 
-  constructor(depth: number) {
-    for (let i = 0; i < this.modalities.length; i++) {
-      this.result.push(this.getRandom(depth));
+export class Round {
+  results: Array<Modality> = [];
+
+  constructor(modalities: Array<typeof Modality>) {
+    for (let modalityMaker of modalities) {
+      const modalityRound = new modalityMaker();
+      modalityRound.setValue(this.getRandom(modalityRound.modalityDepth));
+      this.results.push(modalityRound);
     }
   }
 
@@ -12,7 +15,7 @@ export class Round {
     return Math.floor(Math.random() * depth);
   }
 
-  getParams(): Array<number> {
-    return this.result;
+  getModalityResults(): Array<Modality> {
+    return this.results;
   }
 }

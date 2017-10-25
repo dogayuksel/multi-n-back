@@ -11,13 +11,18 @@
   padding: 1em;
 }
 
+.mark-same-buttons-container {
+  display: inline-block;
+}
+
 .mark-same-button {
   background-color: #cec;
+  margin-right: 0.5em;
 }
 
 .next-button {
   max-width: 20%;
-  margin-left: 1em;
+  margin-left: 0.7em;
   background-color: #ecc;
 }
 
@@ -38,4 +43,3 @@
 .hidden {
   opacity: 0;
 }
-

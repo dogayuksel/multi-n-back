@@ -2,44 +2,31 @@ import { Component, Input } from '@angular/core';
 
 import { Round } from './round';
 
-const Color = {
-  0: "#d11",
-  1: "#1d1",
-  2: "#11d",
-  3: "#d1d",
-};
-
 @Component({
   selector: 'game-canvas',
   template: `
-<div>
-<div class='row'>
-<div class="tile col-0"
-[style.background-color]="getColor(0)">
-</div>
-<div class="tile col-1"
-[style.background-color]="getColor(1)">
-</div>
-</div>
-<div class='row'>
-<div class="tile col-2"
-[style.background-color]="getColor(2)">
-</div>
-<div class="tile col-3"
-[style.background-color]="getColor(3)">
+<div class="tile-container">
+<div *ngFor="let idx of createRange(this.positionDepth)"
+class="tile">
+<div class="col-{{idx}}"
+[style.background-color]="getColor(idx)">
 </div>
 </div>
 </div>
 `,
   styles: [`
+.tile-container {
+margin: auto;
+width: 9em;
+}
 .tile {
 background-color: #ddd;
-height: 2em;
+display: inline-block;
 width: 2em;
 margin: 1em;
 }
 [class*='col-'] {
-display: inline-block;
+height: 2em;
 }
 .selected {
 background-color: #121;
@@ -51,13 +38,37 @@ export class GameCanvasComponent {
 
   @Input() round: Round;
 
-  getPosition(): number {
-    return this.round.getParams()[0];
+  position: number;
+  positionDepth: number;
+  color: string;
+
+  ngOnChanges(changes) {
+    const modalities = this.round.getModalityResults();
+    for (let modality of modalities) {
+      let param;
+      if (modality.id === "position") {
+        param = modality.getValue();
+        this.position = parseInt(modality.mapParamToValue(param), 10);
+        this.positionDepth = modality.modalityDepth;
+      }
+      else if (modality.id === "color") {
+        param = modality.getValue();
+        this.color = modality.mapParamToValue(param);
+      }
+    }
+  }
+
+  createRange(limit: number) {
+    var items: number[] = [];
+    for (var i = 0; i < limit; i++) {
+      items.push(i);
+    }
+    return items;
   }
 
   getColor(position: number): string {
-    if (position == this.getPosition()) {
-      return Color[this.round.getParams()[1]];
+    if (position === this.position) {
+      return this.color;
     }
     return "#dde";
   }

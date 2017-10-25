@@ -1,23 +1,20 @@
-<div [class.disabled]="!correctSeries"
-  [class.hidden]="sequence.getLength() <= nStepsBack + 1">
-  Doing Great!!
-</div>
 <div class='game-container'>
+  <div [class.disabled]="!correctSeries"
+    [class.hidden]="sequence.getLength() <= nStepsBack + 1">
+    Doing Great!!
+  </div>
   <div class="tile">
     <game-canvas [round]="getDisplayRound()">
     </game-canvas>
   </div>
-  <div class="mark-same-button button"
-    [class.selected]="userInput[0]"
-    [class.hidden]="sequence.getLength() <= nStepsBack"
-    (click)="setUserInput(0)" >
-    Same position
-  </div>
-  <div class="mark-same-button button"
-    [class.selected]="userInput[1]"
-    [class.hidden]="sequence.getLength() <= nStepsBack"
-    (click)="setUserInput(1)">
-    Same color
+  <div *ngFor="let modality of modalities; index as i"
+    class="mark-same-buttons-container">
+    <div class="mark-same-button button"
+      [class.selected]="userInput[i]"
+      [class.hidden]="sequence.getLength() <= nStepsBack"
+      (click)="setUserInput(i)" >
+      Same {{modality.label}}
+    </div>
   </div>
   <div (click)="goToNext()"
     class="next-button button">

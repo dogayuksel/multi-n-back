@@ -1,35 +1,36 @@
+import { Modality } from './modalities/modality';
+
 import { Round } from './round';
 
 export class Sequence {
 
   roundHistory: Array<Round>;
   nStepsBack: number;
-  modalityDepth: number;
-  modalitiesTotal: number;
+  modalities: Array<typeof Modality>;
 
-  constructor(nStepsBack, modalityDepth, modalitiesTotal) {
+  constructor(nStepsBack, modalities) {
     this.roundHistory = [];
     this.nStepsBack = nStepsBack;
-    this.modalityDepth = modalityDepth;
-    this.modalitiesTotal = modalitiesTotal;
+    this.modalities = modalities;
   }
 
   goToNextRound(userInput: Array<boolean>): boolean {
     let answer = true;
     if (this.getLength() > this.nStepsBack) {
       answer = this.compareRoundHistoryToUserInput(userInput);
-
     }
-    const thisRound = new Round(this.modalityDepth);
+    const thisRound = new Round(this.modalities);
     this.roundHistory.push(thisRound);
     return answer
   }
 
   compareRoundHistoryToUserInput(userInput): boolean {
-    for (let i = 0; i < this.modalitiesTotal; i++) {
-      let valuePast = this.getNthLastItem(this.nStepsBack).getParams()[i];
-      let valueNow = this.getLastItem().getParams()[i];
-      if (valuePast === valueNow) {
+
+    const pastResults = this.getNthLastRound().getModalityResults();
+    const currentResults = this.getLastRound().getModalityResults();
+
+    for (let i = 0; i < this.modalities.length; i++) {
+      if (pastResults[i].getValue() === currentResults[i].getValue()) {
         if (!userInput[i]) {
           return false;
         }
@@ -43,12 +44,12 @@ export class Sequence {
     return true;
   }
 
-  getLastItem(): Round {
+  getLastRound(): Round {
     return this.roundHistory[this.getLength() - 1];
   }
 
-  getNthLastItem(n: number): Round {
-    return this.roundHistory[this.getLength() - n - 1];
+  getNthLastRound(): Round {
+    return this.roundHistory[this.getLength() - this.nStepsBack - 1];
   }
 
   getLength(): number {
