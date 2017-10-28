@@ -1,39 +1,52 @@
 <div class='game-container'>
-  <div [class.disabled]="!correctSeries"
+  <h2 [class.disabled]="!correctSeries"
     [class.hidden]="sequence.getLength() <= nStepsBack + 1">
     Doing Great!!
-  </div>
+  </h2>
   <div class="tile">
     <game-canvas [round]="getDisplayRound()">
     </game-canvas>
   </div>
-  <div *ngFor="let modality of modalities; index as i"
-    class="mark-same-buttons-container">
-    <div class="mark-same-button button"
-      [class.selected]="userInput[i]"
-      [class.hidden]="sequence.getLength() <= nStepsBack"
-      (click)="setUserInput(i)" >
-      Same {{modality.label}}
+  <div class="game-controls">
+    <button (click)="goToNext()"
+      class="game-control-button"
+      mat-raised-button
+      color="accent">
+      next
+    </button>
+    <div *ngFor="let modality of modalities; index as i"
+      [class.hidden]="sequence.getLength() <= nStepsBack">
+      <button mat-raised-button color="primary"
+        class="game-control-button"
+        [class.active]="getUserInput(i)"
+        (click)="setUserInput(i)">
+        Same {{modality.label}}
+      </button>
     </div>
   </div>
-  <div (click)="goToNext()"
-    class="next-button button">
-    go next
+  <div class="game-status">
+    <div class="status-tile">
+      <p class="status-tile-label">best sequence:</p>
+      <p class="status-tile-data">{{maxRounds}}</p>
+    </div>
+    <div class="status-tile">
+      <p class="status-tile-label">current sequence:</p>
+      <p class="status-tile-data">{{sequence.getLength()}}</p>
+    </div>
   </div>
-  <div>
-    <p>
-      current sequence lenght: {{sequence.getLength()}}
-    </p>
-    <p>
-      best sequence lenght: {{maxRounds}}
-    </p>
-  </div>
-  <div class="start-game-button button" (click)=startGame()>
-    restart
-  </div>
-  <div>
-    <span>steps back:</span>
-    <input type="number"
-      [(ngModel)]="nStepsBack" >
+  <div class="game-settings">
+    <mat-form-field>
+      <mat-select
+        [(ngModel)]="nStepsBack"
+        placeholder="n-steps-back">
+        <mat-option *ngFor="let option of nStepOptions"
+          [value]="option">
+          {{ option }}
+        </mat-option>
+      </mat-select>
+    </mat-form-field>
+    <button mat-button color="warn" (click)=startGame()>
+      restart
+    </button>
   </div>
 </div>

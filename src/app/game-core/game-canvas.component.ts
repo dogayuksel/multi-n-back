@@ -10,6 +10,7 @@ import { Round } from './round';
 class="tile">
 <div class="col-{{idx}}"
 [style.background-color]="getColor(idx)">
+<mat-icon>{{getContent(idx)}}</mat-icon>
 </div>
 </div>
 </div>
@@ -17,16 +18,23 @@ class="tile">
   styles: [`
 .tile-container {
 margin: auto;
-width: 9em;
+width: 12em;
+display: flex;
+flex-wrap: wrap;
 }
 .tile {
 background-color: #ddd;
 display: inline-block;
-width: 2em;
-margin: 1em;
+width: 52px;
+margin: 0.8em;
+}
+mat-icon {
+width: 52px;
+height: 52px;
+font-size: 3em;
 }
 [class*='col-'] {
-height: 2em;
+height: 3em;
 }
 .selected {
 background-color: #121;
@@ -41,6 +49,7 @@ export class GameCanvasComponent {
   position: number;
   positionDepth: number;
   color: string;
+  iconName: string;
 
   ngOnChanges(changes) {
     const modalities = this.round.getModalityResults();
@@ -54,6 +63,10 @@ export class GameCanvasComponent {
       else if (modality.id === "color") {
         param = modality.getValue();
         this.color = modality.mapParamToValue(param);
+      }
+      else if (modality.id === "shape") {
+        param = modality.getValue();
+        this.iconName = modality.mapParamToValue(param);
       }
     }
   }
@@ -71,5 +84,13 @@ export class GameCanvasComponent {
       return this.color;
     }
     return "#dde";
+  }
+
+  getContent(position: number): string {
+    if (position === this.position) {
+      console.log(this.iconName);
+      return this.iconName;
+    }
+    return "";
   }
 }

@@ -3,41 +3,67 @@
   padding: 1em;
 }
 
-.button {
-  cursor: pointer;
-  user-select: none;
-  border-radius: 0.5em;
-  display: inline-block;
+.tile {
+  margin: 1em 1em 2em 1em;
+}
+
+.game-settings {
   padding: 1em;
+  max-width: 400px;
+  margin: auto;
+
+  :active {
+    border: 1px solid red;
+    border-radius: 1em;
+  }
 }
 
-.mark-same-buttons-container {
-  display: inline-block;
+.game-controls {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  flex-direction: row-reverse;
+  justify-content: center;
+  align-items: baseline;
+  flex-wrap: wrap;
 }
 
-.mark-same-button {
-  background-color: #cec;
-  margin-right: 0.5em;
-}
-
-.next-button {
-  max-width: 20%;
-  margin-left: 0.7em;
-  background-color: #ecc;
-}
-
-.start-game-button {
+.game-control-button {
   margin-bottom: 1em;
-  padding: 1em;
-  background-color: #ebb;
+  margin-right: 0.9em;
 }
 
-.selected {
-  background-color: #dcf;
+.game-status {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.status-tile {
+  margin-right: 1em;
+}
+
+.status-tile-label {
+  font-size: 0.7em;
+  opacity: 0.8;
+  width: 60px;
+  margin-bottom: 0;
+}
+
+.status-tile-data {
+  margin-top: 0.25em;
+  font-size: 1.5em;
 }
 
 .disabled {
   opacity: 0.1;
+}
+
+.active {
+  box-shadow: none !important;
+  filter: brightness(90%);
+  transform: scale(0.96);
 }
 
 .hidden {

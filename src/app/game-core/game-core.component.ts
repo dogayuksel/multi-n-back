@@ -23,6 +23,7 @@ export class GameCoreComponent implements OnInit {
 
   sequence: Sequence;
   nStepsBack: number = 1;
+  nStepOptions = [1, 2, 3, 4];
   modalities: Array<typeof Modality>;
 
   maxRounds: number = 1;
@@ -60,6 +61,10 @@ export class GameCoreComponent implements OnInit {
     for (let i = 0; i < this.modalities.length; i++) {
       this.userInput.push(false);
     }
+  }
+
+  getUserInput(modalityIdx: number): boolean {
+    return this.userInput[modalityIdx];
   }
 
   setUserInput(modalityIdx: number): void {

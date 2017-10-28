@@ -1,6 +1,7 @@
 export class Modality {
 
   static label: string;
+  static depthOptions: Array<number>;
   id: string;
   modalityDepth: number = 4;
   value: number | null = null;
