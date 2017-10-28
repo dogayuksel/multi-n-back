@@ -19,6 +19,7 @@ class="tile">
 .tile-container {
 margin: auto;
 width: 12em;
+min-height: 138px;
 display: flex;
 flex-wrap: wrap;
 }
@@ -26,6 +27,7 @@ flex-wrap: wrap;
 background-color: #ddd;
 display: inline-block;
 width: 52px;
+max-height: 45px;
 margin: 0.8em;
 }
 mat-icon {
@@ -52,6 +54,7 @@ export class GameCanvasComponent {
   iconName: string;
 
   ngOnChanges(changes) {
+    this.clearLastRound()
     const modalities = this.round.getModalityResults();
     for (let modality of modalities) {
       let param;
@@ -71,6 +74,13 @@ export class GameCanvasComponent {
     }
   }
 
+  clearLastRound() {
+    this.iconName = null;
+    this.color = "#aa9";
+    this.position = null;
+    this.positionDepth = 1;
+  }
+
   createRange(limit: number) {
     var items: number[] = [];
     for (var i = 0; i < limit; i++) {
@@ -80,15 +90,14 @@ export class GameCanvasComponent {
   }
 
   getColor(position: number): string {
-    if (position === this.position) {
+    if (position === this.position || this.positionDepth === 1) {
       return this.color;
     }
     return "#dde";
   }
 
   getContent(position: number): string {
-    if (position === this.position) {
-      console.log(this.iconName);
+    if (position === this.position || this.positionDepth === 1) {
       return this.iconName;
     }
     return "";

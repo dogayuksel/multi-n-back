@@ -18,6 +18,9 @@ export class GameCoreComponent implements OnInit {
 
   ngOnInit() {
     this.modalities = Modalities;
+    for (let modality of this.modalities) {
+      this.useModality.push(true);
+    }
     this.startGame();
   }
 
@@ -25,6 +28,7 @@ export class GameCoreComponent implements OnInit {
   nStepsBack: number = 1;
   nStepOptions = [1, 2, 3, 4];
   modalities: Array<typeof Modality>;
+  useModality: Array<boolean> = [];
 
   maxRounds: number = 1;
 
@@ -34,8 +38,8 @@ export class GameCoreComponent implements OnInit {
   startGame(): void {
     this.sequence = new Sequence(
       this.nStepsBack,
-      this.modalities
-    );
+      this.modalities.filter((obj, idx) => this.useModality[idx])
+    )
     this.correctSeries = this.sequence.goToNextRound(this.userInput);
     this.resetUserInput();
   }

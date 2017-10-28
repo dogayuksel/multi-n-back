@@ -1,29 +1,4 @@
 <div class='game-container'>
-  <h2 [class.disabled]="!correctSeries"
-    [class.hidden]="sequence.getLength() <= nStepsBack + 1">
-    Doing Great!!
-  </h2>
-  <div class="tile">
-    <game-canvas [round]="getDisplayRound()">
-    </game-canvas>
-  </div>
-  <div class="game-controls">
-    <button (click)="goToNext()"
-      class="game-control-button"
-      mat-raised-button
-      color="accent">
-      next
-    </button>
-    <div *ngFor="let modality of modalities; index as i"
-      [class.hidden]="sequence.getLength() <= nStepsBack">
-      <button mat-raised-button color="primary"
-        class="game-control-button"
-        [class.active]="getUserInput(i)"
-        (click)="setUserInput(i)">
-        Same {{modality.label}}
-      </button>
-    </div>
-  </div>
   <div class="game-status">
     <div class="status-tile">
       <p class="status-tile-label">best sequence:</p>
@@ -34,18 +9,51 @@
       <p class="status-tile-data">{{sequence.getLength()}}</p>
     </div>
   </div>
+  <div class="game-area">
+    <div class="tile">
+      <game-canvas [round]="getDisplayRound()">
+      </game-canvas>
+    </div>
+    <div class="game-controls">
+      <button (click)="goToNext()"
+        class="game-control-button"
+        mat-raised-button
+        color="accent">
+        next
+      </button>
+      <div *ngFor="let modality of modalities; index as i"
+        [class.disabled]="sequence.getLength() <= nStepsBack || !useModality[i]">
+        <button mat-raised-button color="primary"
+          class="game-control-button"
+          [class.active]="getUserInput(i)"
+          (click)="setUserInput(i)">
+          Same {{modality.label}}
+        </button>
+      </div>
+    </div>
+  </div>
   <div class="game-settings">
-    <mat-form-field>
+    <mat-form-field class="select-form-field">
       <mat-select
         [(ngModel)]="nStepsBack"
         placeholder="n-steps-back">
-        <mat-option *ngFor="let option of nStepOptions"
+        <mat-option
+          *ngFor="let option of nStepOptions"
           [value]="option">
           {{ option }}
         </mat-option>
       </mat-select>
     </mat-form-field>
-    <button mat-button color="warn" (click)=startGame()>
+    <div *ngFor="let modality of modalities; index as i"
+      class="select-modality-checkbox">
+      <mat-checkbox color="primary"
+        [(ngModel)]="useModality[i]">
+        Use {{modality.label}}
+      </mat-checkbox>
+    </div>
+    <button mat-button color="warn"
+      (click)=startGame()
+      class="reset-game-button">
       restart
     </button>
   </div>

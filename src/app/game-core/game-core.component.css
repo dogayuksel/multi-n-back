@@ -3,41 +3,11 @@
   padding: 1em;
 }
 
-.tile {
-  margin: 1em 1em 2em 1em;
-}
-
-.game-settings {
-  padding: 1em;
-  max-width: 400px;
-  margin: auto;
-
-  :active {
-    border: 1px solid red;
-    border-radius: 1em;
-  }
-}
-
-.game-controls {
-  max-width: 400px;
-  margin: auto;
-  display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
-  align-items: baseline;
-  flex-wrap: wrap;
-}
-
-.game-control-button {
-  margin-bottom: 1em;
-  margin-right: 0.9em;
-}
-
 .game-status {
-  max-width: 400px;
-  margin: auto;
+  max-width: 300px;
+  margin: 0 auto 3em auto;
   display: flex;
-  justify-content: center;
+  justify-content: flex-begin;
 }
 
 .status-tile {
@@ -54,6 +24,58 @@
 .status-tile-data {
   margin-top: 0.25em;
   font-size: 1.5em;
+}
+
+.game-area {
+  max-width: 400px;
+  margin: auto;
+  display: flex;
+  justify-content: center;
+}
+
+.tile {
+  margin: 1em 1em 2em 1em;
+}
+
+.game-controls {
+  max-width: 200px;
+  display: flex;
+  flex-direction: column-reverse;
+  justify-content: center;
+  align-items: flex-end;
+  flex-wrap: wrap;
+}
+
+.game-control-button {
+  margin-bottom: 1em;
+  margin-right: 0.9em;
+}
+
+.game-settings {
+  padding: 1em;
+  max-width: 120px;
+  margin: 5em auto 0 auto;
+
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  :active {
+    border: 1px solid red;
+    border-radius: 1em;
+  }
+}
+
+.select-form-field {
+  width: 100px;
+}
+
+.select-modality-checkbox {
+  margin-bottom: 0.3em;
+}
+
+.reset-game-button {
+  margin-top: 1.4em;
 }
 
 .disabled {
