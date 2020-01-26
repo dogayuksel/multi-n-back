@@ -11,7 +11,10 @@ function App(Props) {
                   availableModalities: Modalities$ReasonReactExamples.modalities,
                   selectedModalities: Modalities$ReasonReactExamples.modalities
                 }, React.createElement(ConfigurationProvider$ReasonReactExamples.make, ConfigurationProvider$ReasonReactExamples.makeProps({
-                          depth: 4
+                          depth: /* array */[
+                            4,
+                            4
+                          ]
                         }, React.createElement(Canvas$ReasonReactExamples.make, { }), /* () */0)), /* () */0));
 }
 

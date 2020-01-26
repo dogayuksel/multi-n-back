@@ -1,6 +1,6 @@
-type configurationContext = {depth: int};
+type configurationContext = {depth: array(int)};
 
-let configurationContext = React.createContext({depth: 1});
+let configurationContext = React.createContext({depth: [||]});
 
 let makeProps = (~value, ~children, ()) => {
   "value": value,

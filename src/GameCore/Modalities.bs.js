@@ -23,7 +23,9 @@ var modalities = /* array */[
     renderFunction: (function (element, param) {
         return React.createElement("div", {
                     style: {
-                      backgroundColor: Caml_array.caml_array_get(colors, param.depth - 1 | 0)
+                      backgroundColor: Caml_array.caml_array_get(colors, param.depth - 1 | 0),
+                      display: "inline-block",
+                      margin: "5px"
                     }
                   }, element);
       })

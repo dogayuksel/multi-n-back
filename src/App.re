@@ -5,7 +5,7 @@ let make = () => {
       availableModalities: Modalities.modalities,
       selectedModalities: Modalities.modalities,
     }>
-    <ConfigurationProvider value=ConfigurationProvider.{depth: 4}>
+    <ConfigurationProvider value=ConfigurationProvider.{depth: [|4, 4|]}>
       <Canvas />
     </ConfigurationProvider>
   </GameContextProvider>;

@@ -27,7 +27,12 @@ let modalities: array(modality) = [|
     label: "Color",
     renderFunction: (element, {depth}) => {
       <div
-        style={ReactDOMRe.Style.make(~backgroundColor=colors[depth - 1], ())}>
+        style={ReactDOMRe.Style.make(
+          ~backgroundColor=colors[depth - 1],
+          ~display="inline-block",
+          ~margin="5px",
+          (),
+        )}>
         element
       </div>;
     },

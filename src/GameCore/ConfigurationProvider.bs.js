@@ -3,7 +3,7 @@
 var React = require("react");
 
 var configurationContext = React.createContext({
-      depth: 1
+      depth: /* array */[]
     });
 
 function makeProps(value, children, param) {
