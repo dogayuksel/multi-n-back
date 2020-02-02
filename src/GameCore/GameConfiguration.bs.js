@@ -1,1 +1,14 @@
-/* This output is empty. Its source's type definitions, externals and/or unused code got optimized away. */
+'use strict';
+
+
+function getDefaultConfig(param) {
+  return {
+          position: 3,
+          color: 3,
+          icon: 3,
+          depth: 1
+        };
+}
+
+exports.getDefaultConfig = getDefaultConfig;
+/* No side effect */
