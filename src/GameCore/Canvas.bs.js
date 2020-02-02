@@ -30,13 +30,14 @@ function Canvas(Props) {
     justifyItems: "center"
   };
   return React.createElement("div", {
-              style: ReactDOMRe.Style.unsafeAddProp(wrapperStyles, "grid-template-columns", "repeat(" + (String(positionDepth) + ", 1fr)"))
+              style: ReactDOMRe.Style.unsafeAddProp(wrapperStyles, "gridTemplateColumns", "repeat(" + (String(positionDepth) + ", 1fr)"))
             }, $$Array.mapi((function (renderIndex, param) {
                     var match = positionIndex === renderIndex;
                     var match$1 = gameConfiguration.icon;
                     var match$2 = gameState.icon;
                     var match$3 = positionIndex === renderIndex;
                     return React.createElement("div", {
+                                key: String(renderIndex),
                                 style: {
                                   backgroundColor: match ? Caml_array.caml_array_get(Modality$ReasonReactExamples.colors, colorIndex) : "#EEEEEE",
                                   display: "flex",

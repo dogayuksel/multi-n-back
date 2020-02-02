@@ -26,12 +26,13 @@ let make = (~gameConfiguration: GameConfiguration.t, ~gameState: GameState.t) =>
   <div
     style={ReactDOMRe.Style.unsafeAddProp(
       wrapperStyles,
-      "grid-template-columns",
+      "gridTemplateColumns",
       "repeat(" ++ string_of_int(positionDepth) ++ ", 1fr)",
     )}>
     {Array.make(positionDepth * positionDepth, 0)
      |> Array.mapi((renderIndex, _) =>
           <div
+            key={string_of_int(renderIndex)}
             style={ReactDOMRe.Style.make(
               ~backgroundColor=
                 positionIndex == renderIndex
