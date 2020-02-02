@@ -1,5 +1,6 @@
 'use strict';
 
+var List = require("bs-platform/lib/js/list.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
@@ -23,18 +24,27 @@ function App(Props) {
         }));
   var setGameState = match$1[1];
   var gameState = match$1[0];
-  var stateHistory = React.useRef(/* [] */0);
+  var match$2 = React.useState((function () {
+          return /* [] */0;
+        }));
+  var setStateHistory = match$2[1];
   var advanceState = function (param) {
-    var currentHistory = stateHistory.current;
-    stateHistory.current = /* :: */[
-      gameState,
-      currentHistory
-    ];
+    Curry._1(setStateHistory, (function (currentHistory) {
+            return /* :: */[
+                    gameState,
+                    currentHistory
+                  ];
+          }));
     return Curry._1(setGameState, (function (param) {
                   return GameState$ReasonReactExamples.advanceState(gameConfiguration);
                 }));
   };
-  return React.createElement("div", undefined, React.createElement(Canvas$ReasonReactExamples.make, {
+  var value = List.length(match$2[0]);
+  return React.createElement("div", undefined, React.createElement("div", {
+                  style: {
+                    margin: "20px 10px"
+                  }
+                }, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement(Canvas$ReasonReactExamples.make, {
                   gameConfiguration: gameConfiguration,
                   gameState: gameState
                 }), React.createElement("div", {
