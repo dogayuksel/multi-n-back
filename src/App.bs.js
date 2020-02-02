@@ -2,20 +2,26 @@
 
 var React = require("react");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
-var Modalities$ReasonReactExamples = require("./GameCore/Modalities.bs.js");
-var GameContextProvider$ReasonReactExamples = require("./GameCore/GameContextProvider.bs.js");
-var ConfigurationProvider$ReasonReactExamples = require("./GameCore/ConfigurationProvider.bs.js");
 
 function App(Props) {
-  return React.createElement(GameContextProvider$ReasonReactExamples.make, GameContextProvider$ReasonReactExamples.makeProps({
-                  availableModalities: Modalities$ReasonReactExamples.modalities,
-                  selectedModalities: Modalities$ReasonReactExamples.modalities
-                }, React.createElement(ConfigurationProvider$ReasonReactExamples.make, ConfigurationProvider$ReasonReactExamples.makeProps({
-                          depth: /* array */[
-                            4,
-                            4
-                          ]
-                        }, React.createElement(Canvas$ReasonReactExamples.make, { }), /* () */0)), /* () */0));
+  var match = React.useState((function () {
+          return {
+                  position: 4,
+                  color: 4,
+                  icon: 4
+                };
+        }));
+  var match$1 = React.useState((function () {
+          return {
+                  position: 0,
+                  color: 0,
+                  icon: 0
+                };
+        }));
+  return React.createElement(Canvas$ReasonReactExamples.make, {
+              gameConfiguration: match[0],
+              gameState: match$1[0]
+            });
 }
 
 var make = App;
