@@ -4,7 +4,11 @@ type gameState = {
   icon: option(int),
 };
 
-let advanceState = (configuration: GameConfiguration.t): gameState => {
+type t = gameState;
+
+type stateHistory = list(gameState);
+
+let makeState = (configuration: GameConfiguration.t): t => {
   Random.self_init();
   {
     position:
@@ -15,4 +19,43 @@ let advanceState = (configuration: GameConfiguration.t): gameState => {
   };
 };
 
-type t = gameState;
+let compareValue =
+    (
+      modalityConfig: option(int),
+      modalityAnswer: bool,
+      modalityOldValue: option(int),
+      modalityValue: option(int),
+    ) =>
+  switch (modalityConfig, modalityAnswer, modalityOldValue, modalityValue) {
+  | (Some(_), isSame, Some(oldValue), Some(value)) =>
+    oldValue == value == isSame
+  | _ => true
+  };
+
+let compareToHistory =
+    (
+      answer: Answer.answer,
+      gameState: t,
+      stateHistory: stateHistory,
+      configuration: GameConfiguration.t,
+    ) => {
+  let oldState = stateHistory->List.nth(configuration.depth - 1);
+  compareValue(
+    configuration.position,
+    answer.position,
+    oldState.position,
+    gameState.position,
+  )
+  && compareValue(
+       configuration.color,
+       answer.color,
+       oldState.color,
+       gameState.color,
+     )
+  && compareValue(
+       configuration.icon,
+       answer.icon,
+       oldState.icon,
+       gameState.icon,
+     );
+};

@@ -1,72 +1,30 @@
-type answer = {
-  position: bool,
-  color: bool,
-  icon: bool,
-};
-
 [@react.component]
 let make = () => {
   let (gameConfiguration, _setGameConfiguration) =
     React.useState(() => GameConfiguration.getDefaultConfig());
   let (gameState, setGameState) =
-    React.useState(() => GameState.advanceState(gameConfiguration));
-  let (stateHistory: list(GameState.t), setStateHistory) =
+    React.useState(() => GameState.makeState(gameConfiguration));
+  let (stateHistory: GameState.stateHistory, setStateHistory) =
     React.useState(_ => []);
-  let (answers, setAnswers) = {
-    React.useState(() => {position: false, color: false, icon: false});
+  let (answer, setAnswer) = {
+    React.useState(() => Answer.make());
   };
 
   let toggleAnswer = modality => {
-    setAnswers(currentAnswers => {
-      switch (modality) {
-      | Modality.Position => {
-          ...currentAnswers,
-          position: !currentAnswers.position,
-        }
-      | Modality.Color => {...currentAnswers, color: !currentAnswers.color}
-      | Modality.Icon => {...currentAnswers, icon: !currentAnswers.icon}
-      }
+    setAnswer(currentAnswers => {
+      currentAnswers |> Answer.toggleAnswer(modality)
     });
   };
 
   let advanceState = _ => {
     setStateHistory(currentHistory =>
       if (currentHistory->List.length >= gameConfiguration.depth) {
-        let oldState = currentHistory->List.nth(gameConfiguration.depth - 1);
-        let positionResult =
-          switch (
-            gameConfiguration.position,
-            answers.position,
-            oldState.position,
-            gameState.position,
-          ) {
-          | (Some(_), isSame, Some(oldActual), Some(newActual)) =>
-            oldActual == newActual == isSame
-          | _ => true
-          };
-        let colorResult =
-          switch (
-            gameConfiguration.color,
-            answers.color,
-            oldState.color,
-            gameState.color,
-          ) {
-          | (Some(_), isSame, Some(oldActual), Some(newActual)) =>
-            oldActual == newActual == isSame
-          | _ => true
-          };
-        let iconResult =
-          switch (
-            gameConfiguration.icon,
-            answers.icon,
-            oldState.icon,
-            gameState.icon,
-          ) {
-          | (Some(_), isSame, Some(oldActual), Some(newActual)) =>
-            oldActual == newActual == isSame
-          | _ => true
-          };
-        if (positionResult && colorResult && iconResult) {
+        if (GameState.compareToHistory(
+              answer,
+              gameState,
+              currentHistory,
+              gameConfiguration,
+            )) {
           [gameState, ...currentHistory];
         } else {
           [];
@@ -75,8 +33,8 @@ let make = () => {
         [gameState, ...currentHistory];
       }
     );
-    setAnswers(_ => {{position: false, color: false, icon: false}});
-    setGameState(_ => GameState.advanceState(gameConfiguration));
+    setAnswer(_ => Answer.make());
+    setGameState(_ => GameState.makeState(gameConfiguration));
   };
 
   <div>
@@ -110,7 +68,7 @@ let make = () => {
               <input
                 onChange={_ => toggleAnswer(Modality.Position)}
                 type_="checkbox"
-                checked={answers.position}
+                checked={answer.position}
               />
               {React.string("Same Position")}
             </label>
@@ -122,7 +80,7 @@ let make = () => {
               <input
                 onChange={_ => toggleAnswer(Modality.Color)}
                 type_="checkbox"
-                checked={answers.color}
+                checked={answer.color}
               />
               {React.string("Same Color")}
             </label>
@@ -134,7 +92,7 @@ let make = () => {
               <input
                 onChange={_ => toggleAnswer(Modality.Icon)}
                 type_="checkbox"
-                checked={answers.icon}
+                checked={answer.icon}
               />
               {React.string("Same Icon")}
             </label>
