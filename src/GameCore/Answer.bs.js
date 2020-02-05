@@ -1,5 +1,6 @@
 'use strict';
 
+var Modality$ReasonReactExamples = require("./Modality/Modality.bs.js");
 
 function make(param) {
   return {
@@ -9,30 +10,35 @@ function make(param) {
         };
 }
 
-function toggleAnswer(modality, answer) {
+function toggleValue(modality, answer) {
+  return !Modality$ReasonReactExamples.getValue(modality, answer);
+}
+
+function toggle(modality, answer) {
   switch (modality) {
     case /* Position */0 :
         return {
-                position: !answer.position,
+                position: !Modality$ReasonReactExamples.getValue(/* Position */0, answer),
                 color: answer.color,
                 icon: answer.icon
               };
     case /* Color */1 :
         return {
                 position: answer.position,
-                color: !answer.color,
+                color: !Modality$ReasonReactExamples.getValue(/* Color */1, answer),
                 icon: answer.icon
               };
     case /* Icon */2 :
         return {
                 position: answer.position,
                 color: answer.color,
-                icon: !answer.icon
+                icon: !Modality$ReasonReactExamples.getValue(/* Icon */2, answer)
               };
     
   }
 }
 
 exports.make = make;
-exports.toggleAnswer = toggleAnswer;
+exports.toggleValue = toggleValue;
+exports.toggle = toggle;
 /* No side effect */

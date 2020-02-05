@@ -1,9 +1,9 @@
 [@react.component]
 let make = () => {
-  let (gameConfiguration, _setGameConfiguration) =
-    React.useState(() => GameConfiguration.getDefaultConfig());
+  let (config, _setConfig) =
+    React.useState(() => GameConfiguration.makeDefault());
   let (gameState, setGameState) =
-    React.useState(() => GameState.makeState(gameConfiguration));
+    React.useState(() => GameState.makeRandom(config));
   let (stateHistory: GameState.stateHistory, setStateHistory) =
     React.useState(_ => []);
   let (answer, setAnswer) = {
@@ -11,19 +11,17 @@ let make = () => {
   };
 
   let toggleAnswer = modality => {
-    setAnswer(currentAnswers => {
-      currentAnswers |> Answer.toggleAnswer(modality)
-    });
+    setAnswer(currentAnswer => {currentAnswer |> Answer.toggle(modality)});
   };
 
   let advanceState = _ => {
     setStateHistory(currentHistory =>
-      if (currentHistory->List.length >= gameConfiguration.depth) {
+      if (currentHistory->List.length >= config.depth) {
         if (GameState.compareToHistory(
               answer,
               gameState,
               currentHistory,
-              gameConfiguration,
+              config,
             )) {
           [gameState, ...currentHistory];
         } else {
@@ -34,7 +32,7 @@ let make = () => {
       }
     );
     setAnswer(_ => Answer.make());
-    setGameState(_ => GameState.makeState(gameConfiguration));
+    setGameState(_ => GameState.makeRandom(config));
   };
 
   <div>
@@ -44,7 +42,7 @@ let make = () => {
        | value => React.string("Turn: " ++ string_of_int(value + 1))
        }}
     </div>
-    <Canvas gameConfiguration gameState />
+    <Canvas config gameState />
     <div
       style={ReactDOMRe.Style.make(
         ~margin="25px",
@@ -54,7 +52,7 @@ let make = () => {
       )}>
       <button onClick=advanceState> {React.string("Next")} </button>
     </div>
-    {if (List.length(stateHistory) >= gameConfiguration.depth) {
+    {if (List.length(stateHistory) >= config.depth) {
        <div
          style={ReactDOMRe.Style.make(
            ~margin="25px",
@@ -62,7 +60,7 @@ let make = () => {
            ~justifyContent="center",
            (),
          )}>
-         {switch (gameConfiguration.position) {
+         {switch (Modality.getValue(Position, config.modalities)) {
           | Some(_) =>
             <label>
               <input
@@ -74,7 +72,7 @@ let make = () => {
             </label>
           | None => React.null
           }}
-         {switch (gameConfiguration.color) {
+         {switch (Modality.getValue(Color, config.modalities)) {
           | Some(_) =>
             <label>
               <input
@@ -86,7 +84,7 @@ let make = () => {
             </label>
           | None => React.null
           }}
-         {switch (gameConfiguration.icon) {
+         {switch (Modality.getValue(Icon, config.modalities)) {
           | Some(_) =>
             <label>
               <input

@@ -5,16 +5,17 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
+var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
 var GameState$ReasonReactExamples = require("./GameCore/GameState.bs.js");
 var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguration.bs.js");
 
 function App(Props) {
   var match = React.useState((function () {
-          return GameConfiguration$ReasonReactExamples.getDefaultConfig(/* () */0);
+          return GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
         }));
-  var gameConfiguration = match[0];
+  var config = match[0];
   var match$1 = React.useState((function () {
-          return GameState$ReasonReactExamples.makeState(gameConfiguration);
+          return GameState$ReasonReactExamples.makeRandom(config);
         }));
   var setGameState = match$1[1];
   var gameState = match$1[0];
@@ -30,7 +31,7 @@ function App(Props) {
   var answer = match$3[0];
   var advanceState = function (param) {
     Curry._1(setStateHistory, (function (currentHistory) {
-            if (List.length(currentHistory) >= gameConfiguration.depth && !GameState$ReasonReactExamples.compareToHistory(answer, gameState, currentHistory, gameConfiguration)) {
+            if (List.length(currentHistory) >= config.depth && !GameState$ReasonReactExamples.compareToHistory(answer, gameState, currentHistory, config)) {
               return /* [] */0;
             } else {
               return /* :: */[
@@ -43,15 +44,15 @@ function App(Props) {
             return Answer$ReasonReactExamples.make(/* () */0);
           }));
     return Curry._1(setGameState, (function (param) {
-                  return GameState$ReasonReactExamples.makeState(gameConfiguration);
+                  return GameState$ReasonReactExamples.makeRandom(config);
                 }));
   };
   var value = List.length(stateHistory);
   var tmp;
-  if (List.length(stateHistory) >= gameConfiguration.depth) {
-    var match$4 = gameConfiguration.position;
-    var match$5 = gameConfiguration.color;
-    var match$6 = gameConfiguration.icon;
+  if (List.length(stateHistory) >= config.depth) {
+    var match$4 = Modality$ReasonReactExamples.getValue(/* Position */0, config.modalities);
+    var match$5 = Modality$ReasonReactExamples.getValue(/* Color */1, config.modalities);
+    var match$6 = Modality$ReasonReactExamples.getValue(/* Icon */2, config.modalities);
     tmp = React.createElement("div", {
           style: {
             display: "flex",
@@ -62,24 +63,24 @@ function App(Props) {
                     checked: answer.position,
                     type: "checkbox",
                     onChange: (function (param) {
-                        return Curry._1(setAnswer, (function (currentAnswers) {
-                                      return Answer$ReasonReactExamples.toggleAnswer(/* Position */0, currentAnswers);
+                        return Curry._1(setAnswer, (function (currentAnswer) {
+                                      return Answer$ReasonReactExamples.toggle(/* Position */0, currentAnswer);
                                     }));
                       })
                   }), "Same Position") : null, match$5 !== undefined ? React.createElement("label", undefined, React.createElement("input", {
                     checked: answer.color,
                     type: "checkbox",
                     onChange: (function (param) {
-                        return Curry._1(setAnswer, (function (currentAnswers) {
-                                      return Answer$ReasonReactExamples.toggleAnswer(/* Color */1, currentAnswers);
+                        return Curry._1(setAnswer, (function (currentAnswer) {
+                                      return Answer$ReasonReactExamples.toggle(/* Color */1, currentAnswer);
                                     }));
                       })
                   }), "Same Color") : null, match$6 !== undefined ? React.createElement("label", undefined, React.createElement("input", {
                     checked: answer.icon,
                     type: "checkbox",
                     onChange: (function (param) {
-                        return Curry._1(setAnswer, (function (currentAnswers) {
-                                      return Answer$ReasonReactExamples.toggleAnswer(/* Icon */2, currentAnswers);
+                        return Curry._1(setAnswer, (function (currentAnswer) {
+                                      return Answer$ReasonReactExamples.toggle(/* Icon */2, currentAnswer);
                                     }));
                       })
                   }), "Same Icon") : null);
@@ -91,7 +92,7 @@ function App(Props) {
                     margin: "20px 10px"
                   }
                 }, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement(Canvas$ReasonReactExamples.make, {
-                  gameConfiguration: gameConfiguration,
+                  config: config,
                   gameState: gameState
                 }), React.createElement("div", {
                   style: {

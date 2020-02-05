@@ -1,14 +1,16 @@
 'use strict';
 
 
-function getDefaultConfig(param) {
+function makeDefault(param) {
   return {
-          position: 3,
-          color: 3,
-          icon: 3,
+          modalities: {
+            position: 2,
+            color: 4,
+            icon: 4
+          },
           depth: 1
         };
 }
 
-exports.getDefaultConfig = getDefaultConfig;
+exports.makeDefault = makeDefault;
 /* No side effect */

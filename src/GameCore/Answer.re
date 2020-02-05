@@ -1,16 +1,15 @@
-type answer = {
-  position: bool,
-  color: bool,
-  icon: bool,
-};
+type answer = Modality.modalities(bool);
 
 type t = answer;
 
 let make = (): t => {position: false, color: false, icon: false};
 
-let toggleAnswer = (modality: Modality.t, answer: t) =>
+let toggleValue = (modality: Modality.t, answer: t) =>
+  !Modality.getValue(modality, answer);
+
+let toggle = (modality: Modality.t, answer: t) =>
   switch (modality) {
-  | Modality.Position => {...answer, position: !answer.position}
-  | Modality.Color => {...answer, color: !answer.color}
-  | Modality.Icon => {...answer, icon: !answer.icon}
+  | Modality.Position => {...answer, position: toggleValue(Position, answer)}
+  | Modality.Color => {...answer, color: toggleValue(Color, answer)}
+  | Modality.Icon => {...answer, icon: toggleValue(Icon, answer)}
   };

@@ -1,15 +1,15 @@
 type gameConfiguration = {
-  position: option(int),
-  color: option(int),
-  icon: option(int),
+  modalities: Modality.modalities(option(int)),
   depth: int,
 };
 
 type t = gameConfiguration;
 
-let getDefaultConfig = () => {
-  position: Some(3),
-  color: Some(3),
-  icon: Some(3),
+let makeDefault = () => {
+  modalities: {
+    position: Some(2),
+    color: Some(4),
+    icon: Some(4),
+  },
   depth: 1,
 };

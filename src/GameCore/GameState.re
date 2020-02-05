@@ -1,21 +1,20 @@
-type gameState = {
-  position: option(int),
-  color: option(int),
-  icon: option(int),
-};
+type gameState = Modality.modalities(option(int));
 
 type t = gameState;
 
 type stateHistory = list(gameState);
 
-let makeState = (configuration: GameConfiguration.t): t => {
+let getValue = Modality.getValue;
+
+let makeRandom = (configuration: GameConfiguration.t): t => {
+  let modeConfig = configuration.modalities;
   Random.self_init();
   {
     position:
-      configuration.position
+      getValue(Position, modeConfig)
       ->Belt.Option.map(value => Random.int(value * value)),
-    color: configuration.color->Belt.Option.map(Random.int),
-    icon: configuration.icon->Belt.Option.map(Random.int),
+    color: getValue(Color, modeConfig)->Belt.Option.map(Random.int),
+    icon: getValue(Icon, modeConfig)->Belt.Option.map(Random.int),
   };
 };
 
@@ -34,28 +33,19 @@ let compareValue =
 
 let compareToHistory =
     (
-      answer: Answer.answer,
+      answer: Answer.t,
       gameState: t,
       stateHistory: stateHistory,
       configuration: GameConfiguration.t,
     ) => {
   let oldState = stateHistory->List.nth(configuration.depth - 1);
-  compareValue(
-    configuration.position,
-    answer.position,
-    oldState.position,
-    gameState.position,
-  )
-  && compareValue(
-       configuration.color,
-       answer.color,
-       oldState.color,
-       gameState.color,
-     )
-  && compareValue(
-       configuration.icon,
-       answer.icon,
-       oldState.icon,
-       gameState.icon,
+  Modality.allModalityTypes
+  |> Array.for_all(modality =>
+       compareValue(
+         configuration.modalities |> getValue(modality),
+         answer |> getValue(modality),
+         oldState |> getValue(modality),
+         gameState |> getValue(modality),
+       )
      );
 };
