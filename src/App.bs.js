@@ -1,6 +1,7 @@
 'use strict';
 
 var List = require("bs-platform/lib/js/list.js");
+var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
@@ -48,45 +49,6 @@ function App(Props) {
                 }));
   };
   var value = List.length(stateHistory);
-  var tmp;
-  if (List.length(stateHistory) >= config.depth) {
-    var match$4 = Modality$ReasonReactExamples.getValue(/* Position */0, config.modalities);
-    var match$5 = Modality$ReasonReactExamples.getValue(/* Color */1, config.modalities);
-    var match$6 = Modality$ReasonReactExamples.getValue(/* Icon */2, config.modalities);
-    tmp = React.createElement("div", {
-          style: {
-            display: "flex",
-            margin: "25px",
-            justifyContent: "center"
-          }
-        }, match$4 !== undefined ? React.createElement("label", undefined, React.createElement("input", {
-                    checked: answer.position,
-                    type: "checkbox",
-                    onChange: (function (param) {
-                        return Curry._1(setAnswer, (function (currentAnswer) {
-                                      return Answer$ReasonReactExamples.toggle(/* Position */0, currentAnswer);
-                                    }));
-                      })
-                  }), "Same Position") : null, match$5 !== undefined ? React.createElement("label", undefined, React.createElement("input", {
-                    checked: answer.color,
-                    type: "checkbox",
-                    onChange: (function (param) {
-                        return Curry._1(setAnswer, (function (currentAnswer) {
-                                      return Answer$ReasonReactExamples.toggle(/* Color */1, currentAnswer);
-                                    }));
-                      })
-                  }), "Same Color") : null, match$6 !== undefined ? React.createElement("label", undefined, React.createElement("input", {
-                    checked: answer.icon,
-                    type: "checkbox",
-                    onChange: (function (param) {
-                        return Curry._1(setAnswer, (function (currentAnswer) {
-                                      return Answer$ReasonReactExamples.toggle(/* Icon */2, currentAnswer);
-                                    }));
-                      })
-                  }), "Same Icon") : null);
-  } else {
-    tmp = null;
-  }
   return React.createElement("div", undefined, React.createElement("div", {
                   style: {
                     margin: "20px 10px"
@@ -102,7 +64,32 @@ function App(Props) {
                   }
                 }, React.createElement("button", {
                       onClick: advanceState
-                    }, "Next")), tmp);
+                    }, "Next")), List.length(stateHistory) >= config.depth ? React.createElement("div", {
+                    style: {
+                      display: "flex",
+                      margin: "25px",
+                      justifyContent: "center"
+                    }
+                  }, $$Array.map((function (modality) {
+                          var match = Modality$ReasonReactExamples.getValue(modality, config.modalities);
+                          if (match !== undefined) {
+                            return React.createElement("label", {
+                                        style: {
+                                          margin: "12px"
+                                        }
+                                      }, React.createElement("input", {
+                                            checked: Modality$ReasonReactExamples.getValue(modality, answer),
+                                            type: "checkbox",
+                                            onChange: (function (param) {
+                                                return Curry._1(setAnswer, (function (currentAnswer) {
+                                                              return Answer$ReasonReactExamples.toggle(modality, currentAnswer);
+                                                            }));
+                                              })
+                                          }), "Same " + Modality$ReasonReactExamples.getLabel(modality));
+                          } else {
+                            return null;
+                          }
+                        }), Modality$ReasonReactExamples.allModalityTypes)) : null);
 }
 
 var make = App;

@@ -60,42 +60,22 @@ let make = () => {
            ~justifyContent="center",
            (),
          )}>
-         {switch (Modality.getValue(Position, config.modalities)) {
-          | Some(_) =>
-            <label>
-              <input
-                onChange={_ => toggleAnswer(Modality.Position)}
-                type_="checkbox"
-                checked={answer.position}
-              />
-              {React.string("Same Position")}
-            </label>
-          | None => React.null
-          }}
-         {switch (Modality.getValue(Color, config.modalities)) {
-          | Some(_) =>
-            <label>
-              <input
-                onChange={_ => toggleAnswer(Modality.Color)}
-                type_="checkbox"
-                checked={answer.color}
-              />
-              {React.string("Same Color")}
-            </label>
-          | None => React.null
-          }}
-         {switch (Modality.getValue(Icon, config.modalities)) {
-          | Some(_) =>
-            <label>
-              <input
-                onChange={_ => toggleAnswer(Modality.Icon)}
-                type_="checkbox"
-                checked={answer.icon}
-              />
-              {React.string("Same Icon")}
-            </label>
-          | None => React.null
-          }}
+         {Modality.allModalityTypes
+          |> Array.map(modality => {
+               switch (config.modalities |> Modality.getValue(modality)) {
+               | Some(_) =>
+                 <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
+                   <input
+                     type_="checkbox"
+                     checked={answer |> Modality.getValue(modality)}
+                     onChange={_ => toggleAnswer(modality)}
+                   />
+                   {React.string("Same " ++ Modality.getLabel(modality))}
+                 </label>
+               | None => React.null
+               }
+             })
+          |> React.array}
        </div>;
      } else {
        React.null;

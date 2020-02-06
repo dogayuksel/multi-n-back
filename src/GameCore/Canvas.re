@@ -1,35 +1,30 @@
 let getValue = Modality.getValue;
 
+type modalityIndices = Modality.modalities(int);
+
 [@react.component]
 let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
-  let (positionDepth, positionIndex) =
-    switch (
-      config.modalities |> getValue(Position),
-      gameState |> getValue(Position),
-    ) {
-    | (Some(positionDepth), Some(positionIndex)) => (
-        positionDepth,
-        positionIndex,
-      )
-    | _ => (1, 0)
-    };
+  let modalityIndices =
+    Modality.allModalityTypes
+    |> Array.fold_left(
+         (acc, modality) => {
+           let value =
+             switch (
+               config.modalities |> getValue(modality),
+               gameState |> getValue(modality),
+             ) {
+             | (Some(_), Some(index)) => index
+             | _ => 0
+             };
+           acc |> Modality.setValue(modality, value);
+         },
+         Modality.make(0),
+       );
 
-  let colorIndex =
-    switch (
-      config.modalities |> getValue(Color),
-      gameState |> getValue(Color),
-    ) {
-    | (Some(_), Some(colorIndex)) => colorIndex
-    | _ => 0
-    };
-
-  let iconIndex =
-    switch (
-      config.modalities |> getValue(Icon),
-      gameState |> getValue(Icon),
-    ) {
-    | (Some(_), Some(iconIndex)) => iconIndex
-    | _ => 0
+  let positionDepth =
+    switch (config.modalities |> getValue(Position)) {
+    | Some(positionDepth) => positionDepth
+    | _ => 1
     };
 
   let wrapperStyles =
@@ -48,9 +43,13 @@ let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
     )}>
     {Array.make(positionDepth * positionDepth, 0)
      |> Array.mapi((renderIndex, _) => {
-          let active = positionIndex == renderIndex;
-          <Color key={string_of_int(renderIndex)} active index=colorIndex>
-            <Icon active index=iconIndex />
+          let active =
+            modalityIndices |> Modality.getValue(Position) == renderIndex;
+          <Color
+            key={string_of_int(renderIndex)}
+            active
+            index={modalityIndices |> Modality.getValue(Color)}>
+            <Icon active index={modalityIndices |> Modality.getValue(Icon)} />
           </Color>;
         })
      |> ReasonReact.array}

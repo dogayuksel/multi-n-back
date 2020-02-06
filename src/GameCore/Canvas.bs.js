@@ -12,23 +12,14 @@ var Modality$ReasonReactExamples = require("./Modality/Modality.bs.js");
 function Canvas(Props) {
   var config = Props.config;
   var gameState = Props.gameState;
+  var modalityIndices = $$Array.fold_left((function (acc, modality) {
+          var match = Modality$ReasonReactExamples.getValue(modality, config.modalities);
+          var match$1 = Modality$ReasonReactExamples.getValue(modality, gameState);
+          var value = match !== undefined && match$1 !== undefined ? match$1 : 0;
+          return Modality$ReasonReactExamples.setValue(modality, value, acc);
+        }), Modality$ReasonReactExamples.make(0), Modality$ReasonReactExamples.allModalityTypes);
   var match = Modality$ReasonReactExamples.getValue(/* Position */0, config.modalities);
-  var match$1 = Modality$ReasonReactExamples.getValue(/* Position */0, gameState);
-  var match$2 = match !== undefined && match$1 !== undefined ? /* tuple */[
-      match,
-      match$1
-    ] : /* tuple */[
-      1,
-      0
-    ];
-  var positionIndex = match$2[1];
-  var positionDepth = match$2[0];
-  var match$3 = Modality$ReasonReactExamples.getValue(/* Color */1, config.modalities);
-  var match$4 = Modality$ReasonReactExamples.getValue(/* Color */1, gameState);
-  var colorIndex = match$3 !== undefined && match$4 !== undefined ? match$4 : 0;
-  var match$5 = Modality$ReasonReactExamples.getValue(/* Icon */2, config.modalities);
-  var match$6 = Modality$ReasonReactExamples.getValue(/* Icon */2, gameState);
-  var iconIndex = match$5 !== undefined && match$6 !== undefined ? match$6 : 0;
+  var positionDepth = match !== undefined ? match : 1;
   var wrapperStyles = {
     display: "grid",
     alignItems: "center",
@@ -37,14 +28,14 @@ function Canvas(Props) {
   return React.createElement("div", {
               style: ReactDOMRe.Style.unsafeAddProp(wrapperStyles, "gridTemplateColumns", "repeat(" + (String(positionDepth) + ", 1fr)"))
             }, $$Array.mapi((function (renderIndex, param) {
-                    var active = positionIndex === renderIndex;
+                    var active = Modality$ReasonReactExamples.getValue(/* Position */0, modalityIndices) === renderIndex;
                     return React.createElement(Color$ReasonReactExamples.make, {
                                 children: React.createElement(Icon$ReasonReactExamples.make, {
-                                      index: iconIndex,
+                                      index: Modality$ReasonReactExamples.getValue(/* Icon */2, modalityIndices),
                                       active: active
                                     }),
                                 active: active,
-                                index: colorIndex,
+                                index: Modality$ReasonReactExamples.getValue(/* Color */1, modalityIndices),
                                 key: String(renderIndex)
                               });
                   }), Caml_array.caml_make_vect(Caml_int32.imul(positionDepth, positionDepth), 0)));
