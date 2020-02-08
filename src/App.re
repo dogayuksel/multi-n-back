@@ -1,6 +1,6 @@
 [@react.component]
 let make = () => {
-  let (config, _setConfig) =
+  let (config, setConfig) =
     React.useState(() => GameConfiguration.makeDefault());
   let (gameState, setGameState) =
     React.useState(() => GameState.makeRandom(config));
@@ -12,6 +12,20 @@ let make = () => {
 
   let toggleAnswer = modality => {
     setAnswer(currentAnswer => {currentAnswer |> Answer.toggle(modality)});
+  };
+
+  let updateModalityConfig = (modality: Modality.t, event: ReactEvent.Form.t) => {
+    let value = event->ReactEvent.Form.target##value |> int_of_string_opt;
+    setConfig(currentConfig =>
+      currentConfig |> GameConfiguration.updateModality(modality, value)
+    );
+  };
+
+  let updateDepthConfig = (event: ReactEvent.Form.t) => {
+    let value = event->ReactEvent.Form.target##value |> int_of_string;
+    setConfig(currentConfig =>
+      currentConfig |> GameConfiguration.updateDepth(value)
+    );
   };
 
   let advanceState = _ => {
@@ -50,7 +64,10 @@ let make = () => {
         ~justifyContent="center",
         (),
       )}>
-      <button onClick=advanceState> {React.string("Next")} </button>
+      <button onClick=advanceState>
+        {List.length(stateHistory) == 0
+           ? React.string("Start") : React.string("Next")}
+      </button>
     </div>
     {if (List.length(stateHistory) >= config.depth) {
        <div
@@ -76,6 +93,58 @@ let make = () => {
                }
              })
           |> React.array}
+       </div>;
+     } else {
+       React.null;
+     }}
+    {if (List.length(stateHistory) == 0) {
+       <div
+         style={ReactDOMRe.Style.make(
+           ~margin="25px",
+           ~display="flex",
+           ~flexDirection="column",
+           ~justifyContent="center",
+           ~alignItems="center",
+           (),
+         )}>
+         <div> {React.string("Configure")} </div>
+         {Modality.allModalityTypes
+          |> Array.map(modality => {
+               <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
+                 {React.string(modality |> Modality.getLabel)}
+                 <select
+                   onChange={event => updateModalityConfig(modality, event)}
+                   value={
+                     switch (config.modalities |> Modality.getValue(modality)) {
+                     | Some(value) => string_of_int(value)
+                     | None => "Disabled"
+                     }
+                   }>
+                   <option value="Disabled">
+                     {React.string("Disabled")}
+                   </option>
+                   <option value="2"> {React.string("2")} </option>
+                   <option value="3"> {React.string("3")} </option>
+                   <option value="4"> {React.string("4")} </option>
+                   <option value="5"> {React.string("5")} </option>
+                   <option value="7"> {React.string("7")} </option>
+                   <option value="10"> {React.string("10")} </option>
+                 </select>
+               </label>
+             })
+          |> React.array}
+         <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
+           {React.string("Depth")}
+           <select
+             onChange={event => updateDepthConfig(event)}
+             value={string_of_int(config.depth)}>
+             <option value="1"> {React.string("1")} </option>
+             <option value="2"> {React.string("2")} </option>
+             <option value="3"> {React.string("3")} </option>
+             <option value="4"> {React.string("4")} </option>
+             <option value="5"> {React.string("5")} </option>
+           </select>
+         </label>
        </div>;
      } else {
        React.null;

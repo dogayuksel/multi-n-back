@@ -13,3 +13,19 @@ let makeDefault = () => {
   },
   depth: 1,
 };
+
+let updateModality = (modality: Modality.t, value: option(int), config: t) => {
+  {
+    ...config,
+    modalities:
+      switch (modality) {
+      | Modality.Position => {...config.modalities, position: value}
+      | Modality.Color => {...config.modalities, color: value}
+      | Modality.Icon => {...config.modalities, icon: value}
+      },
+  };
+};
+
+let updateDepth = (value: int, config: t) => {
+  {...config, depth: value};
+};

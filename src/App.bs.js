@@ -4,6 +4,8 @@ var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
+var Pervasives = require("bs-platform/lib/js/pervasives.js");
+var Caml_format = require("bs-platform/lib/js/caml_format.js");
 var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
 var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
@@ -14,6 +16,7 @@ function App(Props) {
   var match = React.useState((function () {
           return GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
         }));
+  var setConfig = match[1];
   var config = match[0];
   var match$1 = React.useState((function () {
           return GameState$ReasonReactExamples.makeRandom(config);
@@ -49,6 +52,7 @@ function App(Props) {
                 }));
   };
   var value = List.length(stateHistory);
+  var match$4 = List.length(stateHistory) === 0;
   return React.createElement("div", undefined, React.createElement("div", {
                   style: {
                     margin: "20px 10px"
@@ -64,7 +68,7 @@ function App(Props) {
                   }
                 }, React.createElement("button", {
                       onClick: advanceState
-                    }, "Next")), List.length(stateHistory) >= config.depth ? React.createElement("div", {
+                    }, match$4 ? "Start" : "Next")), List.length(stateHistory) >= config.depth ? React.createElement("div", {
                     style: {
                       display: "flex",
                       margin: "25px",
@@ -89,7 +93,69 @@ function App(Props) {
                           } else {
                             return null;
                           }
-                        }), Modality$ReasonReactExamples.allModalityTypes)) : null);
+                        }), Modality$ReasonReactExamples.allModalityTypes)) : null, List.length(stateHistory) === 0 ? React.createElement("div", {
+                    style: {
+                      display: "flex",
+                      margin: "25px",
+                      alignItems: "center",
+                      flexDirection: "column",
+                      justifyContent: "center"
+                    }
+                  }, React.createElement("div", undefined, "Configure"), $$Array.map((function (modality) {
+                          var match = Modality$ReasonReactExamples.getValue(modality, config.modalities);
+                          return React.createElement("label", {
+                                      style: {
+                                        margin: "12px"
+                                      }
+                                    }, Modality$ReasonReactExamples.getLabel(modality), React.createElement("select", {
+                                          value: match !== undefined ? String(match) : "Disabled",
+                                          onChange: (function ($$event) {
+                                              var modality$1 = modality;
+                                              var $$event$1 = $$event;
+                                              var value = Pervasives.int_of_string_opt($$event$1.target.value);
+                                              return Curry._1(setConfig, (function (currentConfig) {
+                                                            return GameConfiguration$ReasonReactExamples.updateModality(modality$1, value, currentConfig);
+                                                          }));
+                                            })
+                                        }, React.createElement("option", {
+                                              value: "Disabled"
+                                            }, "Disabled"), React.createElement("option", {
+                                              value: "2"
+                                            }, "2"), React.createElement("option", {
+                                              value: "3"
+                                            }, "3"), React.createElement("option", {
+                                              value: "4"
+                                            }, "4"), React.createElement("option", {
+                                              value: "5"
+                                            }, "5"), React.createElement("option", {
+                                              value: "7"
+                                            }, "7"), React.createElement("option", {
+                                              value: "10"
+                                            }, "10")));
+                        }), Modality$ReasonReactExamples.allModalityTypes), React.createElement("label", {
+                        style: {
+                          margin: "12px"
+                        }
+                      }, "Depth", React.createElement("select", {
+                            value: String(config.depth),
+                            onChange: (function ($$event) {
+                                var $$event$1 = $$event;
+                                var value = Caml_format.caml_int_of_string($$event$1.target.value);
+                                return Curry._1(setConfig, (function (currentConfig) {
+                                              return GameConfiguration$ReasonReactExamples.updateDepth(value, currentConfig);
+                                            }));
+                              })
+                          }, React.createElement("option", {
+                                value: "1"
+                              }, "1"), React.createElement("option", {
+                                value: "2"
+                              }, "2"), React.createElement("option", {
+                                value: "3"
+                              }, "3"), React.createElement("option", {
+                                value: "4"
+                              }, "4"), React.createElement("option", {
+                                value: "5"
+                              }, "5")))) : null);
 }
 
 var make = App;
