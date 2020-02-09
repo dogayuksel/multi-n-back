@@ -5,6 +5,7 @@ var React = require("react");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 var Caml_int32 = require("bs-platform/lib/js/caml_int32.js");
 var ReactDOMRe = require("reason-react/src/ReactDOMRe.js");
+var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
 var Icon$ReasonReactExamples = require("./Modality/Icon.bs.js");
 var Color$ReasonReactExamples = require("./Modality/Color.bs.js");
 var Modality$ReasonReactExamples = require("./Modality/Modality.bs.js");
@@ -32,9 +33,9 @@ function Canvas(Props) {
                     return React.createElement(Color$ReasonReactExamples.make, {
                                 children: React.createElement(Icon$ReasonReactExamples.make, {
                                       index: Modality$ReasonReactExamples.getValue(/* Icon */2, modalityIndices),
-                                      active: active
+                                      active: active && Belt_Option.isSome(Modality$ReasonReactExamples.getValue(/* Icon */2, config.modalities))
                                     }),
-                                active: active,
+                                active: active && Belt_Option.isSome(Modality$ReasonReactExamples.getValue(/* Color */1, config.modalities)),
                                 index: Modality$ReasonReactExamples.getValue(/* Color */1, modalityIndices),
                                 key: String(renderIndex)
                               });

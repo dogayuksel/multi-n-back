@@ -47,9 +47,22 @@ let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
             modalityIndices |> Modality.getValue(Position) == renderIndex;
           <Color
             key={string_of_int(renderIndex)}
-            active
+            active={
+              active
+              && config.modalities
+              |> Modality.getValue(Color)
+              |> Belt.Option.isSome
+            }
             index={modalityIndices |> Modality.getValue(Color)}>
-            <Icon active index={modalityIndices |> Modality.getValue(Icon)} />
+            <Icon
+              active={
+                active
+                && config.modalities
+                |> Modality.getValue(Icon)
+                |> Belt.Option.isSome
+              }
+              index={modalityIndices |> Modality.getValue(Icon)}
+            />
           </Color>;
         })
      |> ReasonReact.array}
