@@ -24,7 +24,8 @@ let compareValue =
       modalityAnswer: bool,
       modalityOldValue: option(int),
       modalityValue: option(int),
-    ) =>
+    )
+    : bool =>
   switch (modalityConfig, modalityAnswer, modalityOldValue, modalityValue) {
   | (Some(_), isSame, Some(oldValue), Some(value)) =>
     oldValue == value == isSame
@@ -37,7 +38,8 @@ let compareToHistory =
       gameState: t,
       stateHistory: stateHistory,
       configuration: GameConfiguration.t,
-    ) => {
+    )
+    : bool => {
   let oldState = stateHistory->List.nth(configuration.depth - 1);
   Modality.allModalityTypes
   |> Array.for_all(modality =>

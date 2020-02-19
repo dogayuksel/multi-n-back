@@ -9,6 +9,7 @@ let make = () => {
   let (answer, setAnswer) = {
     React.useState(() => Answer.make());
   };
+  let (score, setScore) = React.useState(() => 0);
 
   let toggleAnswer = modality => {
     setAnswer(currentAnswer => {currentAnswer |> Answer.toggle(modality)});
@@ -37,8 +38,10 @@ let make = () => {
               currentHistory,
               config,
             )) {
+          setScore(score => Score.calculateScore(config) + score);
           [gameState, ...currentHistory];
         } else {
+          setScore(_ => 0);
           [];
         };
       } else {
@@ -54,6 +57,12 @@ let make = () => {
       {switch (stateHistory |> List.length) {
        | 0 => React.string("First Turn!")
        | value => React.string("Turn: " ++ string_of_int(value + 1))
+       }}
+    </div>
+    <div style={ReactDOMRe.Style.make(~margin="20px 10px", ())}>
+      {switch (score) {
+       | 0 => React.null
+       | value => React.string("Score: " ++ string_of_int(value + 1))
        }}
     </div>
     <Canvas config gameState />

@@ -6,6 +6,7 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
+var Score$ReasonReactExamples = require("./GameCore/Score.bs.js");
 var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
 var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
@@ -33,10 +34,28 @@ function App(Props) {
         }));
   var setAnswer = match$3[1];
   var answer = match$3[0];
+  var match$4 = React.useState((function () {
+          return 0;
+        }));
+  var setScore = match$4[1];
+  var score = match$4[0];
   var advanceState = function (param) {
     Curry._1(setStateHistory, (function (currentHistory) {
-            if (List.length(currentHistory) >= config.depth && !GameState$ReasonReactExamples.compareToHistory(answer, gameState, currentHistory, config)) {
-              return /* [] */0;
+            if (List.length(currentHistory) >= config.depth) {
+              if (GameState$ReasonReactExamples.compareToHistory(answer, gameState, currentHistory, config)) {
+                Curry._1(setScore, (function (score) {
+                        return Score$ReasonReactExamples.calculateScore(config) + score | 0;
+                      }));
+                return /* :: */[
+                        gameState,
+                        currentHistory
+                      ];
+              } else {
+                Curry._1(setScore, (function (param) {
+                        return 0;
+                      }));
+                return /* [] */0;
+              }
             } else {
               return /* :: */[
                       gameState,
@@ -52,12 +71,16 @@ function App(Props) {
                 }));
   };
   var value = List.length(stateHistory);
-  var match$4 = List.length(stateHistory) === 0;
+  var match$5 = List.length(stateHistory) === 0;
   return React.createElement("div", undefined, React.createElement("div", {
                   style: {
                     margin: "20px 10px"
                   }
-                }, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement(Canvas$ReasonReactExamples.make, {
+                }, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement("div", {
+                  style: {
+                    margin: "20px 10px"
+                  }
+                }, score !== 0 ? "Score: " + String(score + 1 | 0) : null), React.createElement(Canvas$ReasonReactExamples.make, {
                   config: config,
                   gameState: gameState
                 }), React.createElement("div", {
@@ -68,7 +91,7 @@ function App(Props) {
                   }
                 }, React.createElement("button", {
                       onClick: advanceState
-                    }, match$4 ? "Start" : "Next")), List.length(stateHistory) >= config.depth ? React.createElement("div", {
+                    }, match$5 ? "Start" : "Next")), List.length(stateHistory) >= config.depth ? React.createElement("div", {
                     style: {
                       display: "flex",
                       margin: "25px",
