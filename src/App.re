@@ -10,6 +10,7 @@ let make = () => {
     React.useState(() => Answer.make());
   };
   let (score, setScore) = React.useState(() => 0);
+  let (highScore, setHighScore) = React.useState(() => Score.getHighScore());
 
   let toggleAnswer = modality => {
     setAnswer(currentAnswer => {currentAnswer |> Answer.toggle(modality)});
@@ -46,7 +47,10 @@ let make = () => {
           });
           [gameState, ...currentHistory];
         | None =>
-          setScore(_ => 0);
+          setScore(score => {
+            setHighScore(_ => Some(Score.updateHighScore(score)));
+            0;
+          });
           [];
         };
       } else {
@@ -67,7 +71,13 @@ let make = () => {
     <div style={ReactDOMRe.Style.make(~margin="20px 10px", ())}>
       {switch (score) {
        | 0 => React.null
-       | value => React.string("Score: " ++ string_of_int(value + 1))
+       | value => React.string("Score: " ++ string_of_int(value))
+       }}
+    </div>
+    <div style={ReactDOMRe.Style.make(~margin="20px 10px", ())}>
+      {switch (highScore) {
+       | None => React.null
+       | Some(value) => React.string("High Score: " ++ string_of_int(value))
        }}
     </div>
     <Canvas config gameState />

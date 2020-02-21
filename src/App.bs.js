@@ -39,6 +39,11 @@ function App(Props) {
         }));
   var setScore = match$4[1];
   var score = match$4[0];
+  var match$5 = React.useState((function () {
+          return Score$ReasonReactExamples.getHighScore(/* () */0);
+        }));
+  var setHighScore = match$5[1];
+  var highScore = match$5[0];
   var advanceState = function (param) {
     Curry._1(setStateHistory, (function (currentHistory) {
             if (List.length(currentHistory) >= config.depth) {
@@ -53,7 +58,10 @@ function App(Props) {
                         currentHistory
                       ];
               } else {
-                Curry._1(setScore, (function (param) {
+                Curry._1(setScore, (function (score) {
+                        Curry._1(setHighScore, (function (param) {
+                                return Score$ReasonReactExamples.updateHighScore(score);
+                              }));
                         return 0;
                       }));
                 return /* [] */0;
@@ -73,7 +81,7 @@ function App(Props) {
                 }));
   };
   var value = List.length(stateHistory);
-  var match$5 = List.length(stateHistory) === 0;
+  var match$6 = List.length(stateHistory) === 0;
   return React.createElement("div", undefined, React.createElement("div", {
                   style: {
                     margin: "20px 10px"
@@ -82,7 +90,11 @@ function App(Props) {
                   style: {
                     margin: "20px 10px"
                   }
-                }, score !== 0 ? "Score: " + String(score + 1 | 0) : null), React.createElement(Canvas$ReasonReactExamples.make, {
+                }, score !== 0 ? "Score: " + String(score) : null), React.createElement("div", {
+                  style: {
+                    margin: "20px 10px"
+                  }
+                }, highScore !== undefined ? "High Score: " + String(highScore) : null), React.createElement(Canvas$ReasonReactExamples.make, {
                   config: config,
                   gameState: gameState
                 }), React.createElement("div", {
@@ -93,7 +105,7 @@ function App(Props) {
                   }
                 }, React.createElement("button", {
                       onClick: advanceState
-                    }, match$5 ? "Start" : "Next")), List.length(stateHistory) >= config.depth ? React.createElement("div", {
+                    }, match$6 ? "Start" : "Next")), List.length(stateHistory) >= config.depth ? React.createElement("div", {
                     style: {
                       display: "flex",
                       margin: "25px",
