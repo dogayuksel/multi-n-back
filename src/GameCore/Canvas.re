@@ -36,6 +36,7 @@ let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
     );
 
   <div
+    className="containerCanvas"
     style={ReactDOMRe.Style.unsafeAddProp(
       wrapperStyles,
       "gridTemplateColumns",

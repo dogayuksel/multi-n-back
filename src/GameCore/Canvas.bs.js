@@ -27,6 +27,7 @@ function Canvas(Props) {
     justifyItems: "center"
   };
   return React.createElement("div", {
+              className: "containerCanvas",
               style: ReactDOMRe.Style.unsafeAddProp(wrapperStyles, "gridTemplateColumns", "repeat(" + (String(positionDepth) + ", 1fr)"))
             }, $$Array.mapi((function (renderIndex, param) {
                     var active = Modality$ReasonReactExamples.getValue(/* Position */0, modalityIndices) === renderIndex;

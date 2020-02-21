@@ -6,39 +6,56 @@ let reasonReactBlue = "#48a9dc";
 // constructing a string
 let style = {j|
   body {
-    background-color: rgb(224, 226, 229);
+    background-color: #e0e2ef;
     display: flex;
     flex-direction: column;
     align-items: center;
   }
+
   button {
-    background-color: white;
-    color: $reasonReactBlue;
-    box-shadow: 0 0 0 1px $reasonReactBlue;
+    box-shadow:  6px  6px 20px #c1c2ce,
+                -6px -6px 20px #ffffff;
+    border-radius: 5px;
     border: none;
+    background-color: #e0e2ef;
     padding: 8px;
+    color: $reasonReactBlue;
     font-size: 16px;
   }
+
   button:active {
-    background-color: $reasonReactBlue;
-    color: white;
+    box-shadow:  3px  3px 10px #c1c2ce,
+                -3px -3px 10px #ffffff;
+    background: linear-gradient(135deg, #cacbd7, #f0f2ff);
   }
+
   .container {
-    margin: 12px 0px;
-    box-shadow: 0px 4px 16px rgb(200, 200, 200);
+    margin: 50px 25px;
+    box-shadow:  16px  16px 40px #c1c2ce,
+                -16px -16px 40px #ffffff;
+    border-radius: 50px;
     width: 720px;
     border-radius: 12px;
     font-family: sans-serif;
   }
+
   .containerTitle {
-    background-color: rgb(242, 243, 245);
-    border-radius: 12px 12px 0px 0px;
     padding: 12px;
-    font-weight: bold;
+    font-weight: 500;
   }
+
   .containerContent {
-    background-color: white;
-    padding: 16px;
     border-radius: 0px 0px 12px 12px;
+    background-color: #e0e2ef;
+    padding: 16px;
+  }
+
+  .containerCanvas {
+   margin: 40px;
+   box-shadow: inset  12px  12px 30px #c1c2ce,
+               inset -12px -12px 30px #ffffff;
+   border-radius: 20px;
+   background: #e0e2ef;
+   padding: 40px;
   }
 |j};
