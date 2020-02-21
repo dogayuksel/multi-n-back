@@ -62,23 +62,28 @@ let make = () => {
   };
 
   <div>
-    <div style={ReactDOMRe.Style.make(~margin="20px 10px", ())}>
-      {switch (stateHistory |> List.length) {
-       | 0 => React.string("First Turn!")
-       | value => React.string("Turn: " ++ string_of_int(value + 1))
-       }}
-    </div>
-    <div style={ReactDOMRe.Style.make(~margin="20px 10px", ())}>
-      {switch (score) {
-       | 0 => React.null
-       | value => React.string("Score: " ++ string_of_int(value))
-       }}
-    </div>
-    <div style={ReactDOMRe.Style.make(~margin="20px 10px", ())}>
-      {switch (highScore) {
-       | None => React.null
-       | Some(value) => React.string("High Score: " ++ string_of_int(value))
-       }}
+    <div className="containerOverview">
+      <div className="containerScore">
+        <div>
+          {switch (stateHistory |> List.length) {
+           | 0 => React.string("First Turn!")
+           | value => React.string("Turn: " ++ string_of_int(value + 1))
+           }}
+        </div>
+        <div>
+          {switch (score) {
+           | 0 => React.null
+           | value => React.string("Score: " ++ string_of_int(value))
+           }}
+        </div>
+      </div>
+      <div className="containerScore">
+        {switch (highScore) {
+         | None => React.null
+         | Some(value) =>
+           React.string("High Score: " ++ string_of_int(value))
+         }}
+      </div>
     </div>
     <Canvas config gameState />
     <div

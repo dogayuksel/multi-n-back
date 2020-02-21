@@ -83,18 +83,12 @@ function App(Props) {
   var value = List.length(stateHistory);
   var match$6 = List.length(stateHistory) === 0;
   return React.createElement("div", undefined, React.createElement("div", {
-                  style: {
-                    margin: "20px 10px"
-                  }
-                }, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement("div", {
-                  style: {
-                    margin: "20px 10px"
-                  }
-                }, score !== 0 ? "Score: " + String(score) : null), React.createElement("div", {
-                  style: {
-                    margin: "20px 10px"
-                  }
-                }, highScore !== undefined ? "High Score: " + String(highScore) : null), React.createElement(Canvas$ReasonReactExamples.make, {
+                  className: "containerOverview"
+                }, React.createElement("div", {
+                      className: "containerScore"
+                    }, React.createElement("div", undefined, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement("div", undefined, score !== 0 ? "Score: " + String(score) : null)), React.createElement("div", {
+                      className: "containerScore"
+                    }, highScore !== undefined ? "High Score: " + String(highScore) : null)), React.createElement(Canvas$ReasonReactExamples.make, {
                   config: config,
                   gameState: gameState
                 }), React.createElement("div", {
