@@ -1,3 +1,31 @@
+type state = {
+  config: GameConfiguration.t,
+  gameState: GameState.t,
+};
+
+type action =
+  | UpdateConfig(GameConfiguration.t)
+  | UpdateGameState(GameState.t)
+  | ResetGameState;
+
+let initialConfig = GameConfiguration.makeDefault();
+
+let initialState: state = {
+  config: initialConfig,
+  gameState: GameState.makeRandom(initialConfig),
+};
+
+let reducer = (state: state, action: action): state => {
+  switch (action) {
+  | UpdateConfig(newConfig) => {...state, config: newConfig}
+  | UpdateGameState(newState) => {...state, gameState: newState}
+  | ResetGameState => {
+      ...state,
+      gameState: GameState.makeRandom(state.config),
+    }
+  };
+};
+
 [@react.component]
 let make = () => {
   let (config, setConfig) =

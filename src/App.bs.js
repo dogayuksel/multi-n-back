@@ -13,6 +13,34 @@ var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js")
 var GameState$ReasonReactExamples = require("./GameCore/GameState.bs.js");
 var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguration.bs.js");
 
+var initialConfig = GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
+
+var initialState_gameState = GameState$ReasonReactExamples.makeRandom(initialConfig);
+
+var initialState = {
+  config: initialConfig,
+  gameState: initialState_gameState
+};
+
+function reducer(state, action) {
+  if (typeof action === "number") {
+    return {
+            config: state.config,
+            gameState: GameState$ReasonReactExamples.makeRandom(state.config)
+          };
+  } else if (action.tag) {
+    return {
+            config: state.config,
+            gameState: action[0]
+          };
+  } else {
+    return {
+            config: action[0],
+            gameState: state.gameState
+          };
+  }
+}
+
 function App(Props) {
   var match = React.useState((function () {
           return GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
@@ -193,5 +221,8 @@ function App(Props) {
 
 var make = App;
 
+exports.initialConfig = initialConfig;
+exports.initialState = initialState;
+exports.reducer = reducer;
 exports.make = make;
-/* react Not a pure module */
+/* initialConfig Not a pure module */
