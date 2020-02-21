@@ -34,7 +34,7 @@ let style = {j|
     box-shadow:  16px  16px 40px #c1c2ce,
                 -16px -16px 40px #ffffff;
     border-radius: 50px;
-    width: 720px;
+    min-width: 720px;
     border-radius: 12px;
     font-family: sans-serif;
   }

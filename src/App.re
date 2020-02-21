@@ -32,15 +32,20 @@ let make = () => {
   let advanceState = _ => {
     setStateHistory(currentHistory =>
       if (currentHistory->List.length >= config.depth) {
-        if (GameState.compareToHistory(
-              answer,
-              gameState,
-              currentHistory,
-              config,
-            )) {
-          setScore(score => Score.calculateScore(config) + score);
+        switch (
+          GameState.compareToHistory(
+            answer,
+            gameState,
+            currentHistory,
+            config,
+          )
+        ) {
+        | Some(result) =>
+          setScore(score => {
+            Score.calculateScore(result, config.depth) + score
+          });
           [gameState, ...currentHistory];
-        } else {
+        | None =>
           setScore(_ => 0);
           [];
         };
@@ -90,7 +95,9 @@ let make = () => {
           |> Array.map(modality => {
                switch (config.modalities |> Modality.getValue(modality)) {
                | Some(_) =>
-                 <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
+                 <label
+                   key={Modality.getLabel(modality) ++ "_answer"}
+                   style={ReactDOMRe.Style.make(~margin="12px", ())}>
                    <input
                      type_="checkbox"
                      checked={answer |> Modality.getValue(modality)}
@@ -119,7 +126,9 @@ let make = () => {
          <div> {React.string("Configure")} </div>
          {Modality.allModalityTypes
           |> Array.map(modality => {
-               <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
+               <label
+                 key={Modality.getLabel(modality) ++ "_config"}
+                 style={ReactDOMRe.Style.make(~margin="12px", ())}>
                  {React.string(modality |> Modality.getLabel)}
                  <select
                    onChange={event => updateModalityConfig(modality, event)}

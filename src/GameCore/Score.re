@@ -1,12 +1,12 @@
-let calculateScore = (config: GameConfiguration.t): int => {
+let calculateScore = (result: GameState.result, depth: int): int => {
   Modality.allModalityTypes
   |> Array.fold_left(
        (acc, cur) =>
-         switch (config.modalities |> Modality.getValue(cur)) {
+         switch (result |> Modality.getValue(cur)) {
          | Some(value) => acc * value
          | None => acc
          },
        1,
      )
-  |> ( * )(config.depth);
+  |> ( * )(depth * 2);
 };

@@ -27,11 +27,38 @@ function compareValue(modalityConfig, modalityAnswer, modalityOldValue, modality
   }
 }
 
+function makeEmptyResult(param) {
+  return {
+          position: undefined,
+          color: undefined,
+          icon: undefined
+        };
+}
+
+function makeResult(answer, configuration) {
+  return $$Array.fold_left((function (result, modality) {
+                var match = Modality$ReasonReactExamples.getValue(modality, answer);
+                if (match) {
+                  return Modality$ReasonReactExamples.setValue(modality, Modality$ReasonReactExamples.getValue(modality, configuration.modalities), result);
+                } else {
+                  return result;
+                }
+              }), {
+              position: undefined,
+              color: undefined,
+              icon: undefined
+            }, Modality$ReasonReactExamples.allModalityTypes);
+}
+
 function compareToHistory(answer, gameState, stateHistory, configuration) {
   var oldState = List.nth(stateHistory, configuration.depth - 1 | 0);
-  return $$Array.for_all((function (modality) {
-                return compareValue(Modality$ReasonReactExamples.getValue(modality, configuration.modalities), Modality$ReasonReactExamples.getValue(modality, answer), Modality$ReasonReactExamples.getValue(modality, oldState), Modality$ReasonReactExamples.getValue(modality, gameState));
-              }), Modality$ReasonReactExamples.allModalityTypes);
+  var match = $$Array.for_all((function (modality) {
+          return compareValue(Modality$ReasonReactExamples.getValue(modality, configuration.modalities), Modality$ReasonReactExamples.getValue(modality, answer), Modality$ReasonReactExamples.getValue(modality, oldState), Modality$ReasonReactExamples.getValue(modality, gameState));
+        }), Modality$ReasonReactExamples.allModalityTypes);
+  if (match) {
+    return makeResult(answer, configuration);
+  }
+  
 }
 
 var getValue = Modality$ReasonReactExamples.getValue;
@@ -39,5 +66,7 @@ var getValue = Modality$ReasonReactExamples.getValue;
 exports.getValue = getValue;
 exports.makeRandom = makeRandom;
 exports.compareValue = compareValue;
+exports.makeEmptyResult = makeEmptyResult;
+exports.makeResult = makeResult;
 exports.compareToHistory = compareToHistory;
 /* No side effect */

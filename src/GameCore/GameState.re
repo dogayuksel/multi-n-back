@@ -32,6 +32,28 @@ let compareValue =
   | _ => true
   };
 
+type result = Modality.modalities(option(int));
+
+let makeEmptyResult = (): result => {
+  {position: None, color: None, icon: None};
+};
+
+let makeResult =
+    (answer: Answer.t, configuration: GameConfiguration.t): result => {
+  Modality.allModalityTypes
+  |> Array.fold_left(
+       (result, modality) =>
+         answer |> getValue(modality)
+           ? result
+             |> Modality.setValue(
+                  modality,
+                  configuration.modalities |> getValue(modality),
+                )
+           : result,
+       makeEmptyResult(),
+     );
+};
+
 let compareToHistory =
     (
       answer: Answer.t,
@@ -39,7 +61,7 @@ let compareToHistory =
       stateHistory: stateHistory,
       configuration: GameConfiguration.t,
     )
-    : bool => {
+    : option(result) => {
   let oldState = stateHistory->List.nth(configuration.depth - 1);
   Modality.allModalityTypes
   |> Array.for_all(modality =>
@@ -49,5 +71,6 @@ let compareToHistory =
          oldState |> getValue(modality),
          gameState |> getValue(modality),
        )
-     );
+     )
+    ? Some(makeResult(answer, configuration)) : None;
 };

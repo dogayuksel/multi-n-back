@@ -42,9 +42,11 @@ function App(Props) {
   var advanceState = function (param) {
     Curry._1(setStateHistory, (function (currentHistory) {
             if (List.length(currentHistory) >= config.depth) {
-              if (GameState$ReasonReactExamples.compareToHistory(answer, gameState, currentHistory, config)) {
+              var match = GameState$ReasonReactExamples.compareToHistory(answer, gameState, currentHistory, config);
+              if (match !== undefined) {
+                var result = match;
                 Curry._1(setScore, (function (score) {
-                        return Score$ReasonReactExamples.calculateScore(config) + score | 0;
+                        return Score$ReasonReactExamples.calculateScore(result, config.depth) + score | 0;
                       }));
                 return /* :: */[
                         gameState,
@@ -101,6 +103,7 @@ function App(Props) {
                           var match = Modality$ReasonReactExamples.getValue(modality, config.modalities);
                           if (match !== undefined) {
                             return React.createElement("label", {
+                                        key: Modality$ReasonReactExamples.getLabel(modality) + "_answer",
                                         style: {
                                           margin: "12px"
                                         }
@@ -127,6 +130,7 @@ function App(Props) {
                   }, React.createElement("div", undefined, "Configure"), $$Array.map((function (modality) {
                           var match = Modality$ReasonReactExamples.getValue(modality, config.modalities);
                           return React.createElement("label", {
+                                      key: Modality$ReasonReactExamples.getLabel(modality) + "_config",
                                       style: {
                                         margin: "12px"
                                       }
