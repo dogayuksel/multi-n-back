@@ -1,91 +1,119 @@
+type state = {
+  config: GameConfiguration.t,
+  gameState: GameState.t,
+  stateHistory: GameState.stateHistory,
+  answer: Answer.t,
+  score: int,
+  highScore: option(int),
+};
+
+type action =
+  | UpdateDepthConfig(int)
+  | UpdateModalityConfig(Modality.t, option(int))
+  | UpdateAnswer(Answer.t)
+  | AdvanceTurn;
+
+let initialConfig = GameConfiguration.makeDefault();
+
+let initialState: state = {
+  config: initialConfig,
+  gameState: GameState.makeRandom(initialConfig),
+  stateHistory: [],
+  answer: Answer.make(),
+  score: 0,
+  highScore: Score.getHighScore(),
+};
+
+let reducer = (state: state, action: action): state => {
+  switch (action) {
+  | UpdateDepthConfig(value) => {
+      ...state,
+      config: state.config |> GameConfiguration.updateDepth(value),
+    }
+  | UpdateModalityConfig(modality, value) => {
+      ...state,
+      config:
+        state.config |> GameConfiguration.updateModality(modality, value),
+    }
+  | UpdateAnswer(answer) => {...state, answer}
+  | AdvanceTurn =>
+    let partiallyUpdatedState =
+      if (state.stateHistory->List.length >= state.config.depth) {
+        switch (
+          GameState.compareToHistory(
+            state.answer,
+            state.gameState,
+            state.stateHistory,
+            state.config,
+          )
+        ) {
+        | Some(result) => {
+            ...state,
+            stateHistory: [state.gameState, ...state.stateHistory],
+            score:
+              Score.calculateScore(result, state.config.depth) + state.score,
+          }
+        | None => {
+            ...state,
+            stateHistory: [],
+            score: 0,
+            highScore: Some(Score.updateHighScore(state.score)),
+          }
+        };
+      } else {
+        {...state, stateHistory: [state.gameState, ...state.stateHistory]};
+      };
+    {
+      ...partiallyUpdatedState,
+      answer: Answer.make(),
+      gameState: GameState.makeRandom(state.config),
+    };
+  };
+};
+
 [@react.component]
 let make = () => {
-  let (config, setConfig) =
-    React.useState(() => GameConfiguration.makeDefault());
-  let (gameState, setGameState) =
-    React.useState(() => GameState.makeRandom(config));
-  let (stateHistory: GameState.stateHistory, setStateHistory) =
-    React.useState(_ => []);
-  let (answer, setAnswer) = {
-    React.useState(() => Answer.make());
-  };
-  let (score, setScore) = React.useState(() => 0);
-  let (highScore, setHighScore) = React.useState(() => Score.getHighScore());
+  let (state, dispatch) = React.useReducer(reducer, initialState);
 
   let toggleAnswer = modality => {
-    setAnswer(currentAnswer => {currentAnswer |> Answer.toggle(modality)});
+    dispatch(UpdateAnswer(state.answer |> Answer.toggle(modality)));
   };
 
   let updateModalityConfig = (modality: Modality.t, event: ReactEvent.Form.t) => {
     let value = event->ReactEvent.Form.target##value |> int_of_string_opt;
-    setConfig(currentConfig =>
-      currentConfig |> GameConfiguration.updateModality(modality, value)
-    );
+    dispatch(UpdateModalityConfig(modality, value));
   };
 
   let updateDepthConfig = (event: ReactEvent.Form.t) => {
     let value = event->ReactEvent.Form.target##value |> int_of_string;
-    setConfig(currentConfig =>
-      currentConfig |> GameConfiguration.updateDepth(value)
-    );
-  };
-
-  let advanceState = _ => {
-    setStateHistory(currentHistory =>
-      if (currentHistory->List.length >= config.depth) {
-        switch (
-          GameState.compareToHistory(
-            answer,
-            gameState,
-            currentHistory,
-            config,
-          )
-        ) {
-        | Some(result) =>
-          setScore(score => {
-            Score.calculateScore(result, config.depth) + score
-          });
-          [gameState, ...currentHistory];
-        | None =>
-          setScore(score => {
-            setHighScore(_ => Some(Score.updateHighScore(score)));
-            0;
-          });
-          [];
-        };
-      } else {
-        [gameState, ...currentHistory];
-      }
-    );
-    setAnswer(_ => Answer.make());
-    setGameState(_ => GameState.makeRandom(config));
+    dispatch(UpdateDepthConfig(value));
   };
 
   <div>
     <div className="containerOverview">
       <div className="containerScore">
         <div>
-          {switch (stateHistory |> List.length) {
+          {switch (state.stateHistory |> List.length) {
            | 0 => React.string("First Turn!")
            | value => React.string("Turn: " ++ string_of_int(value + 1))
            }}
         </div>
         <div>
-          {switch (score) {
+          {switch (state.score) {
            | 0 => React.null
            | value => React.string("Score: " ++ string_of_int(value))
            }}
         </div>
       </div>
       <div className="containerScore">
-        {switch (highScore) {
+        {switch (state.highScore) {
          | None => React.null
          | Some(value) =>
            React.string("High Score: " ++ string_of_int(value))
          }}
       </div>
     </div>
-    <Canvas config gameState />
+    <Canvas config={state.config} gameState={state.gameState} />
     <div
       style={ReactDOMRe.Style.make(
         ~margin="25px",
@@ -93,12 +121,12 @@ let make = () => {
         ~justifyContent="center",
         (),
       )}>
-      <button onClick=advanceState>
-        {List.length(stateHistory) == 0
+      <button onClick={_ => dispatch(AdvanceTurn)}>
+        {List.length(state.stateHistory) == 0
            ? React.string("Start") : React.string("Next")}
       </button>
     </div>
-    {if (List.length(stateHistory) >= config.depth) {
+    {if (List.length(state.stateHistory) >= state.config.depth) {
        <div
          style={ReactDOMRe.Style.make(
            ~margin="25px",
@@ -108,14 +136,14 @@ let make = () => {
          )}>
          {Modality.allModalityTypes
           |> Array.map(modality => {
-               switch (config.modalities |> Modality.getValue(modality)) {
+               switch (state.config.modalities |> Modality.getValue(modality)) {
                | Some(_) =>
                  <label
                    key={Modality.getLabel(modality) ++ "_answer"}
                    style={ReactDOMRe.Style.make(~margin="12px", ())}>
                    <input
                      type_="checkbox"
-                     checked={answer |> Modality.getValue(modality)}
+                     checked={state.answer |> Modality.getValue(modality)}
                      onChange={_ => toggleAnswer(modality)}
                    />
                    {React.string("Same " ++ Modality.getLabel(modality))}
@@ -128,7 +156,7 @@ let make = () => {
      } else {
        React.null;
      }}
-    {if (List.length(stateHistory) == 0) {
+    {if (List.length(state.stateHistory) == 0) {
        <div
          style={ReactDOMRe.Style.make(
            ~margin="25px",
@@ -148,7 +176,9 @@ let make = () => {
                  <select
                    onChange={event => updateModalityConfig(modality, event)}
                    value={
-                     switch (config.modalities |> Modality.getValue(modality)) {
+                     switch (
+                       state.config.modalities |> Modality.getValue(modality)
+                     ) {
                      | Some(value) => string_of_int(value)
                      | None => "Disabled"
                      }
@@ -170,7 +200,7 @@ let make = () => {
            {React.string("Depth")}
            <select
              onChange={event => updateDepthConfig(event)}
-             value={string_of_int(config.depth)}>
+             value={string_of_int(state.config.depth)}>
              <option value="1"> {React.string("1")} </option>
              <option value="2"> {React.string("2")} </option>
              <option value="3"> {React.string("3")} </option>
