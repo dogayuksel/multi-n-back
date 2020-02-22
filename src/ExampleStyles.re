@@ -35,9 +35,17 @@ let style = {j|
     margin: 50px 25px;
     box-shadow:  16px  16px 40px #c1c2ce,
                 -16px -16px 40px #ffffff;
-    min-width: 720px;
     border-radius: 30px;
     font-family: sans-serif;
+  }
+
+  @media (max-width: 720px) {
+    .container {
+      margin: 0;
+      box-shadow: none;
+      border-radius: 0;
+      width: 100vw;
+    }
   }
 
   .containerTitle {
