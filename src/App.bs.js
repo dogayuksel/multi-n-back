@@ -5,11 +5,11 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var Caml_format = require("bs-platform/lib/js/caml_format.js");
 var Score$ReasonReactExamples = require("./GameCore/Score.bs.js");
 var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
+var Slider$ReasonReactExamples = require("./Interface/Slider.bs.js");
 var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
 var GameState$ReasonReactExamples = require("./GameCore/GameState.bs.js");
 var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguration.bs.js");
@@ -162,46 +162,20 @@ function App(Props) {
                             return null;
                           }
                         }), Modality$ReasonReactExamples.allModalityTypes)) : null, List.length(state.stateHistory) === 0 ? React.createElement("div", {
-                    style: {
-                      display: "flex",
-                      margin: "25px",
-                      alignItems: "center",
-                      flexDirection: "column",
-                      justifyContent: "center"
-                    }
+                    className: "containerConfiguration"
                   }, React.createElement("div", undefined, "Configure"), $$Array.map((function (modality) {
-                          var match = Modality$ReasonReactExamples.getValue(modality, state.config.modalities);
-                          return React.createElement("label", {
-                                      key: Modality$ReasonReactExamples.getLabel(modality) + "_config",
-                                      style: {
-                                        margin: "12px"
-                                      }
-                                    }, Modality$ReasonReactExamples.getLabel(modality), React.createElement("select", {
-                                          value: match !== undefined ? String(match) : "Disabled",
-                                          onChange: (function ($$event) {
-                                              var modality$1 = modality;
-                                              var $$event$1 = $$event;
-                                              var value = Pervasives.int_of_string_opt($$event$1.target.value);
-                                              return Curry._1(dispatch, /* UpdateModalityConfig */Block.__(1, [
-                                                            modality$1,
-                                                            value
-                                                          ]));
-                                            })
-                                        }, React.createElement("option", {
-                                              value: "Disabled"
-                                            }, "Disabled"), React.createElement("option", {
-                                              value: "2"
-                                            }, "2"), React.createElement("option", {
-                                              value: "3"
-                                            }, "3"), React.createElement("option", {
-                                              value: "4"
-                                            }, "4"), React.createElement("option", {
-                                              value: "5"
-                                            }, "5"), React.createElement("option", {
-                                              value: "7"
-                                            }, "7"), React.createElement("option", {
-                                              value: "10"
-                                            }, "10")));
+                          return React.createElement(Slider$ReasonReactExamples.make, {
+                                      label: Modality$ReasonReactExamples.getLabel(modality),
+                                      value: Modality$ReasonReactExamples.getValue(modality, state.config.modalities),
+                                      onChange: (function (value) {
+                                          var optionValue = value !== 0 ? value : undefined;
+                                          return Curry._1(dispatch, /* UpdateModalityConfig */Block.__(1, [
+                                                        modality,
+                                                        optionValue
+                                                      ]));
+                                        }),
+                                      key: Modality$ReasonReactExamples.getLabel(modality) + "_config"
+                                    });
                         }), Modality$ReasonReactExamples.allModalityTypes), React.createElement("label", {
                         style: {
                           margin: "12px"

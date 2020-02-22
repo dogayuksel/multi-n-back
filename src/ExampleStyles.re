@@ -1,4 +1,9 @@
-let reasonReactBlue = "#48a9dc";
+let blue = "#48a9dc";
+let background = "#e0e2ef";
+let background_less_darker = "#d0d2de";
+let background_less_lighter = "#f0f2ff";
+let background_more_darker = "#c1c2ce";
+let background_more_lighter = "#ffffff";
 
 // The {j|...|j} feature is just string interpolation, from
 // bucklescript.github.io/docs/en/interop-cheatsheet#string-unicode-interpolation
@@ -7,7 +12,7 @@ let reasonReactBlue = "#48a9dc";
 let style = {j|
   body {
     margin: 0;
-    background-color: #e0e2ef;
+    background-color: $background;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -15,28 +20,35 @@ let style = {j|
   }
 
   button {
-    box-shadow:  6px  6px 20px #c1c2ce,
-                -6px -6px 20px #ffffff;
+    box-shadow:  6px  6px 20px $background_more_darker,
+                -6px -6px 20px $background_more_lighter;
     border-radius: 5px;
     border: none;
-    background-color: #e0e2ef;
+    background-color: $background;
     padding: 8px;
-    color: $reasonReactBlue;
+    color: $blue;
     font-size: 16px;
   }
 
   button:active {
-    box-shadow:  3px  3px 10px #c1c2ce,
-                -3px -3px 10px #ffffff;
-    background: linear-gradient(135deg, #cacbd7, #f0f2ff);
+    box-shadow:  3px  3px 12px $background_more_darker,
+                -3px -3px 12px $background_more_lighter;
+    background: linear-gradient(135deg,
+                                $background_less_darker,
+                                $background_less_lighter);
   }
 
   .container {
     margin: 50px 25px;
-    box-shadow:  16px  16px 40px #c1c2ce,
-                -16px -16px 40px #ffffff;
+    box-shadow:  16px  16px 40px $background_more_darker,
+                -16px -16px 40px $background_more_lighter;
     border-radius: 30px;
     font-family: sans-serif;
+  }
+
+  button:disabled {
+    box-shadow:  1px  1px 2px $background_more_darker,
+                -1px -1px 2px $background_more_lighter;
   }
 
   @media (max-width: 720px) {
@@ -56,7 +68,7 @@ let style = {j|
 
   .containerContent {
     border-radius: 0px 0px 30px 30px;
-    background-color: #e0e2ef;
+    background-color: $background;
     padding: 16px;
   }
 
@@ -67,8 +79,8 @@ let style = {j|
 
   .containerScore {
     margin: 10px 40px;
-    box-shadow:  6px  6px 20px #c1c2ce,
-                -6px -6px 20px #ffffff;
+    box-shadow:  6px  6px 20px $background_more_darker,
+                -6px -6px 20px $background_more_lighter;
     border-radius: 12px;
     height: 4em;
     min-width: 8em;
@@ -81,10 +93,23 @@ let style = {j|
 
   .containerCanvas {
     margin: 40px;
-    box-shadow: inset  12px  12px 30px #c1c2ce,
-                inset -12px -12px 30px #ffffff;
+    box-shadow: inset  12px  12px 30px $background_more_darker,
+                inset -12px -12px 30px $background_more_lighter;
     border-radius: 20px;
-    background: #e0e2ef;
+    background: $background;
     padding: 40px;
+  }
+
+  .containerConfiguration {
+    margin: 40px;
+    box-shadow: inset  12px  12px 30px $background_more_darker,
+                inset -12px -12px 30px $background_more_lighter;
+    border-radius: 20px;
+    background: $background;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
   }
 |j};
