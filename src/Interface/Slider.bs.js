@@ -5,6 +5,7 @@ var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
 var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
+var AppStyles$ReasonReactExamples = require("../AppStyles.bs.js");
 
 function color(scale) {
   switch (scale) {
@@ -38,11 +39,12 @@ function Slider(Props) {
   var intValue = value !== undefined ? value : 0;
   return React.createElement("div", {
               style: {
-                margin: "12px"
+                display: "flex",
+                margin: "12px",
+                alignItems: "center"
               }
             }, React.createElement("div", {
                   style: {
-                    display: "inline-block",
                     margin: "12px",
                     minWidth: "70px",
                     textAlign: "right"
@@ -54,20 +56,42 @@ function Slider(Props) {
                     })
                 }, "Easier"), React.createElement("div", {
                   style: {
-                    display: "inline-block",
-                    margin: "12px"
+                    backgroundColor: AppStyles$ReasonReactExamples.background_less_darker,
+                    display: "flex",
+                    height: "20px",
+                    margin: "0 30px",
+                    position: "relative",
+                    width: "45px",
+                    borderRadius: "2px",
+                    boxShadow: "inset 4px 4px 12px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -4px -4px 12px " + AppStyles$ReasonReactExamples.background_less_lighter)),
+                    alignItems: "flex-end"
                   }
                 }, $$Array.map((function (index) {
-                        var match = index > intValue;
+                        var match = intValue >= index;
+                        var match$1 = intValue >= index;
                         return React.createElement("div", {
                                     style: {
-                                      backgroundColor: match ? "#ffffff" : color(index),
-                                      display: "inline-block",
+                                      backgroundColor: match ? color(index) : "",
+                                      display: match$1 ? "inline-block" : "none",
                                       height: String((index << 1)) + "px",
-                                      width: "5px"
+                                      width: "5px",
+                                      borderRadius: index !== 1 ? (
+                                          index !== 9 ? "1px 1px 0 0" : "1px 1px 2px 0"
+                                        ) : "1px 1px 0 2px"
                                     }
                                   });
-                      }), Belt_Array.range(0, 9))), React.createElement("button", {
+                      }), Belt_Array.range(1, 9)), React.createElement("div", {
+                      style: {
+                        height: "20px",
+                        left: "0",
+                        position: "absolute",
+                        top: "0",
+                        width: "45px",
+                        opacity: "0.7",
+                        borderRadius: "2px",
+                        boxShadow: "inset 1px 1px 3px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -1px -1px 3px " + AppStyles$ReasonReactExamples.background_less_lighter))
+                      }
+                    })), React.createElement("button", {
                   disabled: intValue >= 9,
                   onClick: (function (param) {
                       return Curry._1(onChange, intValue + 1 | 0);

@@ -79,11 +79,6 @@ let make = () => {
     dispatch(UpdateAnswer(state.answer |> Answer.toggle(modality)));
   };
 
-  let updateModalityConfig = (modality: Modality.t, event: ReactEvent.Form.t) => {
-    let value = event->ReactEvent.Form.target##value |> int_of_string_opt;
-    dispatch(UpdateModalityConfig(modality, value));
-  };
-
   let updateDepthConfig = (event: ReactEvent.Form.t) => {
     let value = event->ReactEvent.Form.target##value |> int_of_string;
     dispatch(UpdateDepthConfig(value));

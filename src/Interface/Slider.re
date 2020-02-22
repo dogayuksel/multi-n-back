@@ -21,13 +21,18 @@ let make = (~label: string, ~value: option(int), ~onChange: int => unit) => {
     | Some(number) => number
     | None => 0
     };
-  <div style={ReactDOMRe.Style.make(~margin="12px", ())}>
+  <div
+    style={ReactDOMRe.Style.make(
+      ~margin="12px",
+      ~display="flex",
+      ~alignItems="center",
+      (),
+    )}>
     <div
       style={ReactDOMRe.Style.make(
         ~minWidth="70px",
         ~textAlign="right",
         ~margin="12px",
-        ~display="inline-block",
         (),
       )}>
       {React.string(label)}
@@ -37,16 +42,33 @@ let make = (~label: string, ~value: option(int), ~onChange: int => unit) => {
     </button>
     <div
       style={ReactDOMRe.Style.make(
-        ~margin="12px",
-        ~display="inline-block",
+        ~position="relative",
+        ~margin="0 30px",
+        ~width="45px",
+        ~height="20px",
+        ~borderRadius="2px",
+        ~boxShadow=
+          "inset 4px 4px 12px "
+          ++ AppStyles.background_more_darker
+          ++ ", inset -4px -4px 12px "
+          ++ AppStyles.background_less_lighter,
+        ~backgroundColor=AppStyles.background_less_darker,
+        ~display="flex",
+        ~alignItems="flex-end",
         (),
       )}>
-      {Belt.Array.range(0, 9)
+      {Belt.Array.range(1, 9)
        |> Array.map(index => {
             <div
               style={ReactDOMRe.Style.make(
-                ~display="inline-block",
-                ~backgroundColor=index > intValue ? "#ffffff" : color(index),
+                ~borderRadius=
+                  switch (index) {
+                  | 1 => "1px 1px 0 2px"
+                  | 9 => "1px 1px 2px 0"
+                  | _ => "1px 1px 0 0"
+                  },
+                ~display=intValue >= index ? "inline-block" : "none",
+                ~backgroundColor=intValue >= index ? color(index) : "",
                 ~height=string_of_int(index * 2) ++ "px",
                 ~width="5px",
                 (),
@@ -54,6 +76,23 @@ let make = (~label: string, ~value: option(int), ~onChange: int => unit) => {
             />
           })
        |> React.array}
+      <div
+        style={ReactDOMRe.Style.make(
+          ~position="absolute",
+          ~left="0",
+          ~top="0",
+          ~width="45px",
+          ~height="20px",
+          ~opacity="0.7",
+          ~borderRadius="2px",
+          ~boxShadow=
+            "inset 1px 1px 3px "
+            ++ AppStyles.background_more_darker
+            ++ ", inset -1px -1px 3px "
+            ++ AppStyles.background_less_lighter,
+          (),
+        )}
+      />
     </div>
     <button disabled={intValue >= 9} onClick={_ => onChange(intValue + 1)}>
       {React.string("Harder")}

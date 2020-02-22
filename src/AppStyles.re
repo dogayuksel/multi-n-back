@@ -10,6 +10,10 @@ let background_more_lighter = "#ffffff";
 // This allows us to conveniently write CSS, together with variables, by
 // constructing a string
 let style = {j|
+  * {
+    box-sizing: content-box;
+  }
+
   body {
     margin: 0;
     background-color: $background;

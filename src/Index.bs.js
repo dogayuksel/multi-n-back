@@ -3,13 +3,13 @@
 var React = require("react");
 var ReactDom = require("react-dom");
 var App$ReasonReactExamples = require("./App.bs.js");
-var ExampleStyles$ReasonReactExamples = require("./ExampleStyles.bs.js");
+var AppStyles$ReasonReactExamples = require("./AppStyles.bs.js");
 
 var style = document.createElement("style");
 
 document.head.appendChild(style);
 
-style.innerHTML = ExampleStyles$ReasonReactExamples.style;
+style.innerHTML = AppStyles$ReasonReactExamples.style;
 
 function makeContainer(text) {
   var container = document.createElement("div");
