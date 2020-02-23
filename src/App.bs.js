@@ -5,16 +5,15 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
-var Caml_format = require("bs-platform/lib/js/caml_format.js");
 var Score$ReasonReactExamples = require("./GameCore/Score.bs.js");
 var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
-var Slider$ReasonReactExamples = require("./Interface/Slider.bs.js");
 var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
 var AppStyles$ReasonReactExamples = require("./AppStyles.bs.js");
 var GameState$ReasonReactExamples = require("./GameCore/GameState.bs.js");
 var AnswerToggle$ReasonReactExamples = require("./Interface/AnswerToggle.bs.js");
 var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguration.bs.js");
+var ConfigurationPanel$ReasonReactExamples = require("./Interface/ConfigurationPanel.bs.js");
 
 var initialConfig = GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
 
@@ -138,60 +137,8 @@ function App(Props) {
   var value = List.length(state.stateHistory);
   var value$1 = state.score;
   var match$1 = state.highScore;
-  var tmp;
-  if (List.length(state.stateHistory) === 0) {
-    var match$2 = state.configPanelOpen;
-    var match$3 = state.configPanelOpen;
-    tmp = React.createElement("div", {
-          className: "configurationWrapper"
-        }, React.createElement("div", {
-              className: "configurationContainer " + (
-                match$2 ? "configPanelOpen" : "configPanelClosed"
-              )
-            }, $$Array.map((function (modality) {
-                    return React.createElement(Slider$ReasonReactExamples.make, {
-                                label: Modality$ReasonReactExamples.getLabel(modality),
-                                value: Modality$ReasonReactExamples.getValue(modality, state.config.modalities),
-                                onChange: (function (value) {
-                                    var optionValue = value !== 0 ? value : undefined;
-                                    return Curry._1(dispatch, /* UpdateModalityConfig */Block.__(1, [
-                                                  modality,
-                                                  optionValue
-                                                ]));
-                                  }),
-                                key: Modality$ReasonReactExamples.getLabel(modality) + "_config"
-                              });
-                  }), Modality$ReasonReactExamples.allModalityTypes), React.createElement("label", {
-                  style: {
-                    margin: "12px"
-                  }
-                }, "Depth", React.createElement("select", {
-                      value: String(state.config.depth),
-                      onChange: (function ($$event) {
-                          var $$event$1 = $$event;
-                          var value = Caml_format.caml_int_of_string($$event$1.target.value);
-                          return Curry._1(dispatch, /* UpdateDepthConfig */Block.__(0, [value]));
-                        })
-                    }, React.createElement("option", {
-                          value: "1"
-                        }, "1"), React.createElement("option", {
-                          value: "2"
-                        }, "2"), React.createElement("option", {
-                          value: "3"
-                        }, "3"), React.createElement("option", {
-                          value: "4"
-                        }, "4"), React.createElement("option", {
-                          value: "5"
-                        }, "5"))), match$3 ? React.createElement("button", {
-                    onClick: (function (param) {
-                        return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
-                      })
-                  }, React.createElement("div", undefined, "Done")) : null));
-  } else {
-    tmp = null;
-  }
-  var match$4 = List.length(state.stateHistory) === 0;
-  var match$5 = !state.configPanelOpen && List.length(state.stateHistory) === 0;
+  var match$2 = List.length(state.stateHistory) === 0;
+  var match$3 = !state.configPanelOpen && List.length(state.stateHistory) === 0;
   return React.createElement(React.Fragment, undefined, React.createElement("div", {
                   className: "titleContainer"
                 }, "Multi-N-Back"), React.createElement("div", {
@@ -200,7 +147,22 @@ function App(Props) {
                       className: "scoreContainer"
                     }, React.createElement("div", undefined, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement("div", undefined, value$1 !== 0 ? "Score: " + String(value$1) : null)), React.createElement("div", {
                       className: "scoreContainer"
-                    }, match$1 !== undefined ? "High Score: " + String(match$1) : null)), tmp, React.createElement(Canvas$ReasonReactExamples.make, {
+                    }, match$1 !== undefined ? "High Score: " + String(match$1) : null)), List.length(state.stateHistory) === 0 ? React.createElement(ConfigurationPanel$ReasonReactExamples.make, {
+                    panelOpen: state.configPanelOpen,
+                    config: state.config,
+                    updateModalityConfig: (function (modality, value) {
+                        return Curry._1(dispatch, /* UpdateModalityConfig */Block.__(1, [
+                                      modality,
+                                      value
+                                    ]));
+                      }),
+                    updateDepthConfig: (function (depth) {
+                        return Curry._1(dispatch, /* UpdateDepthConfig */Block.__(0, [depth]));
+                      }),
+                    togglePanelOpen: (function (param) {
+                        return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
+                      })
+                  }) : null, React.createElement(Canvas$ReasonReactExamples.make, {
                   config: state.config,
                   gameState: state.gameState
                 }), React.createElement("div", {
@@ -215,7 +177,7 @@ function App(Props) {
                       onClick: (function (param) {
                           return Curry._1(dispatch, /* AdvanceTurn */1);
                         })
-                    }, match$4 ? "Start" : "Next")), match$5 ? React.createElement("div", {
+                    }, match$2 ? "Start" : "Next")), match$3 ? React.createElement("div", {
                     style: {
                       bottom: "0",
                       color: AppStyles$ReasonReactExamples.blue,

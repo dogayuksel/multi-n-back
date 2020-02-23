@@ -10,12 +10,12 @@ function AnswerToggle(Props) {
   return React.createElement("label", {
               style: {
                 display: "flex",
-                height: "2em",
+                height: "2.5em",
                 margin: "12px",
                 position: "relative",
                 width: "10em",
                 borderRadius: "10px",
-                boxShadow: checked ? "inset 2px 2px 6px " + (AppStyles$ReasonReactExamples.background_less_darker + (", inset -2px -2px 6px " + AppStyles$ReasonReactExamples.background_less_lighter)) : "8px 8px 24px " + (AppStyles$ReasonReactExamples.background_more_darker + (", -8px -8px 24px " + AppStyles$ReasonReactExamples.background_more_lighter)),
+                boxShadow: checked ? "inset 2px 2px 6px " + (AppStyles$ReasonReactExamples.background_less_darker + (", inset -2px -2px 6px " + AppStyles$ReasonReactExamples.background_less_lighter)) : "8px 8px 20px " + (AppStyles$ReasonReactExamples.background_more_darker + (", -8px -8px 20px " + AppStyles$ReasonReactExamples.background_more_lighter)),
                 alignItems: "center",
                 justifyContent: "center"
               }

@@ -4,7 +4,7 @@ let make = (~checked: bool, ~onChange: _ => unit, ~label: string) =>
     style={ReactDOMRe.Style.make(
       ~margin="12px",
       ~width="10em",
-      ~height="2em",
+      ~height="2.5em",
       ~borderRadius="10px",
       ~boxShadow=
         {checked
@@ -12,9 +12,9 @@ let make = (~checked: bool, ~onChange: _ => unit, ~label: string) =>
              ++ AppStyles.background_less_darker
              ++ ", inset -2px -2px 6px "
              ++ AppStyles.background_less_lighter
-           : "8px 8px 24px "
+           : "8px 8px 20px "
              ++ AppStyles.background_more_darker
-             ++ ", -8px -8px 24px "
+             ++ ", -8px -8px 20px "
              ++ AppStyles.background_more_lighter},
       ~display="flex",
       ~justifyContent="center",

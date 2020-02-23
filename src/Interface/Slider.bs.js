@@ -46,7 +46,7 @@ function Slider(Props) {
             }, React.createElement("div", {
                   style: {
                     margin: "12px",
-                    minWidth: "70px",
+                    minWidth: "60px",
                     textAlign: "right"
                   }
                 }, label), React.createElement("button", {

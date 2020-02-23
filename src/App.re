@@ -86,11 +86,6 @@ let make = () => {
     dispatch(UpdateAnswer(state.answer |> Answer.toggle(modality)));
   };
 
-  let updateDepthConfig = (event: ReactEvent.Form.t) => {
-    let value = event->ReactEvent.Form.target##value |> int_of_string;
-    dispatch(UpdateDepthConfig(value));
-  };
-
   <>
     <div className="titleContainer"> {React.string("Multi-N-Back")} </div>
     <div className="overviewContainer">
@@ -117,52 +112,15 @@ let make = () => {
       </div>
     </div>
     {if (List.length(state.stateHistory) == 0) {
-       <div className="configurationWrapper">
-         <div
-           className={
-             "configurationContainer "
-             ++ (
-               state.configPanelOpen ? "configPanelOpen" : "configPanelClosed"
-             )
-           }>
-           {Modality.allModalityTypes
-            |> Array.map(modality => {
-                 <Slider
-                   key={Modality.getLabel(modality) ++ "_config"}
-                   label={modality |> Modality.getLabel}
-                   value={
-                     state.config.modalities |> Modality.getValue(modality)
-                   }
-                   onChange={(value: int) => {
-                     let optionValue =
-                       switch (value) {
-                       | 0 => None
-                       | v => Some(v)
-                       };
-                     dispatch(UpdateModalityConfig(modality, optionValue));
-                   }}
-                 />
-               })
-            |> React.array}
-           <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
-             {React.string("Depth")}
-             <select
-               onChange={event => updateDepthConfig(event)}
-               value={string_of_int(state.config.depth)}>
-               <option value="1"> {React.string("1")} </option>
-               <option value="2"> {React.string("2")} </option>
-               <option value="3"> {React.string("3")} </option>
-               <option value="4"> {React.string("4")} </option>
-               <option value="5"> {React.string("5")} </option>
-             </select>
-           </label>
-           {state.configPanelOpen
-              ? <button onClick={_ => dispatch(ToggleConfigPanelOpen)}>
-                  <div> {React.string("Done")} </div>
-                </button>
-              : React.null}
-         </div>
-       </div>;
+       <ConfigurationPanel
+         panelOpen={state.configPanelOpen}
+         config={state.config}
+         updateModalityConfig={(modality, value) =>
+           dispatch(UpdateModalityConfig(modality, value))
+         }
+         updateDepthConfig={depth => dispatch(UpdateDepthConfig(depth))}
+         togglePanelOpen={_ => dispatch(ToggleConfigPanelOpen)}
+       />;
      } else {
        React.null;
      }}

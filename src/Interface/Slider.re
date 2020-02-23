@@ -30,7 +30,7 @@ let make = (~label: string, ~value: option(int), ~onChange: int => unit) => {
     )}>
     <div
       style={ReactDOMRe.Style.make(
-        ~minWidth="70px",
+        ~minWidth="60px",
         ~textAlign="right",
         ~margin="12px",
         (),
