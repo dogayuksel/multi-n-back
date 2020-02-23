@@ -209,6 +209,9 @@ function App(Props) {
                     justifyContent: "center"
                   }
                 }, React.createElement("button", {
+                      style: {
+                        fontSize: "1.4em"
+                      },
                       onClick: (function (param) {
                           return Curry._1(dispatch, /* AdvanceTurn */1);
                         })

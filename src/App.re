@@ -173,7 +173,9 @@ let make = () => {
         ~justifyContent="center",
         (),
       )}>
-      <button onClick={_ => dispatch(AdvanceTurn)}>
+      <button
+        style={ReactDOMRe.Style.make(~fontSize="1.4em", ())}
+        onClick={_ => dispatch(AdvanceTurn)}>
         {List.length(state.stateHistory) == 0
            ? React.string("Start") : React.string("Next")}
       </button>

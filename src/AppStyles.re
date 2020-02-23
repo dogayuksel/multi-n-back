@@ -101,7 +101,7 @@ let style = {j|
   }
 
   .canvasContainer {
-    margin: 40px;
+    margin: 25px 40px;
     box-shadow: inset  12px  12px 30px $background_more_darker,
                 inset -12px -12px 30px $background_more_lighter;
     border-radius: 20px;
