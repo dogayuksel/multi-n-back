@@ -90,13 +90,11 @@ let style = {j|
     margin: 10px 40px;
     box-shadow:  6px  6px 20px $background_more_darker,
                 -6px -6px 20px $background_more_lighter;
-    border-radius: 12px;
-    height: 4em;
-    min-width: 8em;
-    padding: 1.5em;
+    border-radius: 18px;
+    min-width: 6em;
+    padding: 0.5em;
     display: flex;
-    flex-direction: column;
-    justify-content: space-between;
+    justify-content: center;
     align-items: center;
   }
 

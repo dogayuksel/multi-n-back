@@ -90,24 +90,21 @@ let make = () => {
     <div className="titleContainer"> {React.string("Multi-N-Back")} </div>
     <div className="overviewContainer">
       <div className="scoreContainer">
-        <div>
-          {switch (state.stateHistory |> List.length) {
-           | 0 => React.string("First Turn!")
-           | value => React.string("Turn: " ++ string_of_int(value + 1))
-           }}
-        </div>
-        <div>
-          {switch (state.score) {
-           | 0 => React.null
-           | value => React.string("Score: " ++ string_of_int(value))
-           }}
-        </div>
+        {switch (state.stateHistory |> List.length) {
+         | 0 => React.string("First Turn!")
+         | value => <Statistics label="Turn" value={value + 1} />
+         }}
+      </div>
+      <div className="scoreContainer">
+        {switch (state.score) {
+         | 0 => React.null
+         | value => <Statistics label="Score" value />
+         }}
       </div>
       <div className="scoreContainer">
         {switch (state.highScore) {
          | None => React.null
-         | Some(value) =>
-           React.string("High Score: " ++ string_of_int(value))
+         | Some(value) => <Statistics label="High Score" value />
          }}
       </div>
     </div>

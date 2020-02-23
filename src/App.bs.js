@@ -10,6 +10,7 @@ var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
 var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
 var GameState$ReasonReactExamples = require("./GameCore/GameState.bs.js");
+var Statistics$ReasonReactExamples = require("./Interface/Statistics.bs.js");
 var AnswerToggle$ReasonReactExamples = require("./Interface/AnswerToggle.bs.js");
 var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguration.bs.js");
 var ConfigurationPanel$ReasonReactExamples = require("./Interface/ConfigurationPanel.bs.js");
@@ -164,9 +165,20 @@ function App(Props) {
                   className: "overviewContainer"
                 }, React.createElement("div", {
                       className: "scoreContainer"
-                    }, React.createElement("div", undefined, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement("div", undefined, value$1 !== 0 ? "Score: " + String(value$1) : null)), React.createElement("div", {
+                    }, value !== 0 ? React.createElement(Statistics$ReasonReactExamples.make, {
+                            label: "Turn",
+                            value: value + 1 | 0
+                          }) : "First Turn!"), React.createElement("div", {
                       className: "scoreContainer"
-                    }, match$1 !== undefined ? "High Score: " + String(match$1) : null)), React.createElement(Canvas$ReasonReactExamples.make, {
+                    }, value$1 !== 0 ? React.createElement(Statistics$ReasonReactExamples.make, {
+                            label: "Score",
+                            value: value$1
+                          }) : null), React.createElement("div", {
+                      className: "scoreContainer"
+                    }, match$1 !== undefined ? React.createElement(Statistics$ReasonReactExamples.make, {
+                            label: "High Score",
+                            value: match$1
+                          }) : null)), React.createElement(Canvas$ReasonReactExamples.make, {
                   config: state.config,
                   gameState: state.gameState
                 }), tmp, match$4 ? React.createElement(ConfigurationTrigger$ReasonReactExamples.make, {
