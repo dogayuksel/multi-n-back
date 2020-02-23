@@ -178,31 +178,29 @@ let make = () => {
            ? React.string("Start") : React.string("Next")}
       </button>
     </div>
-    <div
-      onClick={_ =>
-        if (!state.configPanelOpen && List.length(state.stateHistory) == 0) {
-          dispatch(ToggleConfigPanelOpen);
-        }
-      }
-      style={ReactDOMRe.Style.make(
-        ~boxShadow=
-          "inset 12px 12px 30px "
-          ++ AppStyles.background_more_darker
-          ++ ", inset -12px -12px 30px "
-          ++ AppStyles.background_more_lighter,
-        ~borderRadius="40px 40px 0 0",
-        ~width="150px",
-        ~height="40px",
-        ~position="absolute",
-        ~bottom="0",
-        ~left="calc(50% - 75px)",
-        ~color=AppStyles.blue,
-        ~textAlign="center",
-        ~paddingTop="1.5em",
-        (),
-      )}>
-      {React.string("Configure")}
-    </div>
+    {!state.configPanelOpen && List.length(state.stateHistory) == 0
+       ? <div
+           onClick={_ => dispatch(ToggleConfigPanelOpen)}
+           style={ReactDOMRe.Style.make(
+             ~boxShadow=
+               "inset 12px 12px 30px "
+               ++ AppStyles.background_more_darker
+               ++ ", inset -12px -12px 30px "
+               ++ AppStyles.background_more_lighter,
+             ~borderRadius="40px 40px 0 0",
+             ~width="150px",
+             ~height="40px",
+             ~position="absolute",
+             ~bottom="0",
+             ~left="calc(50% - 75px)",
+             ~color=AppStyles.blue,
+             ~textAlign="center",
+             ~paddingTop="1.5em",
+             (),
+           )}>
+           {React.string("Configure")}
+         </div>
+       : React.null}
     {if (List.length(state.stateHistory) >= state.config.depth) {
        <div
          style={ReactDOMRe.Style.make(

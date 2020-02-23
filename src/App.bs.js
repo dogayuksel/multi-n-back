@@ -191,6 +191,7 @@ function App(Props) {
     tmp = null;
   }
   var match$4 = List.length(state.stateHistory) === 0;
+  var match$5 = !state.configPanelOpen && List.length(state.stateHistory) === 0;
   return React.createElement(React.Fragment, undefined, React.createElement("div", {
                   className: "titleContainer"
                 }, "Multi-N-Back"), React.createElement("div", {
@@ -211,27 +212,23 @@ function App(Props) {
                       onClick: (function (param) {
                           return Curry._1(dispatch, /* AdvanceTurn */1);
                         })
-                    }, match$4 ? "Start" : "Next")), React.createElement("div", {
-                  style: {
-                    bottom: "0",
-                    color: AppStyles$ReasonReactExamples.blue,
-                    height: "40px",
-                    left: "calc(50% - 75px)",
-                    paddingTop: "1.5em",
-                    position: "absolute",
-                    textAlign: "center",
-                    width: "150px",
-                    borderRadius: "40px 40px 0 0",
-                    boxShadow: "inset 12px 12px 30px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -12px -12px 30px " + AppStyles$ReasonReactExamples.background_more_lighter))
-                  },
-                  onClick: (function (param) {
-                      if (!state.configPanelOpen && List.length(state.stateHistory) === 0) {
+                    }, match$4 ? "Start" : "Next")), match$5 ? React.createElement("div", {
+                    style: {
+                      bottom: "0",
+                      color: AppStyles$ReasonReactExamples.blue,
+                      height: "40px",
+                      left: "calc(50% - 75px)",
+                      paddingTop: "1.5em",
+                      position: "absolute",
+                      textAlign: "center",
+                      width: "150px",
+                      borderRadius: "40px 40px 0 0",
+                      boxShadow: "inset 12px 12px 30px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -12px -12px 30px " + AppStyles$ReasonReactExamples.background_more_lighter))
+                    },
+                    onClick: (function (param) {
                         return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
-                      } else {
-                        return 0;
-                      }
-                    })
-                }, "Configure"), List.length(state.stateHistory) >= state.config.depth ? React.createElement("div", {
+                      })
+                  }, "Configure") : null, List.length(state.stateHistory) >= state.config.depth ? React.createElement("div", {
                     style: {
                       display: "flex",
                       margin: "25px",

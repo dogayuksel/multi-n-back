@@ -53,6 +53,7 @@ let style = {j|
                 -16px -16px 40px $background_more_lighter;
     border-radius: 30px;
     font-family: sans-serif;
+    min-width:650px;
     position: absolute;
     overflow-y: hidden;
     height: calc(100vh - 100px);
