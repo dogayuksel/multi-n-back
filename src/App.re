@@ -215,16 +215,12 @@ let make = () => {
           |> Array.map(modality => {
                switch (state.config.modalities |> Modality.getValue(modality)) {
                | Some(_) =>
-                 <label
+                 <AnswerToggle
                    key={Modality.getLabel(modality) ++ "_answer"}
-                   style={ReactDOMRe.Style.make(~margin="12px", ())}>
-                   <input
-                     type_="checkbox"
-                     checked={state.answer |> Modality.getValue(modality)}
-                     onChange={_ => toggleAnswer(modality)}
-                   />
-                   {React.string("Same " ++ Modality.getLabel(modality))}
-                 </label>
+                   checked={state.answer |> Modality.getValue(modality)}
+                   onChange={_ => toggleAnswer(modality)}
+                   label={"Same " ++ Modality.getLabel(modality)}
+                 />
                | None => React.null
                }
              })

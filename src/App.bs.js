@@ -13,6 +13,7 @@ var Slider$ReasonReactExamples = require("./Interface/Slider.bs.js");
 var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
 var AppStyles$ReasonReactExamples = require("./AppStyles.bs.js");
 var GameState$ReasonReactExamples = require("./GameCore/GameState.bs.js");
+var AnswerToggle$ReasonReactExamples = require("./Interface/AnswerToggle.bs.js");
 var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguration.bs.js");
 
 var initialConfig = GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
@@ -239,19 +240,15 @@ function App(Props) {
                   }, $$Array.map((function (modality) {
                           var match = Modality$ReasonReactExamples.getValue(modality, state.config.modalities);
                           if (match !== undefined) {
-                            return React.createElement("label", {
-                                        key: Modality$ReasonReactExamples.getLabel(modality) + "_answer",
-                                        style: {
-                                          margin: "12px"
-                                        }
-                                      }, React.createElement("input", {
-                                            checked: Modality$ReasonReactExamples.getValue(modality, state.answer),
-                                            type: "checkbox",
-                                            onChange: (function (param) {
-                                                var modality$1 = modality;
-                                                return Curry._1(dispatch, /* UpdateAnswer */Block.__(2, [Answer$ReasonReactExamples.toggle(modality$1, state.answer)]));
-                                              })
-                                          }), "Same " + Modality$ReasonReactExamples.getLabel(modality));
+                            return React.createElement(AnswerToggle$ReasonReactExamples.make, {
+                                        checked: Modality$ReasonReactExamples.getValue(modality, state.answer),
+                                        onChange: (function (param) {
+                                            var modality$1 = modality;
+                                            return Curry._1(dispatch, /* UpdateAnswer */Block.__(2, [Answer$ReasonReactExamples.toggle(modality$1, state.answer)]));
+                                          }),
+                                        label: "Same " + Modality$ReasonReactExamples.getLabel(modality),
+                                        key: Modality$ReasonReactExamples.getLabel(modality) + "_answer"
+                                      });
                           } else {
                             return null;
                           }

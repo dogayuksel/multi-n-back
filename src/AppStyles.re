@@ -68,16 +68,16 @@ let style = {j|
     }
   }
 
-  .titleContainer {
-    margin: 1.5em 40px;
-    font-weight: 500;
-    font-size: 1.4em;
-  }
-
   .contentContainer {
     border-radius: 0px 0px 30px 30px;
     background-color: $background;
     padding: 16px;
+  }
+
+  .titleContainer {
+    margin: 1.5em 40px;
+    font-weight: 500;
+    font-size: 1.4em;
   }
 
   .overviewContainer {
