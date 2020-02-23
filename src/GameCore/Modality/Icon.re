@@ -12,14 +12,14 @@ let icons = [|
 |];
 
 [@react.component]
-let make = (~index: int, ~active: bool) => {
+let make = (~index: int, ~active: bool, ~size: int) => {
   active
     ? <svg
         xmlns="http://www.w3.org/2000/svg"
         enableBackground="new 0 0 24 24"
-        height="48"
+        height={string_of_int(size) ++ "px"}
         viewBox="0 0 24 24"
-        width="48">
+        width={string_of_int(size) ++ "px"}>
         <g> <rect fill="none" height="24" width="24" /> </g>
         <g> <g> <path d={Array.get(icons, index)} /> </g> </g>
       </svg>

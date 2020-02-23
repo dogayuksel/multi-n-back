@@ -11,21 +11,17 @@ document.head.appendChild(style);
 
 style.innerHTML = AppStyles$ReasonReactExamples.style;
 
-function makeContainer(text) {
+function makeContainer(param) {
   var container = document.createElement("div");
   container.className = "container";
-  var title = document.createElement("div");
-  title.className = "containerTitle";
-  title.innerText = text;
   var content = document.createElement("div");
-  content.className = "containerContent";
-  container.appendChild(title);
+  content.className = "contentContainer";
   container.appendChild(content);
   document.body.appendChild(container);
   return content;
 }
 
-ReactDom.render(React.createElement(App$ReasonReactExamples.make, { }), makeContainer("Multi-N-Back"));
+ReactDom.render(React.createElement(App$ReasonReactExamples.make, { }), makeContainer(/* () */0));
 
 exports.style = style;
 exports.makeContainer = makeContainer;

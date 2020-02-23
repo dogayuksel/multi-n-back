@@ -12,15 +12,15 @@ let colors = [|
 |];
 
 [@react.component]
-let make = (~children, ~active: bool, ~index: int) =>
+let make = (~children, ~active: bool, ~index: int, ~width: int, ~height: int) =>
   <div
     style={ReactDOMRe.Style.make(
       ~backgroundColor=active ? colors[index] : "#EEEEEE",
       ~display="flex",
       ~alignItems="center",
-      ~margin="5px",
-      ~width="50px",
-      ~height="65px",
+      ~margin=string_of_int(width / 5) ++ "px",
+      ~width=string_of_int(width) ++ "px",
+      ~height=string_of_int(height) ++ "px",
       (),
     )}>
     children

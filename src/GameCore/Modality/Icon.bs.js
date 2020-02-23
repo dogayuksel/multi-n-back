@@ -19,10 +19,11 @@ var icons = /* array */[
 function Icon(Props) {
   var index = Props.index;
   var active = Props.active;
+  var size = Props.size;
   if (active) {
     return React.createElement("svg", {
-                height: "48",
-                width: "48",
+                height: String(size) + "px",
+                width: String(size) + "px",
                 enableBackground: "new 0 0 24 24",
                 viewBox: "0 0 24 24",
                 xmlns: "http://www.w3.org/2000/svg"

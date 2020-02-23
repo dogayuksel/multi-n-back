@@ -20,13 +20,15 @@ function Color(Props) {
   var children = Props.children;
   var active = Props.active;
   var index = Props.index;
+  var width = Props.width;
+  var height = Props.height;
   return React.createElement("div", {
               style: {
                 backgroundColor: active ? Caml_array.caml_array_get(colors, index) : "#EEEEEE",
                 display: "flex",
-                height: "65px",
-                margin: "5px",
-                width: "50px",
+                height: String(height) + "px",
+                margin: String(width / 5 | 0) + "px",
+                width: String(width) + "px",
                 alignItems: "center"
               }
             }, children);

@@ -9,22 +9,17 @@ let style = document##createElement("style");
 document##head##appendChild(style);
 style##innerHTML #= AppStyles.style;
 
-let makeContainer = text => {
+let makeContainer = () => {
   let container = document##createElement("div");
   container##className #= "container";
 
-  let title = document##createElement("div");
-  title##className #= "containerTitle";
-  title##innerText #= text;
-
   let content = document##createElement("div");
-  content##className #= "containerContent";
+  content##className #= "contentContainer";
 
-  let () = container##appendChild(title);
   let () = container##appendChild(content);
   let () = document##body##appendChild(container);
 
   content;
 };
 
-ReactDOMRe.render(<App />, makeContainer("Multi-N-Back"));
+ReactDOMRe.render(<App />, makeContainer());

@@ -2,6 +2,16 @@ let getValue = Modality.getValue;
 
 type modalityIndices = Modality.modalities(int);
 
+let getSize =
+  fun
+  | 0
+  | 1 => (80, 88, 76)
+  | 2 => (60, 66, 58)
+  | 3 => (50, 55, 48)
+  | 4 => (40, 44, 38)
+  | 5 => (30, 33, 28)
+  | _ => (20, 22, 18);
+
 [@react.component]
 let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
   let modalityIndices =
@@ -35,8 +45,10 @@ let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
       (),
     );
 
+  let (width, height, iconSize) = getSize(positionDepth);
+
   <div
-    className="containerCanvas"
+    className="canvasContainer"
     style={ReactDOMRe.Style.unsafeAddProp(
       wrapperStyles,
       "gridTemplateColumns",
@@ -47,6 +59,8 @@ let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
           let active =
             modalityIndices |> Modality.getValue(Position) == renderIndex;
           <Color
+            width
+            height
             key={string_of_int(renderIndex)}
             active={
               active
@@ -63,6 +77,7 @@ let make = (~config: GameConfiguration.t, ~gameState: GameState.t) => {
                 |> Belt.Option.isSome
               }
               index={modalityIndices |> Modality.getValue(Icon)}
+              size=iconSize
             />
           </Color>;
         })

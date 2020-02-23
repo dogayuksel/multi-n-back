@@ -42,17 +42,20 @@ let style = {j|
                                 $background_less_lighter);
   }
 
+  button:disabled {
+    box-shadow:  1px  1px 2px $background_more_darker,
+                -1px -1px 2px $background_more_lighter;
+  }
+
   .container {
     margin: 50px 25px;
     box-shadow:  16px  16px 40px $background_more_darker,
                 -16px -16px 40px $background_more_lighter;
     border-radius: 30px;
     font-family: sans-serif;
-  }
-
-  button:disabled {
-    box-shadow:  1px  1px 2px $background_more_darker,
-                -1px -1px 2px $background_more_lighter;
+    position: absolute;
+    overflow-y: hidden;
+    height: calc(100vh - 100px);
   }
 
   @media (max-width: 720px) {
@@ -61,27 +64,28 @@ let style = {j|
       box-shadow: none;
       border-radius: 0;
       width: 100vw;
+      height: 100vh;
     }
   }
 
-  .containerTitle {
-    margin: 2em calc(16px + 40px);
+  .titleContainer {
+    margin: 1.5em 40px;
     font-weight: 500;
     font-size: 1.4em;
   }
 
-  .containerContent {
+  .contentContainer {
     border-radius: 0px 0px 30px 30px;
     background-color: $background;
     padding: 16px;
   }
 
-  .containerOverview {
+  .overviewContainer {
     display: flex;
     justify-content: space-between;
   }
 
-  .containerScore {
+  .scoreContainer {
     margin: 10px 40px;
     box-shadow:  6px  6px 20px $background_more_darker,
                 -6px -6px 20px $background_more_lighter;
@@ -95,7 +99,7 @@ let style = {j|
     align-items: center;
   }
 
-  .containerCanvas {
+  .canvasContainer {
     margin: 40px;
     box-shadow: inset  12px  12px 30px $background_more_darker,
                 inset -12px -12px 30px $background_more_lighter;
@@ -104,7 +108,13 @@ let style = {j|
     padding: 40px;
   }
 
-  .containerConfiguration {
+  .configurationWrapper {
+    position: absolute;
+    width: calc(100%  - 32px);
+    height: 0;
+  }
+
+  .configurationContainer {
     margin: 40px;
     box-shadow: inset  12px  12px 30px $background_more_darker,
                 inset -12px -12px 30px $background_more_lighter;
@@ -115,5 +125,15 @@ let style = {j|
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    transition: transform 250ms;
+    will-change: transform;
+  }
+
+  .configPanelOpen {
+    transform: translateY(-100px);
+  }
+
+  .configPanelClosed {
+    transform: translateY(70vh);
   }
 |j};

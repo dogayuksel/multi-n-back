@@ -1,5 +1,6 @@
 type state = {
   config: GameConfiguration.t,
+  configPanelOpen: bool,
   gameState: GameState.t,
   stateHistory: GameState.stateHistory,
   answer: Answer.t,
@@ -10,6 +11,7 @@ type state = {
 type action =
   | UpdateDepthConfig(int)
   | UpdateModalityConfig(Modality.t, option(int))
+  | ToggleConfigPanelOpen
   | UpdateAnswer(Answer.t)
   | AdvanceTurn;
 
@@ -17,6 +19,7 @@ let initialConfig = GameConfiguration.makeDefault();
 
 let initialState: state = {
   config: initialConfig,
+  configPanelOpen: false,
   gameState: GameState.makeRandom(initialConfig),
   stateHistory: [],
   answer: Answer.make(),
@@ -34,6 +37,10 @@ let reducer = (state: state, action: action): state => {
       ...state,
       config:
         state.config |> GameConfiguration.updateModality(modality, value),
+    }
+  | ToggleConfigPanelOpen => {
+      ...state,
+      configPanelOpen: !state.configPanelOpen,
     }
   | UpdateAnswer(answer) => {...state, answer}
   | AdvanceTurn =>
@@ -84,9 +91,10 @@ let make = () => {
     dispatch(UpdateDepthConfig(value));
   };
 
-  <div>
-    <div className="containerOverview">
-      <div className="containerScore">
+  <>
+    <div className="titleContainer"> {React.string("Multi-N-Back")} </div>
+    <div className="overviewContainer">
+      <div className="scoreContainer">
         <div>
           {switch (state.stateHistory |> List.length) {
            | 0 => React.string("First Turn!")
@@ -100,7 +108,7 @@ let make = () => {
            }}
         </div>
       </div>
-      <div className="containerScore">
+      <div className="scoreContainer">
         {switch (state.highScore) {
          | None => React.null
          | Some(value) =>
@@ -108,10 +116,59 @@ let make = () => {
          }}
       </div>
     </div>
+    {if (List.length(state.stateHistory) == 0) {
+       <div className="configurationWrapper">
+         <div
+           className={
+             "configurationContainer "
+             ++ (
+               state.configPanelOpen ? "configPanelOpen" : "configPanelClosed"
+             )
+           }>
+           {Modality.allModalityTypes
+            |> Array.map(modality => {
+                 <Slider
+                   key={Modality.getLabel(modality) ++ "_config"}
+                   label={modality |> Modality.getLabel}
+                   value={
+                     state.config.modalities |> Modality.getValue(modality)
+                   }
+                   onChange={(value: int) => {
+                     let optionValue =
+                       switch (value) {
+                       | 0 => None
+                       | v => Some(v)
+                       };
+                     dispatch(UpdateModalityConfig(modality, optionValue));
+                   }}
+                 />
+               })
+            |> React.array}
+           <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
+             {React.string("Depth")}
+             <select
+               onChange={event => updateDepthConfig(event)}
+               value={string_of_int(state.config.depth)}>
+               <option value="1"> {React.string("1")} </option>
+               <option value="2"> {React.string("2")} </option>
+               <option value="3"> {React.string("3")} </option>
+               <option value="4"> {React.string("4")} </option>
+               <option value="5"> {React.string("5")} </option>
+             </select>
+           </label>
+           {state.configPanelOpen
+              ? <button onClick={_ => dispatch(ToggleConfigPanelOpen)}>
+                  <div> {React.string("Done")} </div>
+                </button>
+              : React.null}
+         </div>
+       </div>;
+     } else {
+       React.null;
+     }}
     <Canvas config={state.config} gameState={state.gameState} />
     <div
       style={ReactDOMRe.Style.make(
-        ~margin="25px",
         ~display="flex",
         ~justifyContent="center",
         (),
@@ -120,6 +177,31 @@ let make = () => {
         {List.length(state.stateHistory) == 0
            ? React.string("Start") : React.string("Next")}
       </button>
+    </div>
+    <div
+      onClick={_ =>
+        if (!state.configPanelOpen && List.length(state.stateHistory) == 0) {
+          dispatch(ToggleConfigPanelOpen);
+        }
+      }
+      style={ReactDOMRe.Style.make(
+        ~boxShadow=
+          "inset 12px 12px 30px "
+          ++ AppStyles.background_more_darker
+          ++ ", inset -12px -12px 30px "
+          ++ AppStyles.background_more_lighter,
+        ~borderRadius="40px 40px 0 0",
+        ~width="150px",
+        ~height="40px",
+        ~position="absolute",
+        ~bottom="0",
+        ~left="calc(50% - 75px)",
+        ~color=AppStyles.blue,
+        ~textAlign="center",
+        ~paddingTop="1.5em",
+        (),
+      )}>
+      {React.string("Configure")}
     </div>
     {if (List.length(state.stateHistory) >= state.config.depth) {
        <div
@@ -151,43 +233,5 @@ let make = () => {
      } else {
        React.null;
      }}
-    {if (List.length(state.stateHistory) == 0) {
-       <div className="containerConfiguration">
-         <div> {React.string("Configure")} </div>
-         {Modality.allModalityTypes
-          |> Array.map(modality => {
-               <Slider
-                 key={Modality.getLabel(modality) ++ "_config"}
-                 label={modality |> Modality.getLabel}
-                 value={
-                   state.config.modalities |> Modality.getValue(modality)
-                 }
-                 onChange={(value: int) => {
-                   let optionValue =
-                     switch (value) {
-                     | 0 => None
-                     | v => Some(v)
-                     };
-                   dispatch(UpdateModalityConfig(modality, optionValue));
-                 }}
-               />
-             })
-          |> React.array}
-         <label style={ReactDOMRe.Style.make(~margin="12px", ())}>
-           {React.string("Depth")}
-           <select
-             onChange={event => updateDepthConfig(event)}
-             value={string_of_int(state.config.depth)}>
-             <option value="1"> {React.string("1")} </option>
-             <option value="2"> {React.string("2")} </option>
-             <option value="3"> {React.string("3")} </option>
-             <option value="4"> {React.string("4")} </option>
-             <option value="5"> {React.string("5")} </option>
-           </select>
-         </label>
-       </div>;
-     } else {
-       React.null;
-     }}
-  </div>;
+  </>;
 };
