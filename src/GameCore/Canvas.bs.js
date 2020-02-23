@@ -27,9 +27,9 @@ function getSize(param) {
               ];
     case 3 :
         return /* tuple */[
-                50,
-                55,
-                48
+                43,
+                48,
+                41
               ];
     case 4 :
         return /* tuple */[

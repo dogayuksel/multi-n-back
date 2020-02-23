@@ -111,55 +111,26 @@ let make = () => {
          }}
       </div>
     </div>
-    {if (List.length(state.stateHistory) == 0) {
-       <ConfigurationPanel
-         panelOpen={state.configPanelOpen}
-         config={state.config}
-         updateModalityConfig={(modality, value) =>
-           dispatch(UpdateModalityConfig(modality, value))
-         }
-         updateDepthConfig={depth => dispatch(UpdateDepthConfig(depth))}
-         togglePanelOpen={_ => dispatch(ToggleConfigPanelOpen)}
-       />;
-     } else {
-       React.null;
-     }}
     <Canvas config={state.config} gameState={state.gameState} />
-    <div
-      style={ReactDOMRe.Style.make(
-        ~display="flex",
-        ~justifyContent="center",
-        (),
-      )}>
-      <button
-        style={ReactDOMRe.Style.make(~fontSize="1.4em", ())}
-        onClick={_ => dispatch(AdvanceTurn)}>
-        {List.length(state.stateHistory) == 0
-           ? React.string("Start") : React.string("Next")}
-      </button>
-    </div>
-    {!state.configPanelOpen && List.length(state.stateHistory) == 0
+    {!state.configPanelOpen
        ? <div
-           onClick={_ => dispatch(ToggleConfigPanelOpen)}
            style={ReactDOMRe.Style.make(
-             ~boxShadow=
-               "inset 12px 12px 30px "
-               ++ AppStyles.background_more_darker
-               ++ ", inset -12px -12px 30px "
-               ++ AppStyles.background_more_lighter,
-             ~borderRadius="40px 40px 0 0",
-             ~width="150px",
-             ~height="40px",
-             ~position="absolute",
-             ~bottom="0",
-             ~left="calc(50% - 75px)",
-             ~color=AppStyles.blue,
-             ~textAlign="center",
-             ~paddingTop="1.5em",
+             ~display="flex",
+             ~justifyContent="center",
              (),
            )}>
-           {React.string("Configure")}
+           <button
+             style={ReactDOMRe.Style.make(~fontSize="1.4em", ())}
+             onClick={_ => dispatch(AdvanceTurn)}>
+             {List.length(state.stateHistory) == 0
+                ? React.string("Start") : React.string("Next")}
+           </button>
          </div>
+       : React.null}
+    {!state.configPanelOpen && List.length(state.stateHistory) == 0
+       ? <ConfigurationTrigger
+           toggleConfigPanelOpen={_ => dispatch(ToggleConfigPanelOpen)}
+         />
        : React.null}
     {if (List.length(state.stateHistory) >= state.config.depth) {
        <div
@@ -187,5 +158,14 @@ let make = () => {
      } else {
        React.null;
      }}
+    <ConfigurationPanel
+      panelOpen={state.configPanelOpen}
+      config={state.config}
+      updateModalityConfig={(modality, value) =>
+        dispatch(UpdateModalityConfig(modality, value))
+      }
+      updateDepthConfig={depth => dispatch(UpdateDepthConfig(depth))}
+      togglePanelOpen={_ => dispatch(ToggleConfigPanelOpen)}
+    />
   </>;
 };

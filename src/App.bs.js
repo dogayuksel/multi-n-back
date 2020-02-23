@@ -9,11 +9,11 @@ var Score$ReasonReactExamples = require("./GameCore/Score.bs.js");
 var Answer$ReasonReactExamples = require("./GameCore/Answer.bs.js");
 var Canvas$ReasonReactExamples = require("./GameCore/Canvas.bs.js");
 var Modality$ReasonReactExamples = require("./GameCore/Modality/Modality.bs.js");
-var AppStyles$ReasonReactExamples = require("./AppStyles.bs.js");
 var GameState$ReasonReactExamples = require("./GameCore/GameState.bs.js");
 var AnswerToggle$ReasonReactExamples = require("./Interface/AnswerToggle.bs.js");
 var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguration.bs.js");
 var ConfigurationPanel$ReasonReactExamples = require("./Interface/ConfigurationPanel.bs.js");
+var ConfigurationTrigger$ReasonReactExamples = require("./Interface/ConfigurationTrigger.bs.js");
 
 var initialConfig = GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
 
@@ -137,8 +137,27 @@ function App(Props) {
   var value = List.length(state.stateHistory);
   var value$1 = state.score;
   var match$1 = state.highScore;
-  var match$2 = List.length(state.stateHistory) === 0;
-  var match$3 = !state.configPanelOpen && List.length(state.stateHistory) === 0;
+  var match$2 = !state.configPanelOpen;
+  var tmp;
+  if (match$2) {
+    var match$3 = List.length(state.stateHistory) === 0;
+    tmp = React.createElement("div", {
+          style: {
+            display: "flex",
+            justifyContent: "center"
+          }
+        }, React.createElement("button", {
+              style: {
+                fontSize: "1.4em"
+              },
+              onClick: (function (param) {
+                  return Curry._1(dispatch, /* AdvanceTurn */1);
+                })
+            }, match$3 ? "Start" : "Next"));
+  } else {
+    tmp = null;
+  }
+  var match$4 = !state.configPanelOpen && List.length(state.stateHistory) === 0;
   return React.createElement(React.Fragment, undefined, React.createElement("div", {
                   className: "titleContainer"
                 }, "Multi-N-Back"), React.createElement("div", {
@@ -147,53 +166,14 @@ function App(Props) {
                       className: "scoreContainer"
                     }, React.createElement("div", undefined, value !== 0 ? "Turn: " + String(value + 1 | 0) : "First Turn!"), React.createElement("div", undefined, value$1 !== 0 ? "Score: " + String(value$1) : null)), React.createElement("div", {
                       className: "scoreContainer"
-                    }, match$1 !== undefined ? "High Score: " + String(match$1) : null)), List.length(state.stateHistory) === 0 ? React.createElement(ConfigurationPanel$ReasonReactExamples.make, {
-                    panelOpen: state.configPanelOpen,
-                    config: state.config,
-                    updateModalityConfig: (function (modality, value) {
-                        return Curry._1(dispatch, /* UpdateModalityConfig */Block.__(1, [
-                                      modality,
-                                      value
-                                    ]));
-                      }),
-                    updateDepthConfig: (function (depth) {
-                        return Curry._1(dispatch, /* UpdateDepthConfig */Block.__(0, [depth]));
-                      }),
-                    togglePanelOpen: (function (param) {
-                        return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
-                      })
-                  }) : null, React.createElement(Canvas$ReasonReactExamples.make, {
+                    }, match$1 !== undefined ? "High Score: " + String(match$1) : null)), React.createElement(Canvas$ReasonReactExamples.make, {
                   config: state.config,
                   gameState: state.gameState
-                }), React.createElement("div", {
-                  style: {
-                    display: "flex",
-                    justifyContent: "center"
-                  }
-                }, React.createElement("button", {
-                      style: {
-                        fontSize: "1.4em"
-                      },
-                      onClick: (function (param) {
-                          return Curry._1(dispatch, /* AdvanceTurn */1);
-                        })
-                    }, match$2 ? "Start" : "Next")), match$3 ? React.createElement("div", {
-                    style: {
-                      bottom: "0",
-                      color: AppStyles$ReasonReactExamples.blue,
-                      height: "40px",
-                      left: "calc(50% - 75px)",
-                      paddingTop: "1.5em",
-                      position: "absolute",
-                      textAlign: "center",
-                      width: "150px",
-                      borderRadius: "40px 40px 0 0",
-                      boxShadow: "inset 12px 12px 30px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -12px -12px 30px " + AppStyles$ReasonReactExamples.background_more_lighter))
-                    },
-                    onClick: (function (param) {
+                }), tmp, match$4 ? React.createElement(ConfigurationTrigger$ReasonReactExamples.make, {
+                    toggleConfigPanelOpen: (function (param) {
                         return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
                       })
-                  }, "Configure") : null, List.length(state.stateHistory) >= state.config.depth ? React.createElement("div", {
+                  }) : null, List.length(state.stateHistory) >= state.config.depth ? React.createElement("div", {
                     style: {
                       display: "flex",
                       margin: "25px",
@@ -214,7 +194,22 @@ function App(Props) {
                           } else {
                             return null;
                           }
-                        }), Modality$ReasonReactExamples.allModalityTypes)) : null);
+                        }), Modality$ReasonReactExamples.allModalityTypes)) : null, React.createElement(ConfigurationPanel$ReasonReactExamples.make, {
+                  panelOpen: state.configPanelOpen,
+                  config: state.config,
+                  updateModalityConfig: (function (modality, value) {
+                      return Curry._1(dispatch, /* UpdateModalityConfig */Block.__(1, [
+                                    modality,
+                                    value
+                                  ]));
+                    }),
+                  updateDepthConfig: (function (depth) {
+                      return Curry._1(dispatch, /* UpdateDepthConfig */Block.__(0, [depth]));
+                    }),
+                  togglePanelOpen: (function (param) {
+                      return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
+                    })
+                }));
 }
 
 var make = App;

@@ -111,12 +111,14 @@ let style = {j|
 
   .configurationWrapper {
     position: absolute;
+    top: 0;
     width: calc(100%  - 32px);
     height: 0;
   }
 
   .configurationContainer {
-    margin: 40px;
+    margin: 20px;
+    margin-top: 40px;
     box-shadow: inset  12px  12px 30px $background_more_darker,
                 inset -12px -12px 30px $background_more_lighter;
     border-radius: 20px;
@@ -128,13 +130,20 @@ let style = {j|
     align-items: center;
     transition: transform 250ms;
     will-change: transform;
+    height: calc(100vh - 260px);
+  }
+
+  @media (max-width: 720px) {
+    .configurationContainer {
+      height: calc(100vh - 180px);
+    }
   }
 
   .configPanelOpen {
-    transform: translateY(-100px);
+    transform: translateY(0);
   }
 
   .configPanelClosed {
-    transform: translateY(70vh);
+    transform: translateY(100vh);
   }
 |j};
