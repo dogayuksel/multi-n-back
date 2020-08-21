@@ -21,7 +21,7 @@ function makeContainer(param) {
   return content;
 }
 
-ReactDom.render(React.createElement(App$ReasonReactExamples.make, { }), makeContainer(/* () */0));
+ReactDom.render(React.createElement(App$ReasonReactExamples.make, {}), makeContainer(undefined));
 
 exports.style = style;
 exports.makeContainer = makeContainer;

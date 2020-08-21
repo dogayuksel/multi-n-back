@@ -4,7 +4,6 @@ var $$Array = require("bs-platform/lib/js/array.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
-var Caml_builtin_exceptions = require("bs-platform/lib/js/caml_builtin_exceptions.js");
 var AppStyles$ReasonReactExamples = require("../AppStyles.bs.js");
 
 function color(scale) {
@@ -28,7 +27,10 @@ function color(scale) {
     case 9 :
         return "#d73027";
     default:
-      throw Caml_builtin_exceptions.not_found;
+      throw {
+            RE_EXN_ID: "Not_found",
+            Error: new Error()
+          };
   }
 }
 
@@ -67,12 +69,10 @@ function Slider(Props) {
                     alignItems: "flex-end"
                   }
                 }, $$Array.map((function (index) {
-                        var match = intValue >= index;
-                        var match$1 = intValue >= index;
                         return React.createElement("div", {
                                     style: {
-                                      backgroundColor: match ? color(index) : "",
-                                      display: match$1 ? "inline-block" : "none",
+                                      backgroundColor: intValue >= index ? color(index) : "",
+                                      display: intValue >= index ? "inline-block" : "none",
                                       height: String((index << 1)) + "px",
                                       width: "5px",
                                       borderRadius: index !== 1 ? (

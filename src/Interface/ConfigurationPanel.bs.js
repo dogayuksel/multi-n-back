@@ -50,20 +50,17 @@ function ConfigurationPanel(Props) {
                             justifyContent: "space-between"
                           }
                         }, $$Array.map((function (index) {
-                                var match = index === 5;
-                                var match$1 = index === 1;
-                                var match$2 = index === config.depth;
                                 return React.createElement("div", {
                                             style: {
                                               color: AppStyles$ReasonReactExamples.blue,
                                               display: "flex",
                                               height: "2em",
                                               lineHeight: "1em",
-                                              marginRight: match ? "0" : "10px",
-                                              marginLeft: match$1 ? "0" : "10px",
+                                              marginRight: index === 5 ? "0" : "10px",
+                                              marginLeft: index === 1 ? "0" : "10px",
                                               width: "2em",
                                               borderRadius: "10px",
-                                              boxShadow: match$2 ? "inset 2px 2px 6px " + (AppStyles$ReasonReactExamples.background_less_darker + (", inset -2px -2px 6px " + AppStyles$ReasonReactExamples.background_less_lighter)) : "8px 8px 20px " + (AppStyles$ReasonReactExamples.background_more_darker + (", -8px -8px 20px " + AppStyles$ReasonReactExamples.background_more_lighter)),
+                                              boxShadow: index === config.depth ? "inset 2px 2px 6px " + (AppStyles$ReasonReactExamples.background_less_darker + (", inset -2px -2px 6px " + AppStyles$ReasonReactExamples.background_less_lighter)) : "8px 8px 20px " + (AppStyles$ReasonReactExamples.background_more_darker + (", -8px -8px 20px " + AppStyles$ReasonReactExamples.background_more_lighter)),
                                               alignItems: "center",
                                               justifyContent: "center"
                                             },
@@ -76,7 +73,7 @@ function ConfigurationPanel(Props) {
                         fontSize: "1.4em"
                       },
                       onClick: (function (param) {
-                          return Curry._1(togglePanelOpen, /* () */0);
+                          return Curry._1(togglePanelOpen, undefined);
                         })
                     }, React.createElement("div", undefined, "Done"))));
 }

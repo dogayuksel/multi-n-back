@@ -20,7 +20,7 @@ function ConfigurationTrigger(Props) {
                 boxShadow: "inset 12px 12px 30px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -12px -12px 30px " + AppStyles$ReasonReactExamples.background_more_lighter))
               },
               onClick: (function (param) {
-                  return Curry._1(toggleConfigPanelOpen, /* () */0);
+                  return Curry._1(toggleConfigPanelOpen, undefined);
                 })
             }, "Configure");
 }

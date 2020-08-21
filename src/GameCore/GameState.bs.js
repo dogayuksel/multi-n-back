@@ -3,16 +3,15 @@
 var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
 var Random = require("bs-platform/lib/js/random.js");
-var Caml_int32 = require("bs-platform/lib/js/caml_int32.js");
 var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
 var Modality$ReasonReactExamples = require("./Modality/Modality.bs.js");
 
 function makeRandom(configuration) {
   var modeConfig = configuration.modalities;
-  Random.self_init(/* () */0);
+  Random.self_init(undefined);
   return {
           position: Belt_Option.map(Modality$ReasonReactExamples.getValue(/* Position */0, modeConfig), (function (value) {
-                  return Random.$$int(Caml_int32.imul(value, value));
+                  return Random.$$int(Math.imul(value, value));
                 })),
           color: Belt_Option.map(Modality$ReasonReactExamples.getValue(/* Color */1, modeConfig), Random.$$int),
           icon: Belt_Option.map(Modality$ReasonReactExamples.getValue(/* Icon */2, modeConfig), Random.$$int)
@@ -37,8 +36,7 @@ function makeEmptyResult(param) {
 
 function makeResult(answer, configuration) {
   return $$Array.fold_left((function (result, modality) {
-                var match = Modality$ReasonReactExamples.getValue(modality, answer);
-                if (match) {
+                if (Modality$ReasonReactExamples.getValue(modality, answer)) {
                   return Modality$ReasonReactExamples.setValue(modality, Modality$ReasonReactExamples.getValue(modality, configuration.modalities), result);
                 } else {
                   return result;
@@ -52,10 +50,9 @@ function makeResult(answer, configuration) {
 
 function compareToHistory(answer, gameState, stateHistory, configuration) {
   var oldState = List.nth(stateHistory, configuration.depth - 1 | 0);
-  var match = $$Array.for_all((function (modality) {
-          return compareValue(Modality$ReasonReactExamples.getValue(modality, configuration.modalities), Modality$ReasonReactExamples.getValue(modality, answer), Modality$ReasonReactExamples.getValue(modality, oldState), Modality$ReasonReactExamples.getValue(modality, gameState));
-        }), Modality$ReasonReactExamples.allModalityTypes);
-  if (match) {
+  if ($$Array.for_all((function (modality) {
+            return compareValue(Modality$ReasonReactExamples.getValue(modality, configuration.modalities), Modality$ReasonReactExamples.getValue(modality, answer), Modality$ReasonReactExamples.getValue(modality, oldState), Modality$ReasonReactExamples.getValue(modality, gameState));
+          }), Modality$ReasonReactExamples.allModalityTypes)) {
     return makeResult(answer, configuration);
   }
   

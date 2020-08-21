@@ -1,7 +1,6 @@
 'use strict';
 
 var $$Array = require("bs-platform/lib/js/array.js");
-var Caml_int32 = require("bs-platform/lib/js/caml_int32.js");
 var Pervasives = require("bs-platform/lib/js/pervasives.js");
 var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
 var Caml_option = require("bs-platform/lib/js/caml_option.js");
@@ -15,10 +14,10 @@ function setHighScore(score) {
 }
 
 function calculateScore(result, depth) {
-  return Caml_int32.imul((depth << 1), $$Array.fold_left((function (acc, cur) {
-                    var match = Modality$ReasonReactExamples.getValue(cur, result);
-                    if (match !== undefined) {
-                      return Caml_int32.imul(acc, match);
+  return Math.imul((depth << 1), $$Array.fold_left((function (acc, cur) {
+                    var value = Modality$ReasonReactExamples.getValue(cur, result);
+                    if (value !== undefined) {
+                      return Math.imul(acc, value);
                     } else {
                       return acc;
                     }
@@ -30,15 +29,9 @@ function getHighScore(param) {
 }
 
 function updateHighScore(score) {
-  var match = getHighScore(/* () */0);
-  if (match !== undefined) {
-    var value = match;
-    var match$1 = value > score;
-    if (match$1) {
-      return value;
-    } else {
-      return setHighScore(score);
-    }
+  var value = getHighScore(undefined);
+  if (value !== undefined && value > score) {
+    return value;
   } else {
     return setHighScore(score);
   }

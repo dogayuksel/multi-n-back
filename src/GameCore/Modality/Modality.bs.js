@@ -1,7 +1,7 @@
 'use strict';
 
 
-var allModalityTypes = /* array */[
+var allModalityTypes = [
   /* Position */0,
   /* Color */1,
   /* Icon */2

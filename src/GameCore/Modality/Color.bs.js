@@ -3,7 +3,7 @@
 var React = require("react");
 var Caml_array = require("bs-platform/lib/js/caml_array.js");
 
-var colors = /* array */[
+var colors = [
   "#4e79a7",
   "#f28e2c",
   "#e15759",

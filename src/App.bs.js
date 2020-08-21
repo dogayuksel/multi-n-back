@@ -2,7 +2,6 @@
 
 var List = require("bs-platform/lib/js/list.js");
 var $$Array = require("bs-platform/lib/js/array.js");
-var Block = require("bs-platform/lib/js/block.js");
 var Curry = require("bs-platform/lib/js/curry.js");
 var React = require("react");
 var Score$ReasonReactExamples = require("./GameCore/Score.bs.js");
@@ -16,13 +15,13 @@ var GameConfiguration$ReasonReactExamples = require("./GameCore/GameConfiguratio
 var ConfigurationPanel$ReasonReactExamples = require("./Interface/ConfigurationPanel.bs.js");
 var ConfigurationTrigger$ReasonReactExamples = require("./Interface/ConfigurationTrigger.bs.js");
 
-var initialConfig = GameConfiguration$ReasonReactExamples.makeDefault(/* () */0);
+var initialConfig = GameConfiguration$ReasonReactExamples.makeDefault(undefined);
 
 var initialState_gameState = GameState$ReasonReactExamples.makeRandom(initialConfig);
 
-var initialState_answer = Answer$ReasonReactExamples.make(/* () */0);
+var initialState_answer = Answer$ReasonReactExamples.make(undefined);
 
-var initialState_highScore = Score$ReasonReactExamples.getHighScore(/* () */0);
+var initialState_highScore = Score$ReasonReactExamples.getHighScore(undefined);
 
 var initialState = {
   config: initialConfig,
@@ -46,59 +45,58 @@ function reducer(state, action) {
               score: state.score,
               highScore: state.highScore
             };
-    } else {
-      var partiallyUpdatedState;
-      if (List.length(state.stateHistory) >= state.config.depth) {
-        var match = GameState$ReasonReactExamples.compareToHistory(state.answer, state.gameState, state.stateHistory, state.config);
-        partiallyUpdatedState = match !== undefined ? ({
-              config: state.config,
-              configPanelOpen: state.configPanelOpen,
-              gameState: state.gameState,
-              stateHistory: /* :: */[
-                state.gameState,
-                state.stateHistory
-              ],
-              answer: state.answer,
-              score: Score$ReasonReactExamples.calculateScore(match, state.config.depth) + state.score | 0,
-              highScore: state.highScore
-            }) : ({
-              config: state.config,
-              configPanelOpen: state.configPanelOpen,
-              gameState: state.gameState,
-              stateHistory: /* [] */0,
-              answer: state.answer,
-              score: 0,
-              highScore: Score$ReasonReactExamples.updateHighScore(state.score)
-            });
-      } else {
-        partiallyUpdatedState = {
-          config: state.config,
-          configPanelOpen: state.configPanelOpen,
-          gameState: state.gameState,
-          stateHistory: /* :: */[
-            state.gameState,
-            state.stateHistory
-          ],
-          answer: state.answer,
-          score: state.score,
-          highScore: state.highScore
-        };
-      }
-      return {
-              config: partiallyUpdatedState.config,
-              configPanelOpen: partiallyUpdatedState.configPanelOpen,
-              gameState: GameState$ReasonReactExamples.makeRandom(state.config),
-              stateHistory: partiallyUpdatedState.stateHistory,
-              answer: Answer$ReasonReactExamples.make(/* () */0),
-              score: partiallyUpdatedState.score,
-              highScore: partiallyUpdatedState.highScore
-            };
     }
+    var partiallyUpdatedState;
+    if (List.length(state.stateHistory) >= state.config.depth) {
+      var result = GameState$ReasonReactExamples.compareToHistory(state.answer, state.gameState, state.stateHistory, state.config);
+      partiallyUpdatedState = result !== undefined ? ({
+            config: state.config,
+            configPanelOpen: state.configPanelOpen,
+            gameState: state.gameState,
+            stateHistory: {
+              hd: state.gameState,
+              tl: state.stateHistory
+            },
+            answer: state.answer,
+            score: Score$ReasonReactExamples.calculateScore(result, state.config.depth) + state.score | 0,
+            highScore: state.highScore
+          }) : ({
+            config: state.config,
+            configPanelOpen: state.configPanelOpen,
+            gameState: state.gameState,
+            stateHistory: /* [] */0,
+            answer: state.answer,
+            score: 0,
+            highScore: Score$ReasonReactExamples.updateHighScore(state.score)
+          });
+    } else {
+      partiallyUpdatedState = {
+        config: state.config,
+        configPanelOpen: state.configPanelOpen,
+        gameState: state.gameState,
+        stateHistory: {
+          hd: state.gameState,
+          tl: state.stateHistory
+        },
+        answer: state.answer,
+        score: state.score,
+        highScore: state.highScore
+      };
+    }
+    return {
+            config: partiallyUpdatedState.config,
+            configPanelOpen: partiallyUpdatedState.configPanelOpen,
+            gameState: GameState$ReasonReactExamples.makeRandom(state.config),
+            stateHistory: partiallyUpdatedState.stateHistory,
+            answer: Answer$ReasonReactExamples.make(undefined),
+            score: partiallyUpdatedState.score,
+            highScore: partiallyUpdatedState.highScore
+          };
   } else {
-    switch (action.tag | 0) {
+    switch (action.TAG | 0) {
       case /* UpdateDepthConfig */0 :
           return {
-                  config: GameConfiguration$ReasonReactExamples.updateDepth(action[0], state.config),
+                  config: GameConfiguration$ReasonReactExamples.updateDepth(action._0, state.config),
                   configPanelOpen: state.configPanelOpen,
                   gameState: state.gameState,
                   stateHistory: state.stateHistory,
@@ -108,7 +106,7 @@ function reducer(state, action) {
                 };
       case /* UpdateModalityConfig */1 :
           return {
-                  config: GameConfiguration$ReasonReactExamples.updateModality(action[0], action[1], state.config),
+                  config: GameConfiguration$ReasonReactExamples.updateModality(action._0, action._1, state.config),
                   configPanelOpen: state.configPanelOpen,
                   gameState: state.gameState,
                   stateHistory: state.stateHistory,
@@ -122,7 +120,7 @@ function reducer(state, action) {
                   configPanelOpen: state.configPanelOpen,
                   gameState: state.gameState,
                   stateHistory: state.stateHistory,
-                  answer: action[0],
+                  answer: action._0,
                   score: state.score,
                   highScore: state.highScore
                 };
@@ -137,28 +135,7 @@ function App(Props) {
   var state = match[0];
   var value = List.length(state.stateHistory);
   var value$1 = state.score;
-  var match$1 = state.highScore;
-  var match$2 = !state.configPanelOpen;
-  var tmp;
-  if (match$2) {
-    var match$3 = List.length(state.stateHistory) === 0;
-    tmp = React.createElement("div", {
-          style: {
-            display: "flex",
-            justifyContent: "center"
-          }
-        }, React.createElement("button", {
-              style: {
-                fontSize: "1.4em"
-              },
-              onClick: (function (param) {
-                  return Curry._1(dispatch, /* AdvanceTurn */1);
-                })
-            }, match$3 ? "Start" : "Next"));
-  } else {
-    tmp = null;
-  }
-  var match$4 = !state.configPanelOpen && List.length(state.stateHistory) === 0;
+  var value$2 = state.highScore;
   return React.createElement(React.Fragment, undefined, React.createElement("div", {
                   className: "titleContainer"
                 }, "Multi-N-Back"), React.createElement("div", {
@@ -175,13 +152,25 @@ function App(Props) {
                             value: value$1
                           }) : null), React.createElement("div", {
                       className: "scoreContainer"
-                    }, match$1 !== undefined ? React.createElement(Statistics$ReasonReactExamples.make, {
+                    }, value$2 !== undefined ? React.createElement(Statistics$ReasonReactExamples.make, {
                             label: "High Score",
-                            value: match$1
+                            value: value$2
                           }) : null)), React.createElement(Canvas$ReasonReactExamples.make, {
                   config: state.config,
                   gameState: state.gameState
-                }), tmp, match$4 ? React.createElement(ConfigurationTrigger$ReasonReactExamples.make, {
+                }), state.configPanelOpen ? null : React.createElement("div", {
+                    style: {
+                      display: "flex",
+                      justifyContent: "center"
+                    }
+                  }, React.createElement("button", {
+                        style: {
+                          fontSize: "1.4em"
+                        },
+                        onClick: (function (param) {
+                            return Curry._1(dispatch, /* AdvanceTurn */1);
+                          })
+                      }, List.length(state.stateHistory) === 0 ? "Start" : "Next")), !state.configPanelOpen && List.length(state.stateHistory) === 0 ? React.createElement(ConfigurationTrigger$ReasonReactExamples.make, {
                     toggleConfigPanelOpen: (function (param) {
                         return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
                       })
@@ -197,8 +186,10 @@ function App(Props) {
                             return React.createElement(AnswerToggle$ReasonReactExamples.make, {
                                         checked: Modality$ReasonReactExamples.getValue(modality, state.answer),
                                         onChange: (function (param) {
-                                            var modality$1 = modality;
-                                            return Curry._1(dispatch, /* UpdateAnswer */Block.__(2, [Answer$ReasonReactExamples.toggle(modality$1, state.answer)]));
+                                            return Curry._1(dispatch, {
+                                                        TAG: /* UpdateAnswer */2,
+                                                        _0: Answer$ReasonReactExamples.toggle(modality, state.answer)
+                                                      });
                                           }),
                                         label: "Same " + Modality$ReasonReactExamples.getLabel(modality),
                                         key: Modality$ReasonReactExamples.getLabel(modality) + "_answer"
@@ -210,13 +201,17 @@ function App(Props) {
                   panelOpen: state.configPanelOpen,
                   config: state.config,
                   updateModalityConfig: (function (modality, value) {
-                      return Curry._1(dispatch, /* UpdateModalityConfig */Block.__(1, [
-                                    modality,
-                                    value
-                                  ]));
+                      return Curry._1(dispatch, {
+                                  TAG: /* UpdateModalityConfig */1,
+                                  _0: modality,
+                                  _1: value
+                                });
                     }),
                   updateDepthConfig: (function (depth) {
-                      return Curry._1(dispatch, /* UpdateDepthConfig */Block.__(0, [depth]));
+                      return Curry._1(dispatch, {
+                                  TAG: /* UpdateDepthConfig */0,
+                                  _0: depth
+                                });
                     }),
                   togglePanelOpen: (function (param) {
                       return Curry._1(dispatch, /* ToggleConfigPanelOpen */0);
