@@ -32,7 +32,7 @@ function Icon(Props) {
                         width: "24",
                         fill: "none"
                       })), React.createElement("g", undefined, React.createElement("g", undefined, React.createElement("path", {
-                            d: Caml_array.caml_array_get(icons, index)
+                            d: Caml_array.get(icons, index)
                           }))));
   } else {
     return null;

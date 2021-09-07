@@ -24,7 +24,7 @@ function Color(Props) {
   var height = Props.height;
   return React.createElement("div", {
               style: {
-                backgroundColor: active ? Caml_array.caml_array_get(colors, index) : "#EEEEEE",
+                backgroundColor: active ? Caml_array.get(colors, index) : "#EEEEEE",
                 display: "flex",
                 height: String(height) + "px",
                 margin: String(width / 5 | 0) + "px",

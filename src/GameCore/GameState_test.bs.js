@@ -1,6 +1,6 @@
 'use strict';
 
-var Jest = require("@glennsl/bs-jest/src/jest.js");
+var Jest = require("@glennsl/bs-jest/src/jest.bs.js");
 var GameState$ReasonReactExamples = require("./GameState.bs.js");
 
 Jest.describe("compareValue function", (function (param) {
