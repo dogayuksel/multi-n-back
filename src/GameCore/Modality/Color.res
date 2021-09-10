@@ -1,4 +1,4 @@
-let colors = [|
+let colors = [
   "#4e79a7",
   "#f28e2c",
   "#e15759",
@@ -9,9 +9,9 @@ let colors = [|
   "#ff9da7",
   "#9c755f",
   "#bab0ab",
-|];
+]
 
-[@react.component]
+@react.component
 let make = (~children, ~active: bool, ~index: int, ~width: int, ~height: int) =>
   <div
     style={ReactDOMRe.Style.make(
@@ -24,4 +24,4 @@ let make = (~children, ~active: bool, ~index: int, ~width: int, ~height: int) =>
       (),
     )}>
     children
-  </div>;
+  </div>

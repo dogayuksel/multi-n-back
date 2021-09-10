@@ -1,6 +1,6 @@
 'use strict';
 
-var Modality$ReasonReactExamples = require("./Modality/Modality.bs.js");
+var Modality$MultiNBack = require("./Modality/Modality.bs.js");
 
 function make(param) {
   return {
@@ -11,28 +11,28 @@ function make(param) {
 }
 
 function toggleValue(modality, answer) {
-  return !Modality$ReasonReactExamples.getValue(modality, answer);
+  return !Modality$MultiNBack.getValue(modality, answer);
 }
 
 function toggle(modality, answer) {
   switch (modality) {
     case /* Position */0 :
         return {
-                position: !Modality$ReasonReactExamples.getValue(/* Position */0, answer),
+                position: !Modality$MultiNBack.getValue(/* Position */0, answer),
                 color: answer.color,
                 icon: answer.icon
               };
     case /* Color */1 :
         return {
                 position: answer.position,
-                color: !Modality$ReasonReactExamples.getValue(/* Color */1, answer),
+                color: !Modality$MultiNBack.getValue(/* Color */1, answer),
                 icon: answer.icon
               };
     case /* Icon */2 :
         return {
                 position: answer.position,
                 color: answer.color,
-                icon: !Modality$ReasonReactExamples.getValue(/* Icon */2, answer)
+                icon: !Modality$MultiNBack.getValue(/* Icon */2, answer)
               };
     
   }

@@ -2,14 +2,29 @@
 
 var React = require("react");
 var ReactDom = require("react-dom");
-var App$ReasonReactExamples = require("./App.bs.js");
-var AppStyles$ReasonReactExamples = require("./AppStyles.bs.js");
+var App$MultiNBack = require("./App.bs.js");
+var AppStyles$MultiNBack = require("./AppStyles.bs.js");
+
+var $$Element = {};
+
+var $$Document = {};
+
+var Webapi = {
+  $$Element: $$Element,
+  $$Document: $$Document
+};
 
 var style = document.createElement("style");
 
 document.head.appendChild(style);
 
-style.innerHTML = AppStyles$ReasonReactExamples.style;
+style.innerHTML = AppStyles$MultiNBack.style;
+
+var body = document.body;
+
+var root = document.createElement("div");
+
+body.appendChild(root);
 
 function makeContainer(param) {
   var container = document.createElement("div");
@@ -21,8 +36,11 @@ function makeContainer(param) {
   return content;
 }
 
-ReactDom.render(React.createElement(App$ReasonReactExamples.make, {}), makeContainer(undefined));
+ReactDom.render(React.createElement(App$MultiNBack.make, {}), makeContainer(undefined));
 
+exports.Webapi = Webapi;
 exports.style = style;
+exports.body = body;
+exports.root = root;
 exports.makeContainer = makeContainer;
 /* style Not a pure module */

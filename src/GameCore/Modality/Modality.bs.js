@@ -51,8 +51,8 @@ function setValue(modality, value, modalities) {
   }
 }
 
-function getLabel(param) {
-  switch (param) {
+function getLabel(x) {
+  switch (x) {
     case /* Position */0 :
         return "Position";
     case /* Color */1 :

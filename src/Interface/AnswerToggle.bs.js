@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require("react");
-var AppStyles$ReasonReactExamples = require("../AppStyles.bs.js");
+var AppStyles$MultiNBack = require("../AppStyles.bs.js");
 
 function AnswerToggle(Props) {
   var checked = Props.checked;
@@ -15,7 +15,7 @@ function AnswerToggle(Props) {
                 position: "relative",
                 width: "10em",
                 borderRadius: "10px",
-                boxShadow: checked ? "inset 2px 2px 6px " + (AppStyles$ReasonReactExamples.background_less_darker + (", inset -2px -2px 6px " + AppStyles$ReasonReactExamples.background_less_lighter)) : "8px 8px 20px " + (AppStyles$ReasonReactExamples.background_more_darker + (", -8px -8px 20px " + AppStyles$ReasonReactExamples.background_more_lighter)),
+                boxShadow: checked ? "inset 2px 2px 6px " + (AppStyles$MultiNBack.background_less_darker + (", inset -2px -2px 6px " + AppStyles$MultiNBack.background_less_lighter)) : "8px 8px 20px " + (AppStyles$MultiNBack.background_more_darker + (", -8px -8px 20px " + AppStyles$MultiNBack.background_more_lighter)),
                 alignItems: "center",
                 justifyContent: "center"
               }
@@ -41,11 +41,11 @@ function AnswerToggle(Props) {
                     position: "relative",
                     width: "10px",
                     borderRadius: "10px",
-                    boxShadow: checked ? "2px 2px 4px " + (AppStyles$ReasonReactExamples.background_less_darker + (", -2px -2px 4px " + (AppStyles$ReasonReactExamples.background_less_lighter + ", 0 0 4px #13EF32"))) : "2px 2px 4px " + (AppStyles$ReasonReactExamples.background_more_darker + (", -2px -2px 4px " + AppStyles$ReasonReactExamples.background_more_lighter))
+                    boxShadow: checked ? "2px 2px 4px " + (AppStyles$MultiNBack.background_less_darker + (", -2px -2px 4px " + (AppStyles$MultiNBack.background_less_lighter + ", 0 0 4px #13EF32"))) : "2px 2px 4px " + (AppStyles$MultiNBack.background_more_darker + (", -2px -2px 4px " + AppStyles$MultiNBack.background_more_lighter))
                   }
                 }, React.createElement("div", {
                       style: {
-                        background: checked ? "radial-gradient(#ABEFBC, #13EF32)" : "radial-gradient(" + (AppStyles$ReasonReactExamples.background_less_lighter + (", " + (AppStyles$ReasonReactExamples.background_more_darker + ")"))),
+                        background: checked ? "radial-gradient(#ABEFBC, #13EF32)" : "radial-gradient(" + (AppStyles$MultiNBack.background_less_lighter + (", " + (AppStyles$MultiNBack.background_more_darker + ")"))),
                         height: "15px",
                         left: "-4px",
                         position: "relative",

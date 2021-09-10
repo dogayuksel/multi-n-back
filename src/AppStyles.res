@@ -1,15 +1,15 @@
-let blue = "#48a9dc";
-let background = "#e0e2ef";
-let background_less_darker = "#d0d2de";
-let background_less_lighter = "#f0f2ff";
-let background_more_darker = "#c1c2ce";
-let background_more_lighter = "#ffffff";
+let blue = "#48a9dc"
+let background = "#e0e2ef"
+let background_less_darker = "#d0d2de"
+let background_less_lighter = "#f0f2ff"
+let background_more_darker = "#c1c2ce"
+let background_more_lighter = "#ffffff"
 
 // The {j|...|j} feature is just string interpolation, from
 // bucklescript.github.io/docs/en/interop-cheatsheet#string-unicode-interpolation
 // This allows us to conveniently write CSS, together with variables, by
 // constructing a string
-let style = {j|
+let style = j`
   * {
     box-sizing: content-box;
   }
@@ -144,4 +144,4 @@ let style = {j|
   .configPanelClosed {
     transform: translateY(100vh);
   }
-|j};
+`

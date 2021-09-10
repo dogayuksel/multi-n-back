@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require("react");
-var Caml_array = require("bs-platform/lib/js/caml_array.js");
+var Caml_array = require("rescript/lib/js/caml_array.js");
 
 var colors = [
   "#4e79a7",

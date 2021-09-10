@@ -1,10 +1,10 @@
 'use strict';
 
-var $$Array = require("bs-platform/lib/js/array.js");
-var Curry = require("bs-platform/lib/js/curry.js");
+var $$Array = require("rescript/lib/js/array.js");
+var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
-var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
-var AppStyles$ReasonReactExamples = require("../AppStyles.bs.js");
+var Belt_Array = require("rescript/lib/js/belt_Array.js");
+var AppStyles$MultiNBack = require("../AppStyles.bs.js");
 
 function color(scale) {
   switch (scale) {
@@ -58,14 +58,14 @@ function Slider(Props) {
                     })
                 }, "Easier"), React.createElement("div", {
                   style: {
-                    backgroundColor: AppStyles$ReasonReactExamples.background_less_darker,
+                    backgroundColor: AppStyles$MultiNBack.background_less_darker,
                     display: "flex",
                     height: "20px",
                     margin: "0 30px",
                     position: "relative",
                     width: "45px",
                     borderRadius: "2px",
-                    boxShadow: "inset 4px 4px 12px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -4px -4px 12px " + AppStyles$ReasonReactExamples.background_less_lighter)),
+                    boxShadow: "inset 4px 4px 12px " + (AppStyles$MultiNBack.background_more_darker + (", inset -4px -4px 12px " + AppStyles$MultiNBack.background_less_lighter)),
                     alignItems: "flex-end"
                   }
                 }, $$Array.map((function (index) {
@@ -89,7 +89,7 @@ function Slider(Props) {
                         width: "45px",
                         opacity: "0.7",
                         borderRadius: "2px",
-                        boxShadow: "inset 1px 1px 3px " + (AppStyles$ReasonReactExamples.background_more_darker + (", inset -1px -1px 3px " + AppStyles$ReasonReactExamples.background_less_lighter))
+                        boxShadow: "inset 1px 1px 3px " + (AppStyles$MultiNBack.background_more_darker + (", inset -1px -1px 3px " + AppStyles$MultiNBack.background_less_lighter))
                       }
                     })), React.createElement("button", {
                   disabled: intValue >= 9,

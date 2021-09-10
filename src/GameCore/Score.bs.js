@@ -1,10 +1,10 @@
 'use strict';
 
-var $$Array = require("bs-platform/lib/js/array.js");
-var Pervasives = require("bs-platform/lib/js/pervasives.js");
-var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
-var Caml_option = require("bs-platform/lib/js/caml_option.js");
-var Modality$ReasonReactExamples = require("./Modality/Modality.bs.js");
+var $$Array = require("rescript/lib/js/array.js");
+var Pervasives = require("rescript/lib/js/pervasives.js");
+var Belt_Option = require("rescript/lib/js/belt_Option.js");
+var Caml_option = require("rescript/lib/js/caml_option.js");
+var Modality$MultiNBack = require("./Modality/Modality.bs.js");
 
 var highScoreKey = "multi_n_back_hight_score";
 
@@ -15,13 +15,13 @@ function setHighScore(score) {
 
 function calculateScore(result, depth) {
   return Math.imul((depth << 1), $$Array.fold_left((function (acc, cur) {
-                    var value = Modality$ReasonReactExamples.getValue(cur, result);
+                    var value = Modality$MultiNBack.getValue(cur, result);
                     if (value !== undefined) {
                       return Math.imul(acc, value);
                     } else {
                       return acc;
                     }
-                  }), 1, Modality$ReasonReactExamples.allModalityTypes));
+                  }), 1, Modality$MultiNBack.allModalityTypes));
 }
 
 function getHighScore(param) {

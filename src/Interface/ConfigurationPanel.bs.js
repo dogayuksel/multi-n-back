@@ -1,12 +1,12 @@
 'use strict';
 
-var $$Array = require("bs-platform/lib/js/array.js");
-var Curry = require("bs-platform/lib/js/curry.js");
+var $$Array = require("rescript/lib/js/array.js");
+var Curry = require("rescript/lib/js/curry.js");
 var React = require("react");
-var Belt_Array = require("bs-platform/lib/js/belt_Array.js");
-var Slider$ReasonReactExamples = require("./Slider.bs.js");
-var Modality$ReasonReactExamples = require("../GameCore/Modality/Modality.bs.js");
-var AppStyles$ReasonReactExamples = require("../AppStyles.bs.js");
+var Belt_Array = require("rescript/lib/js/belt_Array.js");
+var Slider$MultiNBack = require("./Slider.bs.js");
+var Modality$MultiNBack = require("../GameCore/Modality/Modality.bs.js");
+var AppStyles$MultiNBack = require("../AppStyles.bs.js");
 
 function ConfigurationPanel(Props) {
   var panelOpen = Props.panelOpen;
@@ -21,16 +21,16 @@ function ConfigurationPanel(Props) {
                     panelOpen ? "configPanelOpen" : "configPanelClosed"
                   )
                 }, $$Array.map((function (modality) {
-                        return React.createElement(Slider$ReasonReactExamples.make, {
-                                    label: Modality$ReasonReactExamples.getLabel(modality),
-                                    value: Modality$ReasonReactExamples.getValue(modality, config.modalities),
+                        return React.createElement(Slider$MultiNBack.make, {
+                                    label: Modality$MultiNBack.getLabel(modality),
+                                    value: Modality$MultiNBack.getValue(modality, config.modalities),
                                     onChange: (function (value) {
                                         var optionValue = value !== 0 ? value : undefined;
                                         return Curry._2(updateModalityConfig, modality, optionValue);
                                       }),
-                                    key: Modality$ReasonReactExamples.getLabel(modality) + "_config"
+                                    key: Modality$MultiNBack.getLabel(modality) + "_config"
                                   });
-                      }), Modality$ReasonReactExamples.allModalityTypes), React.createElement("div", {
+                      }), Modality$MultiNBack.allModalityTypes), React.createElement("div", {
                       style: {
                         display: "flex",
                         margin: "12px",
@@ -52,7 +52,7 @@ function ConfigurationPanel(Props) {
                         }, $$Array.map((function (index) {
                                 return React.createElement("div", {
                                             style: {
-                                              color: AppStyles$ReasonReactExamples.blue,
+                                              color: AppStyles$MultiNBack.blue,
                                               display: "flex",
                                               height: "2em",
                                               lineHeight: "1em",
@@ -60,7 +60,7 @@ function ConfigurationPanel(Props) {
                                               marginLeft: index === 1 ? "0" : "10px",
                                               width: "2em",
                                               borderRadius: "10px",
-                                              boxShadow: index === config.depth ? "inset 2px 2px 6px " + (AppStyles$ReasonReactExamples.background_less_darker + (", inset -2px -2px 6px " + AppStyles$ReasonReactExamples.background_less_lighter)) : "8px 8px 20px " + (AppStyles$ReasonReactExamples.background_more_darker + (", -8px -8px 20px " + AppStyles$ReasonReactExamples.background_more_lighter)),
+                                              boxShadow: index === config.depth ? "inset 2px 2px 6px " + (AppStyles$MultiNBack.background_less_darker + (", inset -2px -2px 6px " + AppStyles$MultiNBack.background_less_lighter)) : "8px 8px 20px " + (AppStyles$MultiNBack.background_more_darker + (", -8px -8px 20px " + AppStyles$MultiNBack.background_more_lighter)),
                                               alignItems: "center",
                                               justifyContent: "center"
                                             },

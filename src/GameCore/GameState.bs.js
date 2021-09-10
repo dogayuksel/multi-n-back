@@ -1,20 +1,20 @@
 'use strict';
 
-var List = require("bs-platform/lib/js/list.js");
-var $$Array = require("bs-platform/lib/js/array.js");
-var Random = require("bs-platform/lib/js/random.js");
-var Belt_Option = require("bs-platform/lib/js/belt_Option.js");
-var Modality$ReasonReactExamples = require("./Modality/Modality.bs.js");
+var List = require("rescript/lib/js/list.js");
+var $$Array = require("rescript/lib/js/array.js");
+var Random = require("rescript/lib/js/random.js");
+var Belt_Option = require("rescript/lib/js/belt_Option.js");
+var Modality$MultiNBack = require("./Modality/Modality.bs.js");
 
 function makeRandom(configuration) {
   var modeConfig = configuration.modalities;
   Random.self_init(undefined);
   return {
-          position: Belt_Option.map(Modality$ReasonReactExamples.getValue(/* Position */0, modeConfig), (function (value) {
+          position: Belt_Option.map(Modality$MultiNBack.getValue(/* Position */0, modeConfig), (function (value) {
                   return Random.$$int(Math.imul(value, value));
                 })),
-          color: Belt_Option.map(Modality$ReasonReactExamples.getValue(/* Color */1, modeConfig), Random.$$int),
-          icon: Belt_Option.map(Modality$ReasonReactExamples.getValue(/* Icon */2, modeConfig), Random.$$int)
+          color: Belt_Option.map(Modality$MultiNBack.getValue(/* Color */1, modeConfig), Random.$$int),
+          icon: Belt_Option.map(Modality$MultiNBack.getValue(/* Icon */2, modeConfig), Random.$$int)
         };
 }
 
@@ -36,8 +36,8 @@ function makeEmptyResult(param) {
 
 function makeResult(answer, configuration) {
   return $$Array.fold_left((function (result, modality) {
-                if (Modality$ReasonReactExamples.getValue(modality, answer)) {
-                  return Modality$ReasonReactExamples.setValue(modality, Modality$ReasonReactExamples.getValue(modality, configuration.modalities), result);
+                if (Modality$MultiNBack.getValue(modality, answer)) {
+                  return Modality$MultiNBack.setValue(modality, Modality$MultiNBack.getValue(modality, configuration.modalities), result);
                 } else {
                   return result;
                 }
@@ -45,20 +45,20 @@ function makeResult(answer, configuration) {
               position: undefined,
               color: undefined,
               icon: undefined
-            }, Modality$ReasonReactExamples.allModalityTypes);
+            }, Modality$MultiNBack.allModalityTypes);
 }
 
 function compareToHistory(answer, gameState, stateHistory, configuration) {
   var oldState = List.nth(stateHistory, configuration.depth - 1 | 0);
   if ($$Array.for_all((function (modality) {
-            return compareValue(Modality$ReasonReactExamples.getValue(modality, configuration.modalities), Modality$ReasonReactExamples.getValue(modality, answer), Modality$ReasonReactExamples.getValue(modality, oldState), Modality$ReasonReactExamples.getValue(modality, gameState));
-          }), Modality$ReasonReactExamples.allModalityTypes)) {
+            return compareValue(Modality$MultiNBack.getValue(modality, configuration.modalities), Modality$MultiNBack.getValue(modality, answer), Modality$MultiNBack.getValue(modality, oldState), Modality$MultiNBack.getValue(modality, gameState));
+          }), Modality$MultiNBack.allModalityTypes)) {
     return makeResult(answer, configuration);
   }
   
 }
 
-var getValue = Modality$ReasonReactExamples.getValue;
+var getValue = Modality$MultiNBack.getValue;
 
 exports.getValue = getValue;
 exports.makeRandom = makeRandom;
